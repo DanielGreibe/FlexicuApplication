@@ -6,13 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
-    <TextView
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Username"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="90dp" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text="Password"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="231dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="322dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login later"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="396dp" />
 
 </android.support.constraint.ConstraintLayout>

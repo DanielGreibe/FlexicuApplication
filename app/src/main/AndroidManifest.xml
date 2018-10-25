@@ -16,6 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".OpretAnsat" />
+        <activity android:name=".MineUdlejninger" />
+        <activity android:name=".MineIndlejninger" />
+        <activity android:name=".Udlej" />
+        <activity android:name=".Indlej" />
+        <activity android:name=".Navigation" />
+        <activity android:name=".FiltreTilIndlej"></activity>
     </application>
 
 </manifest>
