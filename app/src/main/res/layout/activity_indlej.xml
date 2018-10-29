@@ -4,6 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Indlej">
+    tools:context=".Indlej"
+    android:background="@color/FlexGreen">
 
+    <EditText
+        android:id="@+id/freeSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="35dp"
+        android:background="@drawable/layout_background_round_corners"
+        android:paddingLeft="10dp"
+        />
 </android.support.constraint.ConstraintLayout>
