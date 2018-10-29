@@ -9,44 +9,51 @@
 
     <Button
         android:id="@+id/MineIndlejninger"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="31dp"
         android:layout_marginLeft="31dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="105dp"
         android:text="Mine indlejninger"
-        app:layout_constraintBottom_toTopOf="@+id/Indlej"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Udlej"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/Udlej"
-        android:layout_width="160dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="31dp"
+        android:layout_marginRight="31dp"
         android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Indlej"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Indlej" />
 
     <Button
         android:id="@+id/Indlej"
-        android:layout_width="160dp"
-        android:layout_height="44dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="31dp"
         android:layout_marginLeft="31dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
         android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/Udlej"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MineUdlejninger" />
 
     <Button
         android:id="@+id/MineUdlejninger"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginRight="31dp"
         android:text="Mine Udlejninger"
-        app:layout_constraintBottom_toTopOf="@+id/Udlej"
+        app:layout_constraintBaseline_toBaselineOf="@+id/MineIndlejninger"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/MineIndlejninger" />
 
 </android.support.constraint.ConstraintLayout>
