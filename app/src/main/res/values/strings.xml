@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">FlexicuApplication</string>
+    <string name="app_name">Flexicu</string>
+    <string name="username">Enter your username</string>
+    <string name="password">Enter your password</string>
+    <string name="loginbt">Login</string>
+
+    <string name="navIndlej">Indlej</string>
+    <string name="navUdlej">Udlej</string>
+    <string name="navMineIndlejninger">Mine Indlejninger</string>
+    <string name="navMineUdlejninger">Mine Udlejninger</string>
 </resources>

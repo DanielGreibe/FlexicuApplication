@@ -1,11 +1,13 @@
 package com.example.danie.flexicuapplication;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,7 +25,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
+        /* Hides the Title Bar
+        SOURCE = https://www.javatpoint.com/android-hide-title-bar-example
+         */
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_login);
+
+
         LoginLater = findViewById(R.id.LoginLaterView);
         UsernameView = findViewById(R.id.UsernameView);
         PasswordView = findViewById(R.id.PasswordView);
@@ -34,11 +43,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener
 
         LoginLater.setOnClickListener(this);
 
-
+/*
         UsernameView.setText("Runtime Changed Text");
         PasswordView.setText("Runtime Changed Text");
         Login.setText("Runtime Changed Text");
         LoginLater.setText("Changed Text on Login Later button");
+        */
+
+
 
         }
 
