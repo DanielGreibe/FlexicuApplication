@@ -28,8 +28,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener
         /* Hides the Title Bar
         SOURCE = https://www.javatpoint.com/android-hide-title-bar-example
          */
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
-        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_login);
 
 
