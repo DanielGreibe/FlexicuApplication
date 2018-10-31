@@ -16,8 +16,8 @@
         android:layout_marginLeft="31dp"
         android:layout_marginStart="31dp"
         android:background="@drawable/layout_button_top_left"
-        android:text="Mine indlejninger"
-        android:textSize="24sp"
+        android:text="Mine\nindlejninger"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/Udlej"
         app:layout_constraintStart_toStartOf="parent" />
@@ -30,7 +30,7 @@
         android:layout_marginRight="31dp"
         android:background="@drawable/layout_button_bottom_right"
         android:text="Udlej"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/Indlej"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Indlej" />
@@ -43,7 +43,7 @@
         android:layout_marginStart="31dp"
         android:background="@drawable/layout_button_bottom_left"
         android:text="Indlej"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/Udlej"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MineUdlejninger" />
@@ -55,8 +55,8 @@
         android:layout_marginEnd="31dp"
         android:layout_marginRight="31dp"
         android:background="@drawable/layout_button_top_right"
-        android:text="Mine Udlejninger"
-        android:textSize="24sp"
+        android:text="Mine\nUdlejninger"
+        android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/MineIndlejninger"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/MineIndlejninger" />
