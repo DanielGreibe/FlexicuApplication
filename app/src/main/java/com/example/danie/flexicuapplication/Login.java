@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import static java.security.AccessController.getContext;
 
@@ -30,7 +31,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener
         UsernameView = findViewById(R.id.UsernameView);
         PasswordView = findViewById(R.id.PasswordView);
         Login = findViewById(R.id.LoginButton);
-        LoginLayout = findViewById(R.id.LoginLayout);
+        LoginLayout = findViewById(R.id.LoginLayout) ;
+        Toolbar toolbar = (Toolbar) findViewById();
 
 
 
