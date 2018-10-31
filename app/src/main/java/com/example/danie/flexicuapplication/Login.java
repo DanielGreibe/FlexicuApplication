@@ -32,7 +32,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener
         PasswordView = findViewById(R.id.PasswordView);
         Login = findViewById(R.id.LoginButton);
         LoginLayout = findViewById(R.id.LoginLayout) ;
-        Toolbar toolbar = (Toolbar) findViewById();
 
 
 
