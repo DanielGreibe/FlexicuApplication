@@ -25,9 +25,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
-        /* Hides the Title Bar
-        SOURCE = https://www.javatpoint.com/android-hide-title-bar-example
-         */
         setContentView(R.layout.activity_login);
 
 
