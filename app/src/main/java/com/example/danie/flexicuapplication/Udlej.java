@@ -14,7 +14,7 @@ public class Udlej extends AppCompatActivity
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_udlej);
-        LinearLayout myContainer = findViewById(R.id.scrollViewUdlej);
+        LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         Button myButton = new Button(this);
         myContainer.addView(myButton);
         }
