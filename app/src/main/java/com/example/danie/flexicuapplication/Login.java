@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener
         LoginLayout = findViewById(R.id.LoginLayout) ;
 
 
-
+        Login.setOnClickListener(this);
         LoginLater.setOnClickListener(this);
 
 /*
@@ -55,6 +55,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener
             {
             Intent Navigation = new Intent(this, Navigation.class);
             startActivity(Navigation);
+            }
+        else if ( v == Login)
+            {
+            Intent Testpage = new Intent(this, TestActivity.class);
+            startActivity(Testpage);
             }
         }
     }

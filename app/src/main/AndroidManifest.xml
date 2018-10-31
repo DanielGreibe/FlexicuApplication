@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Login" android:icon="@drawable/flexicu_toolbar">
+        <activity
+            android:name=".Login"
+            android:icon="@drawable/flexicu_toolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +24,8 @@
         <activity android:name=".Udlej" />
         <activity android:name=".Indlej" />
         <activity android:name=".Navigation" />
-        <activity android:name=".FiltreTilIndlej"></activity>
+        <activity android:name=".FiltreTilIndlej" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>
