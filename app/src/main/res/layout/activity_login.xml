@@ -10,16 +10,15 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/LoginLayout"
-        android:layout_width="294dp"
-        android:layout_height="346dp"
-        android:layout_marginBottom="8dp"
-
-        android:layout_marginEnd="63dp"
-        android:layout_marginLeft="63dp"
-        android:layout_marginRight="63dp"
+        android:layout_width="291dp"
+        android:layout_height="341dp"
         android:layout_marginStart="63dp"
+        android:layout_marginLeft="63dp"
         android:layout_marginTop="68dp"
-        android:background="@color/white"
+        android:layout_marginEnd="63dp"
+        android:layout_marginRight="63dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/layout_background_round_corners"
         android:fadingEdge="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,48 +29,51 @@
             android:id="@+id/PasswordView"
             android:layout_width="210dp"
             android:layout_height="42dp"
-            android:layout_marginBottom="56dp"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingLeft="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/LoginButton"
+            android:paddingRight="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.533"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/UsernameView" />
 
         <Button
             android:id="@+id/LoginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="44dp"
             android:text="@string/loginbt"
-            app:layout_constraintBottom_toTopOf="@+id/LoginLaterView"
-            app:layout_constraintStart_toStartOf="@+id/LoginLaterView" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PasswordView" />
 
         <TextView
             android:id="@+id/LoginLaterView"
             android:layout_width="wrap_content"
             android:layout_height="21dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginTop="16dp"
             android:text="Login senere"
             android:textColor="@android:color/holo_blue_light"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LoginButton" />
 
         <EditText
             android:id="@+id/UsernameView"
             android:layout_width="210dp"
             android:layout_height="42dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="48dp"
             android:ems="10"
             android:hint="@string/username"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.511"
+            app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
