@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".Login">
+        <activity android:name=".Login" android:icon="@drawable/flexicu_toolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
