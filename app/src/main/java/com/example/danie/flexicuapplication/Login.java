@@ -27,10 +27,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setTitle("");
-        if( getActionBar() != null)
-            {
-            getActionBar().setIcon(R.drawable.flexicu_toolbar);
-            }
+        getActionBar().setIcon(R.drawable.flexicu_toolbar);
         LoginLater = findViewById(R.id.LoginLaterView);
         UsernameView = findViewById(R.id.UsernameView);
         PasswordView = findViewById(R.id.PasswordView);
