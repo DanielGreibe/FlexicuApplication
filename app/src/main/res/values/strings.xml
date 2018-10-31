@@ -3,6 +3,9 @@
     <string name="username">Enter your username</string>
     <string name="password">Enter your password</string>
     <string name="loginbt">Login</string>
+    <string name="udlejHvem">Hvem Skal Udlejes?</string>
+    <string name="underHvilkeVilkår">Under Hvilke Vilkår</string>
+
 
     <string name="navIndlej">Indlej</string>
     <string name="navUdlej">Udlej</string>

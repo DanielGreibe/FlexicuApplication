@@ -5,32 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Navigation"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    android:background="@color/FlexGreen">
 
     <Button
         android:id="@+id/MineIndlejninger"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginLeft="31dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="105dp"
-        android:text="Mine indlejninger"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
         android:background="@drawable/layout_button_top_left"
+        android:text="Mine indlejninger"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/Udlej"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/Udlej"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginEnd="31dp"
         android:layout_marginRight="31dp"
-        android:text="Button"
         android:background="@drawable/layout_button_bottom_right"
+        android:text="Udlej"
+        android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/Indlej"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Indlej" />
@@ -38,11 +38,12 @@
     <Button
         android:id="@+id/Indlej"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginLeft="31dp"
         android:layout_marginStart="31dp"
-        android:text="Button"
         android:background="@drawable/layout_button_bottom_left"
+        android:text="Indlej"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/Udlej"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MineUdlejninger" />
@@ -50,11 +51,12 @@
     <Button
         android:id="@+id/MineUdlejninger"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginEnd="31dp"
         android:layout_marginRight="31dp"
-        android:text="Mine Udlejninger"
         android:background="@drawable/layout_button_top_right"
+        android:text="Mine Udlejninger"
+        android:textSize="24sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/MineIndlejninger"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/MineIndlejninger" />

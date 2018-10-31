@@ -27,7 +27,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         LoginLater = findViewById(R.id.LoginLaterView);
         UsernameView = findViewById(R.id.UsernameView);
         PasswordView = findViewById(R.id.PasswordView);
