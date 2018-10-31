@@ -14,8 +14,7 @@ public class TestActivity extends AppCompatActivity
         TextView mainText;
         int numberOfButtons = 10;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-        {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
@@ -25,5 +24,5 @@ public class TestActivity extends AppCompatActivity
         Button myButton = new Button(this);
         mainLayout.addView(myButton);
 
-
+    }
     }
