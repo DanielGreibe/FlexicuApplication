@@ -11,4 +11,9 @@
     <string name="navUdlej">Udlej</string>
     <string name="navMineIndlejninger">Mine Indlejninger</string>
     <string name="navMineUdlejninger">Mine Udlejninger</string>
+    <string name="lejeperiodeStart">Lejeperiode Start</string>
+    <string name="lejeperiodeSlut">Lejeperiode Slut</string>
+    <string name="lejer">Lejer</string>
+    <string name="erhverv">Erhverv Start</string>
+    <string name="lokation">Lokation</string>
 </resources>
