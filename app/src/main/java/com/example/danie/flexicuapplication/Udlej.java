@@ -18,7 +18,7 @@ public class Udlej extends AppCompatActivity
         LinearLayout myTestContainer = findViewById(R.id.scrollLayoutUdlej);
 
         Button myButton = new Button(this);
-        myContainer.addView(myTestContainer);
+       // myContainer.addView(myTestContainer);
         myTestContainer.addView(myButton);
         }
     }
