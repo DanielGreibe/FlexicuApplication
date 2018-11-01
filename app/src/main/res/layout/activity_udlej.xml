@@ -10,6 +10,7 @@
 
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/opretMedarbejder"
         android:layout_width="165dp"
         android:layout_height="61dp"
         android:layout_marginStart="8dp"
@@ -17,13 +18,14 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="58dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/layout_background_round_corners"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollViewUdlej">
+        app:layout_constraintTop_toBottomOf="@+id/scrollViewUdlej"
+        app:layout_constraintVertical_bias="0.82">
 
         <TextView
             android:id="@+id/textView3"
@@ -38,8 +40,10 @@
             android:text="Opret Medarbejder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.583"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.307" />
     </android.support.constraint.ConstraintLayout>
 
     <TextView
@@ -69,7 +73,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/udlejHvem"
+        android:text="@string/underHvilkeVilkår"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/divider2"
@@ -94,7 +98,7 @@
     <ScrollView
         android:id="@+id/scrollViewUdlej"
         android:layout_width="175dp"
-        android:layout_height="314dp"
+        android:layout_height="414dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="32dp"
@@ -111,10 +115,5 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
