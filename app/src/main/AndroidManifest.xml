@@ -9,8 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Login">
+        <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +23,7 @@
         <activity android:name=".Indlej" />
         <activity android:name=".Navigation" />
         <activity android:name=".FiltreTilIndlej" />
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity" />
     </application>
 
 </manifest>

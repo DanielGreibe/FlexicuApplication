@@ -16,4 +16,7 @@
     <string name="lejer">Lejer</string>
     <string name="erhverv">Erhverv Start</string>
     <string name="lokation">Lokation</string>
+    <string name="flexicu_logo">Flexicu Logo</string>
+    <string name="TitleTextCreateEmployee">Hvad hedder personen som skal udlejes?</string>
+    <string name="spring_over"><u> Spring over </u></string>
 </resources>
