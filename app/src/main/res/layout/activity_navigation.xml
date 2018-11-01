@@ -41,7 +41,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Udlejerne får reduceret deres lønomkostninger"
+        android:text="Medarbejderne får sikring af indkomst og kompetenceudvikling"
         app:layout_constraintBottom_toTopOf="@+id/textView12"
         app:layout_constraintEnd_toEndOf="@+id/view" />
 
@@ -58,11 +58,11 @@
     <TextView
         android:id="@+id/textView12"
         android:layout_width="236dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Lejerne får adgang til kvalificeret arbejdskraft og undgår in-effektive virkarløsniger"
+        android:text="Medarbejderne bliver udlejet under lavsæsoner og beholder deres job"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/view" />
 
@@ -126,7 +126,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Medarbejderne får sikring af indkomst og kompetenceudvikling"
+        android:text="Udlejerne får reduceret deres lønomkostninger"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="@+id/view" />
 
@@ -142,12 +142,12 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="236dp"
-        android:layout_height="40dp"
+        android:layout_width="239dp"
+        android:layout_height="50dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Medarbejderne bliver udlejet under lavsæsoner og beholder deres job"
+        android:text="Lejerne får adgang til kvalificeret arbejdskraft og undgår in-effektive virkarløsniger"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/view" />
 
