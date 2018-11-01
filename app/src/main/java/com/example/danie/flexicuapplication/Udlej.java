@@ -21,6 +21,7 @@ public class Udlej extends AppCompatActivity
         private Context mContext;
         private ConstraintLayout constLayout;
         private ConstraintLayout constCardLayout;
+        int id = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
@@ -32,6 +33,22 @@ public class Udlej extends AppCompatActivity
 
         constLayout.setOnClickListener((view) ->{
             CardView card = new CardView(mContext);
+            card.setId(id);
+            id++;
+            if(card.getId() == 1){
+                card.setOnClickListener((info) -> {
+                    TextView txtLøn = findViewById(R.id.løntxt);
+                    txtLøn.setText("200 kr");
+                });
+            }else if (card.getId() == 2){
+                card.setOnClickListener((info) -> {
+                            TextView txtLøn = findViewById(R.id.løntxt);
+                            txtLøn.setText("0 kr");
+            });
+
+            }
+
+
             card.setLayoutParams(getLinearLayout());
             card.setRadius(15);
             card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -47,6 +64,10 @@ public class Udlej extends AppCompatActivity
             myContainer.addView(card);
 
         });
+
+        }
+
+        public void setinfo(CardView CV){
 
         }
 
