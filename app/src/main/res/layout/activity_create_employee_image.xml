@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/FlexGrey">
+    android:background="@color/FlexGrey"
+    tools:context=".OpretAnsatBillede">
 
 
     <ImageView
@@ -53,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonNextPage"
         android:layout_width="276dp"
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
@@ -81,6 +82,6 @@
         android:textColor="@android:color/holo_blue_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonNextPage" />
 
 </android.support.constraint.ConstraintLayout>

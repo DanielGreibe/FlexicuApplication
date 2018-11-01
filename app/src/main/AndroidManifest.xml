@@ -24,6 +24,11 @@
         <activity android:name=".Navigation" />
         <activity android:name=".FiltreTilIndlej" />
         <activity android:name=".TestActivity" />
+        <activity android:name=".OpretAnsatYear" />
+        <activity android:name=".OpretAnsatErhverv" />
+        <activity android:name=".OpretAnsatBeskrivelse" />
+        <activity android:name=".OpretAnsatBillede" />
+        <activity android:name=".OpretAnsatPostnummer" />
     </application>
 
 </manifest>
