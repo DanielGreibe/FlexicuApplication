@@ -36,39 +36,43 @@ public class MineIndlejninger extends AppCompatActivity {
         mainLayout = findViewById(R.id.MineIndlejninger_mainLayout);
         mainText = findViewById(R.id.textView2);
         ConstraintLayout firstEmployee = findViewById(R.id.firstEmployee);
-        Button myButton = new Button(this);
-        Button myButton2 = new Button(this);
+        ConstraintLayout firstEmployee2 = findViewById(R.id.firstEmployee2);
+        ConstraintLayout firstEmployee3 = findViewById(R.id.firstEmployee3);
+        ConstraintLayout firstEmployee4 = findViewById(R.id.firstEmployee4);
+        ConstraintLayout firstEmployee5 = findViewById(R.id.firstEmployee5);
+        ConstraintLayout firstEmployee6 = findViewById(R.id.firstEmployee6);
+        ConstraintLayout firstEmployee7 = findViewById(R.id.firstEmployee7);
+        ConstraintLayout firstEmployee8 = findViewById(R.id.firstEmployee8);
+        ConstraintLayout firstEmployee9 = findViewById(R.id.firstEmployee9);
+        ConstraintLayout firstEmployee10 = findViewById(R.id.firstEmployee10);
+        ConstraintLayout firstEmployee11 = findViewById(R.id.firstEmployee11);
+        ConstraintLayout firstEmployee12 = findViewById(R.id.firstEmployee12);
+        ConstraintLayout firstEmployee13 = findViewById(R.id.firstEmployee13);
+        ConstraintLayout firstEmployee14 = findViewById(R.id.firstEmployee14);
+        ConstraintLayout firstEmployee15 = findViewById(R.id.firstEmployee15);
+        ConstraintLayout firstEmployee16 = findViewById(R.id.firstEmployee16);
+        ConstraintLayout firstEmployee17 = findViewById(R.id.firstEmployee17);
+        ConstraintLayout firstEmployee18 = findViewById(R.id.firstEmployee18);
+        ConstraintLayout firstEmployee19 = findViewById(R.id.firstEmployee19);
+        ConstraintLayout firstEmployee20 = findViewById(R.id.firstEmployee20);
+
+        ImageView profileImage2 = findViewById(R.id.profile_image2);
+        TextView nameBox2 = findViewById(R.id.nameBox2);
+
+        nameBox2.setText("Oliver");
 
 
-        ConstraintLayout myConstraint = new ConstraintLayout(this);
-        myConstraint.setBackgroundColor(R.color.FlexBlue);
-        myConstraint.setMaxHeight(50);
-        myConstraint.setMaxWidth(400);
-        //Image add to constraint
-        ImageView profilepic = new ImageView(this);
-        myConstraint.setBackgroundResource(R.drawable.layout_background_round_corners);
-        //profilepic.setBackgroundResource(R.drawable.download);
-        //myConstraint.addView(profilepic);
-
-        scroller.addView(myButton);
-        mainLayout.addView(myConstraint);
-        //scroller.addView(myConstraint);
-        scroller.addView(myButton2);
 
 
+        scroller.removeView(firstEmployee);
+        scroller.addView(firstEmployee);
+
+//Listview og __view
+        //Over i XML-fil
 
 
         //mainLayout.addView(myButton);
         //mainLayout.addView(myConstraint);
 
-       /* ConstraintLayout testperson = findViewById(R.id.firstEmployee);
-
-        ScrollView personScroller = findViewById(R.id.scrollView);
-        ConstraintLayout addTest = new ConstraintLayout(this);
-        addTest.setId(View.generateViewId());
-        setContentView(addTest);
-        addTest = testperson;
-       // addTest.
-        //personScroller.addView(addTest);*/
         }
     }

@@ -19,4 +19,5 @@
     <string name="flexicu_logo">Flexicu Logo</string>
     <string name="TitleTextCreateEmployee">Hvad hedder personen som skal udlejes?</string>
     <string name="spring_over"> <u> Spring over </u> </string>
+    <string name="navn">Navn</string>
 </resources>
