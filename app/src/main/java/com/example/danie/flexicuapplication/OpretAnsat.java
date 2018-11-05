@@ -5,15 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class OpretAnsat extends AppCompatActivity implements View.OnClickListener {
         Button nextPage;
+        TextView name;
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee);
 
+
+        name = findViewById(R.id.editTextName);
         nextPage = findViewById(R.id.buttonNextPage);
 
         nextPage.setOnClickListener(this);
@@ -25,7 +29,10 @@ public class OpretAnsat extends AppCompatActivity implements View.OnClickListene
     public void onClick(View v) {
         if ( v == nextPage )
         {
-            Intent OpretAnsatYear = new Intent(this, OpretAnsatYear.class);
+
+            String navn = name.getText().toString();
+            Intent OpretAnsatYear = new Intent(this, OpretAnsatYear.class)
+                    .putExtra("NameOfEmployee", navn);
             startActivity(OpretAnsatYear);
         }
     }
