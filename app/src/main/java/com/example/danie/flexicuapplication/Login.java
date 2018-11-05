@@ -62,9 +62,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener
             Intent Testpage = new Intent(this, TestActivity.class);
             startActivity(Testpage);
             */
-
-                Intent OpretAnsat = new Intent(this,OpretAnsat.class);
-                startActivity(OpretAnsat);
+            Intent Navigation = new Intent(this, Navigation.class);
+            startActivity(Navigation);
             }
         }
     }

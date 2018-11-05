@@ -1,6 +1,7 @@
 package com.example.danie.flexicuapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -32,6 +33,8 @@ public class Udlej extends AppCompatActivity
         constLayout = findViewById(R.id.opretMedarbejder);
 
         constLayout.setOnClickListener((view) ->{
+        Intent opretAnsat = new Intent(this, OpretAnsat.class);
+        startActivity(opretAnsat);
             CardView card = new CardView(mContext);
             card.setId(id);
             id++;
@@ -48,7 +51,7 @@ public class Udlej extends AppCompatActivity
 
             }
 
-
+            /*
             card.setLayoutParams(getLinearLayout());
             card.setRadius(15);
             card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -62,6 +65,7 @@ public class Udlej extends AppCompatActivity
             card.addView(addTextView(new TextView(mContext)));
             card.addView(imgView);
             myContainer.addView(card);
+            */
 
         });
 
