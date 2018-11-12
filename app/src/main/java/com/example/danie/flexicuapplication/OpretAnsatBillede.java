@@ -33,8 +33,8 @@ public class OpretAnsatBillede extends AppCompatActivity implements View.OnClick
         if ( v == nextPage )
         {
 
-            Intent Navigation = new Intent(this, Navigation.class);
-            startActivity(Navigation);
+            Intent Udlej = new Intent(this, Udlej.class);
+            startActivity(Udlej);
 
         }
     }

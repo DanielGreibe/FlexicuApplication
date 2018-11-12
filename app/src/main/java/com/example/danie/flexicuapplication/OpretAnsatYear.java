@@ -10,7 +10,11 @@ import android.widget.TextView;
 public class OpretAnsatYear extends AppCompatActivity implements View.OnClickListener {
     Button nextPage;
     TextView titel;
+    TextView YearTextview;
     String name;
+    String year;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -18,6 +22,7 @@ public class OpretAnsatYear extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_create_employee_year);
 
         titel = findViewById(R.id.textViewDescription);
+        YearTextview = findViewById(R.id.editTextDescription);
 
         Intent intent = getIntent();
         name = intent.getStringExtra("NameOfEmployee");
@@ -33,9 +38,11 @@ public class OpretAnsatYear extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         if ( v == nextPage )
         {
-            Intent OpretAnsatErhverv = new Intent(this, OpretAnsatErhverv.class)
-            .putExtra("NameOfEmployee", name);
-            startActivity(OpretAnsatErhverv);
+        year = YearTextview.getText().toString();
+        Intent OpretAnsatErhverv = new Intent(this, OpretAnsatErhverv.class);
+            OpretAnsatErhverv.putExtra("NameOfEmployee", name);
+            OpretAnsatErhverv.putExtra("YearOfEmployee", year);
+        startActivity(OpretAnsatErhverv);
         }
     }
 }

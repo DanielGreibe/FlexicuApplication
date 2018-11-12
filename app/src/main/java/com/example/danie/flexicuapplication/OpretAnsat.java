@@ -17,7 +17,7 @@ public class OpretAnsat extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_create_employee);
 
 
-        name = findViewById(R.id.editTextName);
+        name = findViewById(R.id.editTextDescription);
         nextPage = findViewById(R.id.buttonNextPage);
 
         nextPage.setOnClickListener(this);
