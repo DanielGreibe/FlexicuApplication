@@ -26,9 +26,9 @@ public class OpretAnsatBeskrivelse extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_description);
 
-    editTextDescription = findViewById(R.id.editTextDescription);
+        editTextDescription = findViewById(R.id.editTextDescription);
 
-        titel = findViewById(R.id.textViewDescription);
+        titel = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
         name = intent.getStringExtra("NameOfEmployee");
         year = intent.getStringExtra("YearOfEmployee");

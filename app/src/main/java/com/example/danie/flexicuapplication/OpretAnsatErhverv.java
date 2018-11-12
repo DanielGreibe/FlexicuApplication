@@ -22,7 +22,7 @@ public class OpretAnsatErhverv extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_erhverv);
 
-        titel = findViewById(R.id.textViewDescription);
+        titel = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
         name = intent.getStringExtra("NameOfEmployee");
         year = intent.getStringExtra("YearOfEmployee");

@@ -24,7 +24,7 @@ public class OpretAnsatPostnummer extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_create_employee_postcode);
         editTextPostcode = findViewById(R.id.editTextDescription);
 
-        titel = findViewById(R.id.textViewDescription);
+        titel = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
         name = intent.getStringExtra("NameOfEmployee");
         year = intent.getStringExtra("YearOfEmployee");

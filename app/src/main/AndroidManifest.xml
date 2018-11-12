@@ -29,6 +29,7 @@
         <activity android:name=".OpretAnsatBeskrivelse" />
         <activity android:name=".OpretAnsatBillede" />
         <activity android:name=".OpretAnsatPostnummer" />
+        <activity android:name=".CreateEmployeeFinish"></activity>
     </application>
 
 </manifest>

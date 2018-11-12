@@ -120,7 +120,7 @@
         app:layout_constraintStart_toEndOf="@+id/MineIndlejninger" />
 
     <TextView
-        android:id="@+id/textViewDescription"
+        android:id="@+id/textViewTitle"
         android:layout_width="236dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
@@ -148,7 +148,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Lejerne får adgang til kvalificeret arbejdskraft og undgår in-effektive vikarløsniger"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDescription"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTitle"
         app:layout_constraintEnd_toEndOf="@+id/view" />
 
     <ImageView
@@ -157,8 +157,8 @@
         android:layout_height="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/textViewDescription"
-        app:layout_constraintTop_toTopOf="@+id/textViewDescription"
+        app:layout_constraintEnd_toStartOf="@+id/textViewTitle"
+        app:layout_constraintTop_toTopOf="@+id/textViewTitle"
         app:srcCompat="@android:drawable/checkbox_on_background" />
 
 </android.support.constraint.ConstraintLayout>

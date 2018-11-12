@@ -11,15 +11,26 @@ public class OpretAnsatBillede extends AppCompatActivity implements View.OnClick
     Button nextPage;
     TextView titel;
     String name;
+    String year;
+    String erhverv;
+    String postcode;
+    String beskrivelse;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_image);
 
-        titel = findViewById(R.id.textViewDescription);
+        titel = findViewById(R.id.textViewTitle);
+
+
         Intent intent = getIntent();
         name = intent.getStringExtra("NameOfEmployee");
+        year = intent.getStringExtra("YearOfEmployee");
+        erhverv = intent.getStringExtra("ErhvervOfEmployee");
+        postcode = intent.getStringExtra("PostnummerOfEmployee");
+        beskrivelse = intent.getStringExtra("DescriptionOfEmployee");
+
         titel.setText("Tilføj et billede af " + name + " eller firmaets logo");
 
         nextPage = findViewById(R.id.buttonNextPage);
@@ -33,8 +44,13 @@ public class OpretAnsatBillede extends AppCompatActivity implements View.OnClick
         if ( v == nextPage )
         {
 
-            Intent Udlej = new Intent(this, Udlej.class);
-            startActivity(Udlej);
+            Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
+            CreateEmployeeFinish.putExtra("NameOfEmployee", name);
+            CreateEmployeeFinish.putExtra("YearOfEmployee", year);
+            CreateEmployeeFinish.putExtra("ErhvervOfEmployee", erhverv);
+            CreateEmployeeFinish.putExtra("PostnummerOfEmployee", postcode);
+            CreateEmployeeFinish.putExtra("DescriptionOfEmployee", beskrivelse);
+            startActivity(CreateEmployeeFinish);
 
         }
     }

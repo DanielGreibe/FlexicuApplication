@@ -21,7 +21,7 @@ public class OpretAnsatYear extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_year);
 
-        titel = findViewById(R.id.textViewDescription);
+        titel = findViewById(R.id.textViewTitle);
         YearTextview = findViewById(R.id.editTextDescription);
 
         Intent intent = getIntent();
