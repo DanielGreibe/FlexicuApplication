@@ -55,7 +55,6 @@ public class Udlej extends AppCompatActivity
             card.setLayoutParams(getLinearLayout());
             card.setRadius(15);
             card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-            card.setCardElevation(9);
 
             ImageView imgView = new ImageView(this);
             imgView.setImageResource(R.drawable.download);
