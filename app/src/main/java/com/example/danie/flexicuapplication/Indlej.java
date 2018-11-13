@@ -27,7 +27,7 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
 
         filterMenu.setOnClickListener(this);
 
-        createNew("Mathias", "Java",4.2, 250.);
+        createNew("mathias", "Java",4.2, 250.);
 
         }
     public void createNew(String name, String job, double rank, Double pay){
