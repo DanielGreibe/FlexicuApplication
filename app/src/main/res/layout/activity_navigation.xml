@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Navigation"
     tools:layout_editor_absoluteY="81dp"
-    android:background="@color/FlexGreen">
+    android:background="@color/FlexGrey">
 
     <View
         android:id="@+id/view"
