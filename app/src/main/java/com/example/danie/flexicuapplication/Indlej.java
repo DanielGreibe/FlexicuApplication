@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class Indlej extends AppCompatActivity implements View.OnClickListener {
 
-    int id = 1;
+    int id = 0;
     LinearLayout scroller;
     ImageView filterMenu;
 
@@ -27,12 +27,14 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
 
         filterMenu.setOnClickListener(this);
 
-        createNew("Mathias", "Java",4.2, 250., 45);
+        createNew(new CrudEmploye("Mathias", "Jave udvikler", 4.2, 320,45, id++, R.drawable.download));
 
 
         }
-    public void createNew(String name, String job, double rank, Double pay, int dist){
+
+    public void createNew(CrudEmploye card){
         CardView cv = new CardView(getApplicationContext());
+        cv.setOnClickListener(this);
         cv.setId(id++);
         LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
         size.setMargins(0,20,0,0);
@@ -43,7 +45,7 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
         //Add pic
         ImageView IVProfilePic = new ImageView(this);
         IVProfilePic.setId(id++);
-        IVProfilePic.setImageResource(R.drawable.download);
+        IVProfilePic.setImageResource(card.pic);
         IVProfilePic.setAdjustViewBounds(true);
         IVProfilePic.setScaleX((float) 0.75);
         IVProfilePic.setScaleY((float) 0.75);
@@ -51,9 +53,8 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
         //Add Name and Job
         TextView TVName = new TextView(this);
         TVName.setId(id++);
-        TVName.setText(name+"\n"+job);
+        TVName.setText(card.getName()+"\n"+card.getJob());
         TVName.setTextSize(18);
-
         cl.addView(TVName);
         //Add Rank
         ImageView IVRank = new ImageView(this);
@@ -65,7 +66,7 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
         IVRank.setPadding(0,30,0,0 );
         TextView TVRank = new TextView(this);
         TVRank.setId(id++);
-        TVRank.setText(Double.toString(rank));
+        TVRank.setText(Double.toString(card.getRank()));
         TVRank.setTextSize(18);
         TVRank.setPadding(0,0,0,30);
         cl.addView(IVRank);
@@ -75,7 +76,7 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
         TVPay.setPadding(20,0,0,0);
         TVPay.setId(id++);
         TVPay.setTextSize(22);
-        TVPay.setText(Double.toString(pay));
+        TVPay.setText(Double.toString(card.getPay()));
         TextView TVPayConst = new TextView(this);
         TVPayConst.setPadding(20,0,0,0);
         TVPayConst.setId(id++);
@@ -87,7 +88,7 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
         TextView TVDist = new TextView(this);
         TVDist.setId(id++);
         TVDist.setTextSize(22);
-        TVDist.setText(Integer.toString(dist));
+        TVDist.setText(Integer.toString(card.getDist()));
         TVDist.setPadding(60,0,0,0);
         TextView TVDistConst = new TextView(this);
         TVDistConst.setId(id++);
@@ -99,14 +100,18 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
         //ReadMore
         ImageView IVMore = new ImageView(this);
         IVMore.setId(id++);
+        boolean open = false;
         IVMore.setImageResource(R.drawable.arrow);
-        IVMore.setScaleX((float)0.5);
-        IVMore.setScaleY((float)0.5);
+        if(open){
+            IVMore.setRotation(90);
+        }
+        IVMore.setScaleX((float)0.3);
+        IVMore.setScaleY((float)0.3);
         cl.addView(IVMore);
-
-
         ConstraintSet CS = new ConstraintSet();
         CS.clone(cl);
+
+
         //Pic
         CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,0);
         CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
@@ -132,7 +137,8 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
         CS.connect(TVDist.getId(), ConstraintSet.TOP, TVPay.getId(), ConstraintSet.TOP,0);
         CS.connect(TVDistConst.getId(), ConstraintSet.BOTTOM, TVPayConst.getId(), ConstraintSet.BOTTOM,0);
         //Readmore
-        //CS.connect(IVMore.getId(), ConstraintSet.LEFT, TVDist.getId(), ConstraintSet.RIGHT,0);
+        CS.connect(IVMore.getId(), ConstraintSet.LEFT, TVDistConst.getId(), ConstraintSet.RIGHT);
+        CS.connect(IVMore.getId(), ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT);
 
         CS.applyTo(cl);
 
@@ -141,6 +147,17 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        createNew("Mathias", "Java",4.2, 250., 45);
+        if(v == filterMenu){
+            createNew(new CrudEmploye("Mathias", "Jave udvikler", 4.2, 320,45, id++, R.drawable.download));
+        }
+        else{
+            int temp = v.getId();
+            if(v.findViewById(temp+9).getRotation() == 0) {
+                v.findViewById(temp + 9).setRotation(90);
+            }else{
+                v.findViewById(temp + 9).setRotation(0);
+            }
+
+        }
     }
 }
