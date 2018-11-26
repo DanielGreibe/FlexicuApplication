@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "845284343073",
+    "firebase_url": "https://flexicu.firebaseio.com",
+    "project_id": "flexicu",
+    "storage_bucket": "flexicu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845284343073:android:0c00c1784f8e2a7c",
+        "android_client_info": {
+          "package_name": "com.example.danie.flexicuapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845284343073-01sbhckr6e8nauesou842mc5ukr7efd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiCDH2uYMFO5YUWkgd06MJDXl-KyWU1GQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

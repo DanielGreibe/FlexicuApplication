@@ -1,6 +1,12 @@
 package com.example.danie.flexicuapplication;
 
+//TODO tilføj timeløn til mineindlejninger og mineudlejninger
+//TODO ret lejer til udlejer i mine i mineindlejninger
+//TODO ret til uniforme betegnelser overalt i app (f.eks. 'km væk' ELLER 'radius')
+
+
 import android.annotation.SuppressLint;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
@@ -11,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,7 +32,12 @@ public class MineIndlejninger extends AppCompatActivity {
     int id = 1;
     LinearLayout scroller;
     ConstraintLayout mainLayout;
-    TextView mainText;
+    TextView mainText_textView;
+    TextView lejeperiodeStart_textView;
+    TextView lejeperiodeSlut_textView;
+    TextView lejer_textView;
+    TextView erhverv_textView;
+    TextView lokation_textView;
 
 
     @SuppressLint("ResourceAsColor")
@@ -36,9 +48,13 @@ public class MineIndlejninger extends AppCompatActivity {
         setContentView(R.layout.activity_mine_indlejninger);
 
         scroller = findViewById(R.id.linearlayout1);
+        lejeperiodeStart_textView = findViewById(R.id.textView5);
+        lejeperiodeSlut_textView = findViewById(R.id.textView6);
+        lejer_textView = findViewById(R.id.textView7);
+        erhverv_textView = findViewById(R.id.textView8);
+        lokation_textView = findViewById(R.id.textView9);
 
         mainLayout = findViewById(R.id.MineIndlejninger_mainLayout);
-        mainText = findViewById(R.id.textView2);
 
         for(int i = 0; i<20; i++)
         createNew("Mathias", "Java",4.2, 250., R.drawable.mathias);
@@ -83,9 +99,14 @@ public class MineIndlejninger extends AppCompatActivity {
         //mainLayout.addView(myButton);
         //mainLayout.addView(myConstraint);
 
+        //Hide keyboard on load
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         }
 
-    public void createNew(String name, String job, double rank, Double pay, int Drawable){
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @SuppressLint("ResourceAsColor")
+    public void createNew(String name, String erhverv, double rank, Double pay, int Drawable){
         CardView cv = new CardView(getApplicationContext());
         cv.setId(id++);
         LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
@@ -96,15 +117,20 @@ public class MineIndlejninger extends AppCompatActivity {
         cv.addView(cl);
         //Add pic
         ImageView IVProfilePic = new ImageView(this);
+        //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
+
+
         IVProfilePic.setId(id++);
+        //IVProfilePic.setImageResource(R.drawable.circle);
         //IVProfilePic.setBackground(R.drawable.roundimg);
+        //
         IVProfilePic.setImageResource(R.drawable.daniel);
         IVProfilePic.setAdjustViewBounds(true);
         cl.addView(IVProfilePic);
         //Add Name and Job
         TextView TVName = new TextView(this);
         TVName.setId(id++);
-        TVName.setText(name+"\n"+job);
+        TVName.setText(name+"\n"+erhverv);
         TVName.setTextSize(18);
 
         cl.addView(TVName);
@@ -126,6 +152,17 @@ public class MineIndlejninger extends AppCompatActivity {
 
         CS.applyTo(cl);
 
+        //Add onclick to card view
+        cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lejeperiodeStart_textView.setText("1/3/2019");
+                lejeperiodeSlut_textView.setText("1/9/2019");
+                lejer_textView.setText("DTU");
+                erhverv_textView.setText(erhverv);
+                lokation_textView.setText("Lyngby");
+            }
+        });
 
 
         scroller.addView(cv);
