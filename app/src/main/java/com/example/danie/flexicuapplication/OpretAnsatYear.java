@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class OpretAnsatYear extends AppCompatActivity implements View.OnClickListener {
-    Button nextPage;
-    TextView titel;
-    TextView YearTextview;
+    Button buttonNextPage;
+    TextView textViewTitle;
+    EditText editTextYear;
     String name;
     String year;
 
@@ -21,24 +22,24 @@ public class OpretAnsatYear extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_year);
 
-        titel = findViewById(R.id.textViewTitle);
-        YearTextview = findViewById(R.id.editTextDescription);
+        textViewTitle = findViewById(R.id.textViewTitle);
+        editTextYear = findViewById(R.id.editTextYear);
 
         Intent intent = getIntent();
         name = intent.getStringExtra("NameOfEmployee");
-        titel.setText(" Hvilket årstal er " + name + " født?");
+        textViewTitle.setText(" Hvilket årstal er " + name + " født?");
 
-        nextPage = findViewById(R.id.buttonNextPage);
-        nextPage.setOnClickListener(this);
+        buttonNextPage = findViewById(R.id.buttonNextPage);
+        buttonNextPage.setOnClickListener(this);
 
 
     }
 
     @Override
     public void onClick(View v) {
-        if ( v == nextPage )
+        if ( v == buttonNextPage)
         {
-        year = YearTextview.getText().toString();
+        year = editTextYear.getText().toString();
         Intent OpretAnsatErhverv = new Intent(this, OpretAnsatErhverv.class);
             OpretAnsatErhverv.putExtra("NameOfEmployee", name);
             OpretAnsatErhverv.putExtra("YearOfEmployee", year);

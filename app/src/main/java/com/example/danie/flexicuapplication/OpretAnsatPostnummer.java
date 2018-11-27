@@ -22,7 +22,7 @@ public class OpretAnsatPostnummer extends AppCompatActivity implements View.OnCl
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_postcode);
-        editTextPostcode = findViewById(R.id.editTextDescription);
+        editTextPostcode = findViewById(R.id.editTextPostcode);
 
         titel = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
@@ -43,10 +43,10 @@ public class OpretAnsatPostnummer extends AppCompatActivity implements View.OnCl
         {
         postcode = editTextPostcode.getText().toString();
             Intent OpretAnsatBeskrivelse = new Intent(this, OpretAnsatBeskrivelse.class);
-        OpretAnsatBeskrivelse.putExtra("NameOfEmployee", name);
-        OpretAnsatBeskrivelse.putExtra("YearOfEmployee", year);
-        OpretAnsatBeskrivelse.putExtra("ErhvervOfEmployee", erhverv);
-        OpretAnsatBeskrivelse.putExtra("PostnummerOfEmployee", postcode);
+            OpretAnsatBeskrivelse.putExtra("NameOfEmployee", name);
+            OpretAnsatBeskrivelse.putExtra("YearOfEmployee", year);
+            OpretAnsatBeskrivelse.putExtra("ErhvervOfEmployee", erhverv);
+            OpretAnsatBeskrivelse.putExtra("PostnummerOfEmployee", postcode);
             startActivity(OpretAnsatBeskrivelse);
 
         }

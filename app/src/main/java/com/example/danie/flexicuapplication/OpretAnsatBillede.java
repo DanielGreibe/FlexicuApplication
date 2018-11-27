@@ -8,8 +8,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class OpretAnsatBillede extends AppCompatActivity implements View.OnClickListener {
-    Button nextPage;
-    TextView titel;
+    Button buttonNextPage;
+    TextView textViewTitle;
+    TextView textViewImage;
     String name;
     String year;
     String erhverv;
@@ -21,7 +22,8 @@ public class OpretAnsatBillede extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_image);
 
-        titel = findViewById(R.id.textViewTitle);
+        textViewTitle = findViewById(R.id.textViewTitle);
+        textViewImage = findViewById(R.id.textViewImage);
 
 
         Intent intent = getIntent();
@@ -30,20 +32,16 @@ public class OpretAnsatBillede extends AppCompatActivity implements View.OnClick
         erhverv = intent.getStringExtra("ErhvervOfEmployee");
         postcode = intent.getStringExtra("PostnummerOfEmployee");
         beskrivelse = intent.getStringExtra("DescriptionOfEmployee");
+        textViewTitle.setText("Tilføj et billede af " + name + " eller firmaets logo");
 
-        titel.setText("Tilføj et billede af " + name + " eller firmaets logo");
-
-        nextPage = findViewById(R.id.buttonNextPage);
-        nextPage.setOnClickListener(this);
-
-
+        buttonNextPage = findViewById(R.id.buttonNextPage);
+        buttonNextPage.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if ( v == nextPage )
+        if ( v == buttonNextPage)
         {
-
             Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
             CreateEmployeeFinish.putExtra("NameOfEmployee", name);
             CreateEmployeeFinish.putExtra("YearOfEmployee", year);

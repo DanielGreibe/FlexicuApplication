@@ -9,16 +9,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class OpretAnsatBeskrivelse extends AppCompatActivity implements View.OnClickListener {
-    Button nextPage;
-    TextView titel;
+    Button buttonNextPage;
+    TextView textViewTitle;
+    EditText editTextDescription;
+
     String name;
     String year;
     String erhverv;
     String postcode;
     String beskrivelse;
-
-    EditText editTextDescription;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,32 +27,32 @@ public class OpretAnsatBeskrivelse extends AppCompatActivity implements View.OnC
 
         editTextDescription = findViewById(R.id.editTextDescription);
 
-        titel = findViewById(R.id.textViewTitle);
+        textViewTitle = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
         name = intent.getStringExtra("NameOfEmployee");
         year = intent.getStringExtra("YearOfEmployee");
         erhverv = intent.getStringExtra("ErhvervOfEmployee");
         postcode = intent.getStringExtra("PostnummerOfEmployee");
-        titel.setText("Tilføj en beskrivelse til " + name);
+        textViewTitle.setText("Tilføj en beskrivelse til " + name);
 
-        nextPage = findViewById(R.id.buttonNextPage);
-        nextPage.setOnClickListener(this);
+        buttonNextPage = findViewById(R.id.buttonNextPage);
+        buttonNextPage.setOnClickListener(this);
 
 
     }
 
     @Override
     public void onClick(View v) {
-        if ( v == nextPage )
+        if ( v == buttonNextPage)
         {
             beskrivelse = editTextDescription.getText().toString();
-        Intent OpretAnsatBillede = new Intent(this, OpretAnsatBillede.class);
-        OpretAnsatBillede.putExtra("NameOfEmployee", name);
-        OpretAnsatBillede.putExtra("YearOfEmployee", year);
-        OpretAnsatBillede.putExtra("ErhvervOfEmployee", erhverv);
-        OpretAnsatBillede.putExtra("PostnummerOfEmployee", postcode);
-        OpretAnsatBillede.putExtra("DescriptionOfEmployee", beskrivelse);
-        startActivity(OpretAnsatBillede);
+            Intent OpretAnsatBillede = new Intent(this, OpretAnsatBillede.class);
+            OpretAnsatBillede.putExtra("NameOfEmployee", name);
+            OpretAnsatBillede.putExtra("YearOfEmployee", year);
+            OpretAnsatBillede.putExtra("ErhvervOfEmployee", erhverv);
+            OpretAnsatBillede.putExtra("PostnummerOfEmployee", postcode);
+            OpretAnsatBillede.putExtra("DescriptionOfEmployee", beskrivelse);
+            startActivity(OpretAnsatBillede);
 
         }
     }
