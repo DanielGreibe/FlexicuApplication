@@ -60,6 +60,9 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         if ( v == buttonNextPage )
         {
             Intent Udlej = new Intent(this, RentOut.class);
+            //TODO Tilføj et skærmbillede hvor PAY indtastes
+            //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
+            CrudEmployee employee = new CrudEmployee(name, erhverv , 0 , 30 , R.drawable.download);
             startActivity(Udlej);
         }
     }
