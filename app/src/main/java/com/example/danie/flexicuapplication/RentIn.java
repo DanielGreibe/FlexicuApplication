@@ -27,7 +27,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
 
         filterMenu.setOnClickListener(this);
 
-        createNew(new CrudEmployee("Mathias", "Jave udvikler", 4.2, 320,45, id++, R.drawable.download));
+        createNew(new CrudEmployee("Mathias", "Jave udvikler", 320,45, R.drawable.download));
 
 
         }
@@ -130,7 +130,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v == filterMenu){
-            createNew(new CrudEmployee("Mathias", "Jave udvikler", 4.2, 320,45, id++, R.drawable.download));
+            createNew(new CrudEmployee("Mathias", "Jave udvikler",320,45, R.drawable.download));
         }
         else{
             int temp = v.getId();

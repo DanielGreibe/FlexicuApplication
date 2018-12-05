@@ -11,20 +11,18 @@ public class CrudEmployee
     double pay;
     int dist;
     boolean open;
-    int id;
     int pic;
     List<CrudEmployee> personer = new ArrayList<CrudEmployee>();
 
 
-    public CrudEmployee(String name, String job, double rank, double pay, int dist, int id, int pic){
+    public CrudEmployee(String name, String job, double pay, int dist, int pic){
         this.name = name;
         this.job = job;
-        this.rank = rank;
         this.pay = pay;
         this.dist = dist;
         this.open = false;
-        this.id = id;
         this.pic = pic;
+        this.rank = 0;
     }
 
     //Getter
@@ -55,9 +53,6 @@ public class CrudEmployee
         return open;
     }
 
-    public int getId() {
-        return id;
-    }
     public int getPic() {
         return pic;
     }
@@ -86,9 +81,7 @@ public class CrudEmployee
     public void setOpen(boolean open) {
         this.open = open;
     }
-    public void setId(int id) {
-        this.id = id;
-    }
+
     public void setPic(int pic) {
         this.pic = pic;
     }
