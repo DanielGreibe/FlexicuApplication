@@ -25,6 +25,7 @@ public class CrudEmploye {
         this.pic = pic;
     }
 
+
     //Getter
     public String getName() {
         return name;
