@@ -25,8 +25,7 @@ public class CrudEmploye {
         this.open = false;
         this.id = id;
         this.pic = pic;
-        personer.add(this);
-    }
+        personer.add(this);    }
     //Getter
     public String getName() {
         return name;

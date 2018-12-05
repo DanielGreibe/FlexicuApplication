@@ -1,6 +1,6 @@
 package com.example.danie.flexicuapplication;
 
-public class Bruger
+public class User
     {
     String Name;
     int Postcode;
@@ -8,7 +8,7 @@ public class Bruger
     String Erhverv;
     int Birthyear;
 
-    Bruger (String name, int postcode, String Erhverv, int Birthyear )
+    User(String name, int postcode, String Erhverv, int Birthyear )
         {
             this.Name = name;
             this.Postcode = postcode;
