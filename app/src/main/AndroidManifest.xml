@@ -18,19 +18,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OpretAnsat" />
-        <activity android:name=".MineUdlejninger" />
-        <activity android:name=".MineIndlejninger" />
-        <activity android:name=".Udlej" />
-        <activity android:name=".Indlej" />
+        <activity android:name=".CreateEmployee" />
+        <activity android:name=".MyRentOuts" />
+        <activity android:name=".MyRentIns" />
+        <activity android:name=".RentOut" />
+        <activity android:name=".RentIn" />
         <activity android:name=".Navigation" />
-        <activity android:name=".FiltreTilIndlej" />
+        <activity android:name=".FiltersRentOut" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".OpretAnsatYear" />
-        <activity android:name=".OpretAnsatErhverv" />
-        <activity android:name=".OpretAnsatBeskrivelse" />
-        <activity android:name=".OpretAnsatBillede" />
-        <activity android:name=".OpretAnsatPostnummer" />
+        <activity android:name=".CreateEmployeeYear" />
+        <activity android:name=".CreateEmployeeProfession" />
+        <activity android:name=".CreateEmployeeDescription" />
+        <activity android:name=".CreateEmployeeImage" />
+        <activity android:name=".CreateEmployeeZipcode" />
         <activity android:name=".CreateEmployeeFinish"></activity>
     </application>
 

@@ -3,7 +3,7 @@ package com.example.danie.flexicuapplication;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class FiltreTilIndlej extends AppCompatActivity
+public class FiltersRentOut extends AppCompatActivity
     {
 
     @Override

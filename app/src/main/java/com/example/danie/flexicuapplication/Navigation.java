@@ -4,72 +4,60 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 
 public class Navigation extends AppCompatActivity implements View.OnClickListener
     {
 
-    Button MineIndlejninger;
-    Button MineUdlejninger;
-    Button Indlej;
-    Button Udlej;
+    Button buttonMineIndlejninger;
+    Button buttonMineUdlejninger;
+    Button buttonIndlej;
+    Button buttonUdlej;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
 
-        /* Hides the Title Bar
-        SOURCE = https://www.javatpoint.com/android-hide-title-bar-example
-         */
-
         setContentView(R.layout.activity_navigation);
 
-        MineIndlejninger = findViewById(R.id.MineIndlejninger);
-        MineUdlejninger = findViewById(R.id.MineUdlejninger);
-        Indlej = findViewById(R.id.Indlej);
-        Udlej = findViewById(R.id.Udlej);
-
-        /*
-        MineIndlejninger.setText("Mine Indlejninger");
-        MineUdlejninger.setText("Mine Udlejninger");
-        Indlej.setText("Indlej");
-        Udlej.setText("Udlej");
-        */
+        buttonMineIndlejninger = findViewById(R.id.buttonMineIndlejninger);
+        buttonMineUdlejninger = findViewById(R.id.buttonMineUdlejninger);
+        buttonIndlej = findViewById(R.id.buttonIndlej);
+        buttonUdlej = findViewById(R.id.buttonUdlej);
 
 
-        MineIndlejninger.setOnClickListener(this);
-        MineUdlejninger.setOnClickListener(this);
-        Indlej.setOnClickListener(this);
-        Udlej.setOnClickListener(this);
+        buttonMineIndlejninger.setOnClickListener(this);
+        buttonMineUdlejninger.setOnClickListener(this);
+        buttonIndlej.setOnClickListener(this);
+        buttonUdlej.setOnClickListener(this);
         }
 
     @Override
     public void onClick(View v)
         {
-            if ( v == MineUdlejninger)
+            if ( v == buttonMineUdlejninger)
                 {
                     //Opens the MineUdlejninger page
-                    Intent MineUdlejninger = new Intent(this, MineUdlejninger.class);
+                    Intent MineUdlejninger = new Intent(this, MyRentOuts.class);
                     startActivity(MineUdlejninger);
                 }
-            else if ( v == MineIndlejninger)
+            else if ( v == buttonMineIndlejninger)
                 {
                     //Opens the MineIndlejninger page
-                    Intent MineIndlejninger = new Intent(this, MineIndlejninger.class);
+                    Intent MineIndlejninger = new Intent(this, MyRentIns.class);
                     startActivity(MineIndlejninger);
                 }
-            else if ( v == Indlej)
+            else if ( v == buttonIndlej)
                 {
                     //Opens the Indlej page
-                    Intent Indlej = new Intent(this, Indlej.class);
+                    Intent Indlej = new Intent(this, RentIn.class);
                     startActivity(Indlej);
                 }
-            else if (v == Udlej)
+            else if (v == buttonUdlej)
                 {
                     //Opens the Udlej page
-                    Intent Udlej = new Intent(this, Udlej.class);
+                    Intent Udlej = new Intent(this, RentOut.class);
                     startActivity(Udlej);
                 }
         }
