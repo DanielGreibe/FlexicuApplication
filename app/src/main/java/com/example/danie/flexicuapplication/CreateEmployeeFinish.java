@@ -47,11 +47,11 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         beskrivelse = previousIntent.getStringExtra("DescriptionOfEmployee");
 
 
-        textViewName.setText("Name of Employee: " + name);
-        textViewYear.setText("Birthyear of Employee: " + year);
-        textViewErhverv.setText("Erhverv of Employee : " + erhverv);
-        textViewPostcode.setText("Postcode of Employee: " + postcode);
-        textViewDescription.setText("Description of Employee: " + beskrivelse);
+        textViewName.setText("Navn: " + name);
+        textViewYear.setText("Fødselsår: " + year);
+        textViewErhverv.setText("Erhverv: " + erhverv);
+        textViewPostcode.setText("Postnummer: " + postcode);
+        textViewDescription.setText("Beskrivelse: " + beskrivelse);
     }
 
     @Override
