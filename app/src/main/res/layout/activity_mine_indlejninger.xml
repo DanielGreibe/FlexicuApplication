@@ -43,6 +43,23 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
+        android:id="@+id/textViewPay"
+        android:layout_width="134dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/layout_background_round_corners"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Timeløn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
         android:id="@+id/textView8"
         android:layout_width="134dp"
         android:layout_height="28dp"
@@ -70,7 +87,7 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/layout_background_round_corners"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Lejer"
+        android:text="Udlejer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -158,14 +175,14 @@
         android:layout_height="15dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Bedøm Udlejer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPay" />
 
     <ImageView
         android:id="@+id/imageView2"
