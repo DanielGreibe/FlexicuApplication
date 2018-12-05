@@ -12,7 +12,6 @@ public class CrudEmployee
     int dist;
     boolean open;
     int id;
-
     int pic;
     List<CrudEmployee> personer = new ArrayList<CrudEmployee>();
 
@@ -22,12 +21,12 @@ public class CrudEmployee
         this.job = job;
         this.rank = rank;
         this.pay = pay;
-        this. dist = dist;
+        this.dist = dist;
         this.open = false;
         this.id = id;
         this.pic = pic;
-        personer.add(this);
     }
+
     //Getter
     public String getName() {
         return name;

@@ -84,19 +84,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         TVPayConst.setText("Timeløn");
         cl.addView(TVPay);
         cl.addView(TVPayConst);
-        //Add distance
-        TextView TVDist = new TextView(this);
-        TVDist.setId(id++);
-        TVDist.setTextSize(22);
-        TVDist.setText(Integer.toString(card.getDist()));
-        TVDist.setPadding(60,0,0,0);
-        TextView TVDistConst = new TextView(this);
-        TVDistConst.setId(id++);
-        TVDistConst.setTextSize(14);
-        TVDistConst.setText("km væk");
-        TVDistConst.setPadding(30,0,0,0);
-        cl.addView(TVDist);
-        cl.addView(TVDistConst);
         //ReadMore
         ImageView IVMore = new ImageView(this);
         IVMore.setId(id++);
@@ -131,13 +118,8 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         CS.connect(TVPayConst.getId(), ConstraintSet.TOP, TVRank.getId(), ConstraintSet.TOP,0);
         CS.connect(TVPay.getId(), ConstraintSet.BOTTOM, TVPayConst.getId(), ConstraintSet.TOP,0);
         CS.connect(TVPay.getId(), ConstraintSet.LEFT, IVRank.getId(), ConstraintSet.RIGHT,8);
-        //Dist
-        CS.connect(TVDist.getId(), ConstraintSet.LEFT, TVPay.getId(), ConstraintSet.RIGHT, 0);
-        CS.connect(TVDistConst.getId(), ConstraintSet.LEFT, TVDist.getId(), ConstraintSet.LEFT,0);
-        CS.connect(TVDist.getId(), ConstraintSet.TOP, TVPay.getId(), ConstraintSet.TOP,0);
-        CS.connect(TVDistConst.getId(), ConstraintSet.BOTTOM, TVPayConst.getId(), ConstraintSet.BOTTOM,0);
         //Readmore
-        CS.connect(IVMore.getId(), ConstraintSet.LEFT, TVDistConst.getId(), ConstraintSet.RIGHT);
+        CS.connect(IVMore.getId(), ConstraintSet.LEFT, TVPayConst.getId(), ConstraintSet.RIGHT);
         CS.connect(IVMore.getId(), ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT);
 
         CS.applyTo(cl);
@@ -152,10 +134,10 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         }
         else{
             int temp = v.getId();
-            if(v.findViewById(temp+9).getRotation() == 0) {
-                v.findViewById(temp + 9).setRotation(90);
+            if(v.findViewById(temp+7).getRotation() == 0) {
+                v.findViewById(temp + 7).setRotation(90);
             }else{
-                v.findViewById(temp + 9).setRotation(0);
+                v.findViewById(temp + 7).setRotation(0);
             }
 
         }
