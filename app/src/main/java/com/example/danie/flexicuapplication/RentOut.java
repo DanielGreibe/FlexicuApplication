@@ -3,21 +3,16 @@ package com.example.danie.flexicuapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.TypedValue;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Udlej extends AppCompatActivity
+public class RentOut extends AppCompatActivity
     {
         private Context mContext;
         private ConstraintLayout constLayout;
@@ -33,7 +28,7 @@ public class Udlej extends AppCompatActivity
         constLayout = findViewById(R.id.opretMedarbejder);
 
         constLayout.setOnClickListener((view) ->{
-        Intent opretAnsat = new Intent(this, OpretAnsat.class);
+        Intent opretAnsat = new Intent(this, CreateEmployee.class);
         startActivity(opretAnsat);
             CardView card = new CardView(mContext);
             card.setId(id);

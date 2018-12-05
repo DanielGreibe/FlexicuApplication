@@ -3,7 +3,8 @@ package com.example.danie.flexicuapplication;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrudEmploye {
+public class CrudEmployee
+    {
     String name;
     String job;
     double rank;
@@ -13,10 +14,10 @@ public class CrudEmploye {
     int id;
 
     int pic;
-    List<CrudEmploye> personer = new ArrayList<CrudEmploye>();
+    List<CrudEmployee> personer = new ArrayList<CrudEmployee>();
 
 
-    public CrudEmploye(String name, String job, double rank, double pay, int dist, int id, int pic){
+    public CrudEmployee(String name, String job, double rank, double pay, int dist, int id, int pic){
         this.name = name;
         this.job = job;
         this.rank = rank;

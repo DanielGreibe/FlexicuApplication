@@ -59,7 +59,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     {
         if ( v == buttonNextPage )
         {
-            Intent Udlej = new Intent(this, Udlej.class);
+            Intent Udlej = new Intent(this, RentOut.class);
             startActivity(Udlej);
         }
     }

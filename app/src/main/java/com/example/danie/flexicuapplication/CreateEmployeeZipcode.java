@@ -8,21 +8,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class OpretAnsatPostnummer extends AppCompatActivity implements View.OnClickListener {
+public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnClickListener {
     Button nextPage;
     TextView titel;
     String name;
     String year;
     String erhverv;
-    String postcode;
+    String zipcode;
 
-    EditText editTextPostcode;
+    EditText editTextZipcode;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_employee_postcode);
-        editTextPostcode = findViewById(R.id.editTextPostcode);
+        setContentView(R.layout.activity_create_employee_zipcode);
+        editTextZipcode = findViewById(R.id.editTextPostcode);
 
         titel = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
@@ -41,12 +41,12 @@ public class OpretAnsatPostnummer extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         if ( v == nextPage )
         {
-        postcode = editTextPostcode.getText().toString();
-            Intent OpretAnsatBeskrivelse = new Intent(this, OpretAnsatBeskrivelse.class);
+        zipcode = editTextZipcode.getText().toString();
+            Intent OpretAnsatBeskrivelse = new Intent(this, CreateEmployeeDescription.class);
             OpretAnsatBeskrivelse.putExtra("NameOfEmployee", name);
             OpretAnsatBeskrivelse.putExtra("YearOfEmployee", year);
             OpretAnsatBeskrivelse.putExtra("ErhvervOfEmployee", erhverv);
-            OpretAnsatBeskrivelse.putExtra("PostnummerOfEmployee", postcode);
+            OpretAnsatBeskrivelse.putExtra("PostnummerOfEmployee", zipcode);
             startActivity(OpretAnsatBeskrivelse);
 
         }

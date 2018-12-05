@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class OpretAnsatYear extends AppCompatActivity implements View.OnClickListener {
+public class CreateEmployeeYear extends AppCompatActivity implements View.OnClickListener {
     Button buttonNextPage;
     TextView textViewTitle;
     EditText editTextYear;
@@ -40,7 +40,7 @@ public class OpretAnsatYear extends AppCompatActivity implements View.OnClickLis
         if ( v == buttonNextPage)
         {
         year = editTextYear.getText().toString();
-        Intent OpretAnsatErhverv = new Intent(this, OpretAnsatErhverv.class);
+        Intent OpretAnsatErhverv = new Intent(this, CreateEmployeeProfession.class);
             OpretAnsatErhverv.putExtra("NameOfEmployee", name);
             OpretAnsatErhverv.putExtra("YearOfEmployee", year);
         startActivity(OpretAnsatErhverv);

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class OpretAnsat extends AppCompatActivity implements View.OnClickListener {
+public class CreateEmployee extends AppCompatActivity implements View.OnClickListener {
         Button buttonNextPage;
         TextView editTextName;
     @Override
@@ -26,7 +26,7 @@ public class OpretAnsat extends AppCompatActivity implements View.OnClickListene
         {
 
             String name = editTextName.getText().toString();
-            Intent OpretAnsatYear = new Intent(this, OpretAnsatYear.class);
+            Intent OpretAnsatYear = new Intent(this, CreateEmployeeYear.class);
             OpretAnsatYear.putExtra("NameOfEmployee", name);
             startActivity(OpretAnsatYear);
         }

@@ -5,54 +5,50 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-public class OpretAnsatBeskrivelse extends AppCompatActivity implements View.OnClickListener {
+public class CreateEmployeeImage extends AppCompatActivity implements View.OnClickListener {
     Button buttonNextPage;
     TextView textViewTitle;
-    EditText editTextDescription;
-
+    TextView textViewImage;
     String name;
     String year;
     String erhverv;
     String postcode;
     String beskrivelse;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_employee_description);
-
-        editTextDescription = findViewById(R.id.editTextDescription);
+        setContentView(R.layout.activity_create_employee_image);
 
         textViewTitle = findViewById(R.id.textViewTitle);
+        textViewImage = findViewById(R.id.textViewImage);
+
+
         Intent intent = getIntent();
         name = intent.getStringExtra("NameOfEmployee");
         year = intent.getStringExtra("YearOfEmployee");
         erhverv = intent.getStringExtra("ErhvervOfEmployee");
         postcode = intent.getStringExtra("PostnummerOfEmployee");
-        textViewTitle.setText("Tilføj en beskrivelse til " + name);
+        beskrivelse = intent.getStringExtra("DescriptionOfEmployee");
+        textViewTitle.setText("Tilføj et billede af " + name + " eller firmaets logo");
 
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
-
-
     }
 
     @Override
     public void onClick(View v) {
         if ( v == buttonNextPage)
         {
-            beskrivelse = editTextDescription.getText().toString();
-            Intent OpretAnsatBillede = new Intent(this, OpretAnsatBillede.class);
-            OpretAnsatBillede.putExtra("NameOfEmployee", name);
-            OpretAnsatBillede.putExtra("YearOfEmployee", year);
-            OpretAnsatBillede.putExtra("ErhvervOfEmployee", erhverv);
-            OpretAnsatBillede.putExtra("PostnummerOfEmployee", postcode);
-            OpretAnsatBillede.putExtra("DescriptionOfEmployee", beskrivelse);
-            startActivity(OpretAnsatBillede);
+            Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
+            CreateEmployeeFinish.putExtra("NameOfEmployee", name);
+            CreateEmployeeFinish.putExtra("YearOfEmployee", year);
+            CreateEmployeeFinish.putExtra("ErhvervOfEmployee", erhverv);
+            CreateEmployeeFinish.putExtra("PostnummerOfEmployee", postcode);
+            CreateEmployeeFinish.putExtra("DescriptionOfEmployee", beskrivelse);
+            startActivity(CreateEmployeeFinish);
 
         }
     }
