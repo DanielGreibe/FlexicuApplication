@@ -22,7 +22,7 @@ public class RentOut extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_udlej);
+        setContentView(R.layout.activity_rent_out);
         mContext = getApplicationContext();
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         constLayout = findViewById(R.id.opretMedarbejder);

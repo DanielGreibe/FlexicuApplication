@@ -20,7 +20,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_indlej);
+        setContentView(R.layout.activity_rent_in);
 
         scroller = findViewById(R.id.linearLayout);
         filterMenu = findViewById(R.id.filterMenu);

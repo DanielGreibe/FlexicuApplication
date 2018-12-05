@@ -36,7 +36,7 @@ public class MyRentIns extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mine_indlejninger);
+        setContentView(R.layout.activity_my_rent_ins);
 
         scroller = findViewById(R.id.linearlayout1);
         textViewLejeperiodeStart = findViewById(R.id.textViewLejeperiodeStart);

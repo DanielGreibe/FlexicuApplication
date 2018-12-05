@@ -8,25 +8,25 @@ import android.widget.TextView;
 
 public class MyRentOuts extends AppCompatActivity implements View.OnClickListener {
         ConstraintLayout firstEmployee;
-        TextView LejeperiodeStart;
-        TextView LejeperiodeSlut;
-        TextView Lejer;
-        TextView Erhverv;
-        TextView Lokation;
+        TextView rentPeriodStart;
+        TextView rentPeriodEnd;
+        TextView tenant;
+        TextView profession;
+        TextView location;
         ConstraintLayout mainLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_mine_udlejninger);
+        setContentView(R.layout.activity_my_rent_outs);
 
         mainLayout = findViewById(R.id.MineIndlejninger_mainLayout);
-        LejeperiodeStart = findViewById(R.id.textViewLejeperiodeStart);
-        LejeperiodeSlut = findViewById(R.id.textViewLejeperiodeSlut);
-        Lejer = findViewById(R.id.textViewLejer);
-        Erhverv = findViewById(R.id.textViewErhverv);
-        Lokation = findViewById(R.id.textViewLokation);
+        rentPeriodStart = findViewById(R.id.textViewRentPeriodStart);
+        rentPeriodEnd = findViewById(R.id.textViewRentPeriodEnd);
+        tenant = findViewById(R.id.textViewTenant);
+        profession = findViewById(R.id.textViewProfession);
+        location = findViewById(R.id.textViewLocation);
 
         firstEmployee = findViewById(R.id.firstEmployee);
         firstEmployee.setOnClickListener(this);
@@ -37,11 +37,11 @@ public class MyRentOuts extends AppCompatActivity implements View.OnClickListene
     public void onClick(View v) {
         if ( v == firstEmployee )
         {
-            LejeperiodeStart.setText("Tekst ændret");
-            LejeperiodeSlut.setText("Tekst ændret");
-            Lejer.setText("Tekst ændret");
-            Erhverv.setText("Tekst ændret");
-            Lokation.setText("Tekst ændret");
+            rentPeriodStart.setText("Tekst ændret");
+            rentPeriodEnd.setText("Tekst ændret");
+            tenant.setText("Tekst ændret");
+            profession.setText("Tekst ændret");
+            location.setText("Tekst ændret");
         }
     }
 }
