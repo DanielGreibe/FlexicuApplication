@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/FlexGrey"
     android:visibility="visible"
-    tools:context=".Indlej">
+    tools:context=".RentIn">
 
     <EditText
         android:id="@+id/freeSearch"

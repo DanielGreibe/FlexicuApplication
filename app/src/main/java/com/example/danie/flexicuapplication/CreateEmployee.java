@@ -7,32 +7,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class OpretAnsat extends AppCompatActivity implements View.OnClickListener {
-        Button nextPage;
-        TextView name;
+public class CreateEmployee extends AppCompatActivity implements View.OnClickListener {
+        Button buttonNextPage;
+        TextView editTextName;
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee);
-
-
-        name = findViewById(R.id.editTextDescription);
-        nextPage = findViewById(R.id.buttonNextPage);
-
-        nextPage.setOnClickListener(this);
-
-
+        editTextName = findViewById(R.id.editTextName);
+        buttonNextPage = findViewById(R.id.buttonNextPage);
+        buttonNextPage.setOnClickListener(this);
         }
 
     @Override
     public void onClick(View v) {
-        if ( v == nextPage )
+        if ( v == buttonNextPage )
         {
 
-            String navn = name.getText().toString();
-            Intent OpretAnsatYear = new Intent(this, OpretAnsatYear.class)
-                    .putExtra("NameOfEmployee", navn);
+            String name = editTextName.getText().toString();
+            Intent OpretAnsatYear = new Intent(this, CreateEmployeeYear.class);
+            OpretAnsatYear.putExtra("NameOfEmployee", name);
             startActivity(OpretAnsatYear);
         }
     }

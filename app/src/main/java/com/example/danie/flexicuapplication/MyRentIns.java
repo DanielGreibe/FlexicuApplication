@@ -1,43 +1,34 @@
 package com.example.danie.flexicuapplication;
 
 //TODO tilføj timeløn til mineindlejninger og mineudlejninger
-//TODO ret lejer til udlejer i mine i mineindlejninger
 //TODO ret til uniforme betegnelser overalt i app (f.eks. 'km væk' ELLER 'radius')
 
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
-public class MineIndlejninger extends AppCompatActivity {
+public class MyRentIns extends AppCompatActivity {
 
     int id = 1;
     LinearLayout scroller;
     ConstraintLayout mainLayout;
     TextView mainText_textView;
-    TextView lejeperiodeStart_textView;
-    TextView lejeperiodeSlut_textView;
-    TextView lejer_textView;
-    TextView erhverv_textView;
-    TextView lokation_textView;
+    TextView textViewLejeperiodeStart;
+    TextView textViewLejeperiodeSlut;
+    TextView textViewLejer;
+    TextView textViewErhverv;
+    TextView textViewLokation;
 
 
     @SuppressLint("ResourceAsColor")
@@ -45,14 +36,14 @@ public class MineIndlejninger extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mine_indlejninger);
+        setContentView(R.layout.activity_my_rent_ins);
 
         scroller = findViewById(R.id.linearlayout1);
-        lejeperiodeStart_textView = findViewById(R.id.textView5);
-        lejeperiodeSlut_textView = findViewById(R.id.textView6);
-        lejer_textView = findViewById(R.id.textView7);
-        erhverv_textView = findViewById(R.id.textView8);
-        lokation_textView = findViewById(R.id.textView9);
+        textViewLejeperiodeStart = findViewById(R.id.textViewLejeperiodeStart);
+        textViewLejeperiodeSlut = findViewById(R.id.textViewLejeperiodeSlut);
+        textViewLejer = findViewById(R.id.textViewLejer);
+        textViewErhverv = findViewById(R.id.textViewErhverv);
+        textViewLokation = findViewById(R.id.textViewLokation);
 
         mainLayout = findViewById(R.id.MineIndlejninger_mainLayout);
 
@@ -124,7 +115,7 @@ public class MineIndlejninger extends AppCompatActivity {
         //IVProfilePic.setImageResource(R.drawable.circle);
         //IVProfilePic.setBackground(R.drawable.roundimg);
         //
-        IVProfilePic.setImageResource(R.drawable.daniel);
+        IVProfilePic.setImageResource(R.drawable.download);
         IVProfilePic.setAdjustViewBounds(true);
         cl.addView(IVProfilePic);
         //Add Name and Job
@@ -156,11 +147,11 @@ public class MineIndlejninger extends AppCompatActivity {
         cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lejeperiodeStart_textView.setText("1/3/2019");
-                lejeperiodeSlut_textView.setText("1/9/2019");
-                lejer_textView.setText("DTU");
-                erhverv_textView.setText(erhverv);
-                lokation_textView.setText("Lyngby");
+                textViewLejeperiodeStart.setText("1/3/2019");
+                textViewLejeperiodeSlut.setText("1/9/2019");
+                textViewLejer.setText("DTU");
+                textViewErhverv.setText(erhverv);
+                textViewLokation.setText("Lyngby");
             }
         });
 

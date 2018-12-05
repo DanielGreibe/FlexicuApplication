@@ -27,7 +27,7 @@
         app:layout_constraintVertical_bias="0.6">
 
         <EditText
-            android:id="@+id/PasswordView"
+            android:id="@+id/editTextPassword"
             android:layout_width="210dp"
             android:layout_height="42dp"
             android:layout_marginTop="20dp"
@@ -39,10 +39,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/UsernameView" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
 
         <Button
-            android:id="@+id/LoginButton"
+            android:id="@+id/buttonLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
@@ -50,10 +50,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/PasswordView" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
         <TextView
-            android:id="@+id/LoginLaterView"
+            android:id="@+id/textViewLoginLater"
             android:layout_width="wrap_content"
             android:layout_height="21dp"
             android:layout_marginTop="16dp"
@@ -61,10 +61,10 @@
             android:textColor="@android:color/holo_blue_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/LoginButton" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
         <EditText
-            android:id="@+id/UsernameView"
+            android:id="@+id/editTextUsername"
             android:layout_width="210dp"
             android:layout_height="42dp"
             android:layout_marginTop="48dp"

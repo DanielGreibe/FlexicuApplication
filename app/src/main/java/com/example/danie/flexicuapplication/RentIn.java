@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class Indlej extends AppCompatActivity implements View.OnClickListener {
+public class RentIn extends AppCompatActivity implements View.OnClickListener {
 
     int id = 0;
     LinearLayout scroller;
@@ -20,19 +20,19 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_indlej);
+        setContentView(R.layout.activity_rent_in);
 
         scroller = findViewById(R.id.linearLayout);
         filterMenu = findViewById(R.id.filterMenu);
 
         filterMenu.setOnClickListener(this);
 
-        createNew(new CrudEmploye("Mathias", "Jave udvikler", 4.2, 320,45, id++, R.drawable.download));
+        createNew(new CrudEmployee("Mathias", "Jave udvikler", 320,45, R.drawable.download));
 
 
         }
 
-    public void createNew(CrudEmploye card){
+    public void createNew(CrudEmployee card){
         CardView cv = new CardView(getApplicationContext());
         cv.setOnClickListener(this);
         cv.setId(id++);
@@ -130,7 +130,7 @@ public class Indlej extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v == filterMenu){
-            createNew(new CrudEmploye("Mathias", "Jave udvikler", 4.2, 320,45, id++, R.drawable.download));
+            createNew(new CrudEmployee("Mathias", "Jave udvikler",320,45, R.drawable.download));
         }
         else{
             int temp = v.getId();

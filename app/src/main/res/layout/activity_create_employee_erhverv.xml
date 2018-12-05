@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/FlexGrey"
-    tools:context=".OpretAnsatErhverv"
+    tools:context=".CreateEmployeeProfession"
     >
 
 
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
-        android:id="@+id/editTextDescription"
+        android:id="@+id/editTextErhverv"
         android:layout_width="246dp"
         android:layout_height="49dp"
         android:layout_marginEnd="8dp"
@@ -59,16 +59,16 @@
         android:id="@+id/buttonNextPage"
         android:layout_width="276dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/layout_background_round_corners_blue"
         android:text="Videre"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextErhverv" />
 
 </android.support.constraint.ConstraintLayout>
