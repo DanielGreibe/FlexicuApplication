@@ -87,11 +87,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         //ReadMore
         ImageView IVMore = new ImageView(this);
         IVMore.setId(id++);
-        boolean open = false;
         IVMore.setImageResource(R.drawable.arrow);
-        if(open){
-            IVMore.setRotation(90);
-        }
         IVMore.setScaleX((float)0.3);
         IVMore.setScaleY((float)0.3);
         cl.addView(IVMore);
