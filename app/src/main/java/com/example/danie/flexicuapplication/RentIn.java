@@ -27,12 +27,13 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
 
         filterMenu.setOnClickListener(this);
 
-        createNew(new CrudEmployee("Mathias", "Jave udvikler", 320,45, R.drawable.download));
+
+        createNew(new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250)); //, "Jave udvikler", 320,45, R.drawable.download));
 
 
         }
 
-    public void createNew(CrudEmployee card){
+    public void createNew(CrudEmployee.EmployeBuilder card){
         CardView cv = new CardView(getApplicationContext());
         cv.setOnClickListener(this);
         cv.setId(id++);
@@ -126,7 +127,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v == filterMenu){
-            createNew(new CrudEmployee("Mathias", "Jave udvikler",320,45, R.drawable.download));
+            createNew(new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250));
         }
         else{
             int temp = v.getId();
