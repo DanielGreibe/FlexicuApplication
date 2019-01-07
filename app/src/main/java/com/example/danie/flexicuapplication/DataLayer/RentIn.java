@@ -28,7 +28,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         filterMenu = findViewById(R.id.filterMenu);
         filterMenu.setOnClickListener(this);
 
-        createNew(new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250).builder());
+        createNew(test);
 
     }
 
