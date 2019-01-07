@@ -1,4 +1,7 @@
 package com.example.danie.flexicuapplication.LogicLayer;
 
-public class CriteriaInterface {
+import java.util.List;
+
+public interface CriteriaInterface {
+    public List<CrudEmployee> meetCriteria(List<CrudEmployee> persons);
 }

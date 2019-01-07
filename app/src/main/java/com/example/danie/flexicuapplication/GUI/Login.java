@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaDemo;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,6 +43,9 @@ protected void onCreate(Bundle savedInstanceState)
 
     buttonLogin.setOnClickListener(this);
     textViewLoginLater.setOnClickListener(this);
+    CriteriaDemo demo = new CriteriaDemo();
+    demo.start();
+
 
 }
 
