@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication;
+package com.example.danie.flexicuapplication.LogicLayer;
 
 import android.app.Application;
 

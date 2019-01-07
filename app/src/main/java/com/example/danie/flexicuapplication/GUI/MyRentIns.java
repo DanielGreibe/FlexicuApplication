@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication;
+package com.example.danie.flexicuapplication.GUI;
 
 //TODO tilføj timeløn til mineindlejninger og mineudlejninger
 //TODO ret til uniforme betegnelser overalt i app (f.eks. 'km væk' ELLER 'radius')
@@ -17,6 +17,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.danie.flexicuapplication.R;
 
 public class MyRentIns extends AppCompatActivity {
 

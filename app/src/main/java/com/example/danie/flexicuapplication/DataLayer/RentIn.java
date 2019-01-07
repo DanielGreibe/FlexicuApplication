@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication;
+package com.example.danie.flexicuapplication.DataLayer;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -10,26 +10,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
+import com.example.danie.flexicuapplication.R;
+
 
 public class RentIn extends AppCompatActivity implements View.OnClickListener {
 
     int id = 0;
     LinearLayout scroller;
     ImageView filterMenu;
-
+    CrudEmployee test = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler ").pic(R.drawable.download).builder();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_in);
-
         scroller = findViewById(R.id.linearLayout);
         filterMenu = findViewById(R.id.filterMenu);
         filterMenu.setOnClickListener(this);
 
-        createNew(new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250));
-        }
+        createNew(test);
 
-    public void createNew(CrudEmployee.EmployeBuilder card){
+    }
+
+    public void createNew(CrudEmployee card){
         CardView cv = new CardView(getApplicationContext());
         cv.setOnClickListener(this);
         cv.setId(id++);
@@ -42,7 +45,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         //Add pic
         ImageView IVProfilePic = new ImageView(this);
         IVProfilePic.setId(id++);
-        IVProfilePic.setImageResource(card.pic);
+        IVProfilePic.setImageResource(card.getPic());
         IVProfilePic.setAdjustViewBounds(true);
         IVProfilePic.setScaleX((float) 0.75);
         IVProfilePic.setScaleY((float) 0.75);
@@ -120,10 +123,12 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     scroller.addView(cv);
     }
 
+
+
     @Override
     public void onClick(View v) {
         if(v == filterMenu){
-            createNew(new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250));
+            createNew(test);
         }
         else{
             int temp = v.getId();
@@ -134,5 +139,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
             }
 
         }
+
     }
 }

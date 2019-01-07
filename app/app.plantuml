@@ -1,0 +1,551 @@
+@startuml
+
+title __APP's Class Diagram__\n
+
+  package com.example.danie.flexicuapplication {
+    class BuildConfig {
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class CreateEmployee {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class CreateEmployeeDescription {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class CreateEmployeeFinish {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class CreateEmployeeImage {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class CreateEmployeeProfession {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class CreateEmployeeYear {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class CreateEmployeeZipcode {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.LogicLayer {
+      class CrudEmployee {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    class ExampleInstrumentedTest {
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class FiltersRentOut {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    class GlobalVariables {
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class Login {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class MyRentIns {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class MyRentOuts {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class Navigation {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    class R {
+    }
+  }
+  
+
+  package com.google.android.gms.ads_identifier {
+    class R {
+    }
+  }
+  
+
+  package android.support.swiperefreshlayout {
+    class R {
+    }
+  }
+  
+
+  package android.support.loader {
+    class R {
+    }
+  }
+  
+
+  package android.support.v4 {
+    class R {
+    }
+  }
+  
+
+  package android.support.documentfile {
+    class R {
+    }
+  }
+  
+
+  package android.support.compat {
+    class R {
+    }
+  }
+  
+
+  package com.google.android.gms.measurement_base {
+    class R {
+    }
+  }
+  
+
+  package android.support.customview {
+    class R {
+    }
+  }
+  
+
+  package com.google.firebase.measurement {
+    package com.google.firebase.measurement_impl {
+      class R {
+      }
+    }
+  }
+  
+
+  package com.google.android.gms.stats {
+    class R {
+    }
+  }
+  
+
+  package com.google.android.gms.base {
+    class R {
+    }
+  }
+  
+
+  package android.arch.lifecycle {
+    package android.arch.lifecycle.extensions {
+      class R {
+      }
+    }
+  }
+  
+
+  package com.google.firebase.iid {
+    class R {
+    }
+  }
+  
+
+  package com.google.android.gms.common {
+    class R {
+    }
+  }
+  
+
+  package android.support.graphics.drawable {
+    class R {
+    }
+  }
+  
+
+  package com.google.android.gms.auth {
+    package com.google.android.gms.auth.api {
+      package com.google.android.gms.auth.api.phone {
+        class R {
+        }
+      }
+    }
+  }
+  
+
+  package com.google.android.gms.tasks {
+    class R {
+    }
+  }
+  
+
+  package com.google.firebase.auth {
+    package com.google.firebase.auth.internal {
+      class R {
+      }
+    }
+  }
+  
+
+  package android.arch.lifecycle {
+    package android.arch.lifecycle.livedata {
+      class R {
+      }
+    }
+  }
+  
+
+  package com.google.firebase.iid {
+    package com.google.firebase.iid.internal {
+      class R {
+      }
+    }
+  }
+  
+
+  package android.support.customtabs {
+    class R {
+    }
+  }
+  
+
+  package android.support.cursoradapter {
+    class R {
+    }
+  }
+  
+
+  package android.support.drawerlayout {
+    class R {
+    }
+  }
+  
+
+  package android.support.v7.recyclerview {
+    class R {
+    }
+  }
+  
+
+  package androidx.versionedparcelable {
+    class R {
+    }
+  }
+  
+
+  package com.firebase.ui.auth {
+    class R {
+    }
+  }
+  
+
+  package android.arch.core {
+    class R {
+    }
+  }
+  
+
+  package android.arch.lifecycle {
+    class R {
+    }
+  }
+  
+
+  package com.google.firebase.firebase_common {
+    class R {
+    }
+  }
+  
+
+  package com.google.firebase.firebase_core {
+    class R {
+    }
+  }
+  
+
+  package android.support.design {
+    class R {
+    }
+  }
+  
+
+  package android.support.coreutils {
+    class R {
+    }
+  }
+  
+
+  package me.zhanghai.android.materialprogressbar {
+    class R {
+    }
+  }
+  
+
+  package android.support.v7.viewpager {
+    class R {
+    }
+  }
+  
+
+  package com.google.android.gms.auth {
+    class R {
+    }
+  }
+  
+
+  package android.arch.lifecycle {
+    package android.arch.lifecycle.livedata {
+      package android.arch.lifecycle.livedata.core {
+        class R {
+        }
+      }
+    }
+  }
+  
+
+  package android.support.v7.cardview {
+    class R {
+    }
+  }
+  
+
+  package android.support.mediacompat {
+    class R {
+    }
+  }
+  
+
+  package com.google.android.gms.auth {
+    package com.google.android.gms.auth.api {
+      class R {
+      }
+    }
+  }
+  
+
+  package android.support.v7.appcompat {
+    class R {
+    }
+  }
+  
+
+  package android.support.interpolator {
+    class R {
+    }
+  }
+  
+
+  package android.arch.lifecycle {
+    package android.arch.lifecycle.viewmodel {
+      class R {
+      }
+    }
+  }
+  
+
+  package android.support.print {
+    class R {
+    }
+  }
+  
+
+  package android.support.slidingpanelayout {
+    class R {
+    }
+  }
+  
+
+  package android.support.asynclayoutinflater {
+    class R {
+    }
+  }
+  
+
+  package android.support.coreui {
+    class R {
+    }
+  }
+  
+
+  package de.hdodenhof.circleimageview {
+    class R {
+    }
+  }
+  
+
+  package android.support.transition {
+    class R {
+    }
+  }
+  
+
+  package android.support.coordinatorlayout {
+    class R {
+    }
+  }
+  
+
+  package android.support.fragment {
+    class R {
+    }
+  }
+  
+
+  package com.google.android.gms.flags {
+    class R {
+    }
+  }
+  
+
+  package com.google.firebase.analytics.connector {
+    class R {
+    }
+  }
+  
+
+  package com.google.firebase.auth {
+    class R {
+    }
+  }
+  
+
+  package android.support.localbroadcastmanager {
+    class R {
+    }
+  }
+  
+
+  package com.google.firebase.analytics.connector {
+    package com.google.firebase.analytics.connector.impl {
+      class R {
+      }
+    }
+  }
+  
+
+  package android.support.constraint {
+    class R {
+    }
+  }
+  
+
+  package com.google.firebase.measurement {
+    class R {
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.DataLayer {
+      class RentIn {
+      }
+    }
+  }
+  
+
+  package com.example.danie.flexicuapplication {
+    package com.example.danie.flexicuapplication.GUI {
+      class RentOut {
+      }
+    }
+  }
+  
+
+  CreateEmployee -up-|> OnClickListener
+  CreateEmployee -up-|> AppCompatActivity
+  CreateEmployeeDescription -up-|> OnClickListener
+  CreateEmployeeDescription -up-|> AppCompatActivity
+  CreateEmployeeFinish -up-|> OnClickListener
+  CreateEmployeeFinish -up-|> AppCompatActivity
+  CreateEmployeeImage -up-|> OnClickListener
+  CreateEmployeeImage -up-|> AppCompatActivity
+  CreateEmployeeProfession -up-|> OnClickListener
+  CreateEmployeeProfession -up-|> AppCompatActivity
+  CreateEmployeeYear -up-|> OnClickListener
+  CreateEmployeeYear -up-|> AppCompatActivity
+  CreateEmployeeZipcode -up-|> OnClickListener
+  CreateEmployeeZipcode -up-|> AppCompatActivity
+  FiltersRentOut -up-|> AppCompatActivity
+  GlobalVariables -up-|> Application
+  Login -up-|> OnClickListener
+  Login -up-|> AppCompatActivity
+  MyRentIns -up-|> AppCompatActivity
+  MyRentOuts -up-|> OnClickListener
+  MyRentOuts -up-|> AppCompatActivity
+  Navigation -up-|> OnClickListener
+  Navigation -up-|> AppCompatActivity
+  RentIn -up-|> OnClickListener
+  RentIn -up-|> AppCompatActivity
+  RentIn o-- CrudEmployee : test
+  RentOut -up-|> AppCompatActivity
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

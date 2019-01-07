@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
+
 public class CreateEmployeePay extends AppCompatActivity implements View.OnClickListener
     {
 

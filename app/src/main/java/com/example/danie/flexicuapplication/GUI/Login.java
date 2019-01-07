@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication;
+package com.example.danie.flexicuapplication.GUI;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
+import com.example.danie.flexicuapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
