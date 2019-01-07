@@ -40,8 +40,8 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
             {
             profession = editTextErhverv.getText().toString();
             ((GlobalVariables) this.getApplication()).setTempEmployeeProfession(profession);
-            Intent createEmployeeZipcode = new Intent(this, CreateEmployeeZipcode.class);
-            startActivity(createEmployeeZipcode);
+            Intent createEmployeePay = new Intent(this, CreateEmployeePay.class);
+            startActivity(createEmployeePay);
 
 
             }

@@ -15,6 +15,7 @@ public class GlobalVariables extends Application
     private String tempEmployeeName;
     private String tempEmployeeYear;
     private String tempEmployeeZipcode;
+    private String tempEmployeeDistance;
 
     public com.google.firebase.auth.FirebaseUser getFirebaseUser()
         {
@@ -94,5 +95,15 @@ public class GlobalVariables extends Application
     public void setTempEmployeeZipcode(String tempEmployeeZipcode)
         {
         this.tempEmployeeZipcode = tempEmployeeZipcode;
+        }
+
+    public String getTempEmployeeDistance()
+        {
+        return tempEmployeeDistance;
+        }
+
+    public void setTempEmployeeDistance(String tempEmployeeDistance)
+        {
+        this.tempEmployeeDistance = tempEmployeeDistance;
         }
     }

@@ -33,7 +33,11 @@
         <activity android:name=".CreateEmployeeImage" />
         <activity android:name=".CreateEmployeeZipcode" />
         <activity android:name=".CreateEmployeeFinish" />
-        <activity android:name=".CreateEmployeePay"></activity>
+        <activity android:name=".CreateEmployeePay" />
+        <activity
+            android:name=".CreateEmployeeDistance"
+            android:label="@string/title_activity_create_employee_distance"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

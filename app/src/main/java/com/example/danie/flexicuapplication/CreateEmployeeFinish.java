@@ -15,6 +15,8 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     TextView textViewErhverv;
     TextView textViewPostcode;
     TextView textViewDescription;
+    TextView textViewPay;
+    TextView textViewDistance;
     Button buttonNextPage;
 
     String name;
@@ -22,6 +24,8 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     String erhverv;
     String postcode;
     String beskrivelse;
+    String pay;
+    String distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,8 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         textViewErhverv = findViewById(R.id.textViewErhverv);
         textViewPostcode = findViewById(R.id.textViewPostcode);
         textViewDescription = findViewById(R.id.textViewDescription);
+        textViewPay = findViewById(R.id.textViewPay);
+        textViewDistance = findViewById(R.id.textViewDistance);
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
 
@@ -43,12 +49,17 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         erhverv = ((GlobalVariables) this.getApplication()).getTempEmployeeProfession();
         postcode = ((GlobalVariables) this.getApplication()).getTempEmployeeZipcode();
         beskrivelse = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
+        pay = ((GlobalVariables) this.getApplication()).getTempEmployeePay();
+        distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
+
 
         textViewName.setText("Navn: " + name);
         textViewYear.setText("Fødselsår: " + year);
         textViewErhverv.setText("Erhverv: " + erhverv);
         textViewPostcode.setText("Postnummer: " + postcode);
         textViewDescription.setText("Beskrivelse: " + beskrivelse);
+        textViewPay.setText("Timeløn: " + pay + " kr/t");
+        textViewDistance.setText("Afstand: " + distance + " km");
     }
 
     @Override
@@ -57,7 +68,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         if ( v == buttonNextPage )
         {
             Intent Udlej = new Intent(this, RentOut.class);
-            //TODO Tilføj et skærmbillede hvor PAY indtastes
             //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
             CrudEmployee employee = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250).builder();
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

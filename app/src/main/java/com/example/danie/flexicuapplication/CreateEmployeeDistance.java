@@ -1,14 +1,14 @@
 package com.example.danie.flexicuapplication;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class CreateEmployeePay extends AppCompatActivity implements View.OnClickListener
+public class CreateEmployeeDistance extends AppCompatActivity implements View.OnClickListener
     {
 
     Button buttonNextPage;
@@ -19,15 +19,14 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_employee_pay);
-
+        setContentView(R.layout.activity_create_employee_distance);
         buttonNextPage = findViewById(R.id.buttonNextPage);
         textViewTitle = findViewById(R.id.textViewTitle);
         editTextPay = findViewById(R.id.editTextDistance);
 
         buttonNextPage.setOnClickListener(this);
         String name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        textViewTitle.setText("Indtast timeløn til " + name);
+        textViewTitle.setText("Indtast afstand som " + name + " er villig at transportere");
         }
 
     @Override
@@ -35,10 +34,10 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
         {
         if (v == buttonNextPage)
             {
-            String pay = editTextPay.getText().toString();
-            ((GlobalVariables) this.getApplication()).setTempEmployeePay(pay);
-            Intent createEmployeeDistance = new Intent(this, CreateEmployeeDistance.class);
-            startActivity(createEmployeeDistance);
+            String distance = editTextPay.getText().toString();
+            ((GlobalVariables) this.getApplication()).setTempEmployeeDistance(distance);
+            Intent createEmployeeZipcode = new Intent(this, CreateEmployeeZipcode.class);
+            startActivity(createEmployeeZipcode);
             }
         }
     }
