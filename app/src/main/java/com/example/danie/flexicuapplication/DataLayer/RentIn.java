@@ -27,13 +27,10 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         scroller = findViewById(R.id.linearLayout);
         filterMenu = findViewById(R.id.filterMenu);
         filterMenu.setOnClickListener(this);
-<<<<<<< HEAD:app/src/main/java/com/example/danie/flexicuapplication/DataLayer/RentIn.java
-        createNew(test); //, "Jave udvikler", 320,45, R.drawable.download));
-=======
 
-        createNew(new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250));
->>>>>>> 4bb2c56b50ab88f6c0d7ca731d7eb2791d1cfa51:app/src/main/java/com/example/danie/flexicuapplication/RentIn.java
-        }
+        createNew(new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250).builder());
+
+    }
 
     public void createNew(CrudEmployee card){
         CardView cv = new CardView(getApplicationContext());
@@ -126,6 +123,8 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     scroller.addView(cv);
     }
 
+
+
     @Override
     public void onClick(View v) {
         if(v == filterMenu){
@@ -140,5 +139,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
             }
 
         }
+
     }
 }
