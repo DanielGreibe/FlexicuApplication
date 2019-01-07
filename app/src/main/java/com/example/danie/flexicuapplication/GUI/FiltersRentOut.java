@@ -1,7 +1,9 @@
-package com.example.danie.flexicuapplication;
+package com.example.danie.flexicuapplication.GUI;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.danie.flexicuapplication.R;
 
 public class FiltersRentOut extends AppCompatActivity
     {

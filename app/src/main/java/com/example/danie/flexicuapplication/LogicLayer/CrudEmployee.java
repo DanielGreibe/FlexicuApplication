@@ -1,7 +1,4 @@
-package com.example.danie.flexicuapplication;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.example.danie.flexicuapplication.LogicLayer;
 
 public class CrudEmployee
     {
@@ -93,41 +90,44 @@ public static class EmployeBuilder{
         this.pic = pic;
     }
 
+
+}
+
+    //Getter
     public String getName() {
         return name;
     }
 
-    public String getJob() {
-        return job;
-    }
+        public String getJob() {
+            return job;
+        }
 
-    public double getRank() {
-        return rank;
-    }
+        public double getRank() {
+            return rank;
+        }
 
-    public double getPay() {
-        return pay;
-    }
+        public double getPay() {
+            return pay;
+        }
 
-    public int getDist() {
-        return dist;
-    }
+        public int getDist() {
+            return dist;
+        }
 
-    public boolean getOpen() {
-        return open;
-    }
-    public boolean isOpen() {
-        return open;
-    }
+        public boolean getOpen() {
+            return open;
+        }
+        public boolean isOpen() {
+            return open;
+        }
 
-    public int getPic() {
-        return pic;
-    }
-}
-
-    //Getter
+        public int getPic() {
+            return pic;
+        }
 
 
     //Setter
 
 }
+
+

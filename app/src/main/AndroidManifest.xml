@@ -4,7 +4,7 @@
     package="com.example.danie.flexicuapplication">
 
     <application
-        android:name=".GlobalVariables"
+        android:name=".LogicLayer.GlobalVariables"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,26 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Login">
+        <activity android:name=".GUI.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateEmployee" />
-        <activity android:name=".MyRentOuts" />
-        <activity android:name=".MyRentIns" />
-        <activity android:name=".RentOut" />
-        <activity android:name=".RentIn" />
-        <activity android:name=".Navigation" />
-        <activity android:name=".FiltersRentOut" />
+        <activity android:name=".GUI.CreateEmployee" />
+        <activity android:name=".GUI.MyRentOuts" />
+        <activity android:name=".GUI.MyRentIns" />
+        <activity android:name=".GUI.RentOut" />
+        <activity android:name=".DataLayer.RentIn" />
+        <activity android:name=".GUI.Navigation" />
+        <activity android:name=".GUI.FiltersRentOut" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".CreateEmployeeYear" />
-        <activity android:name=".CreateEmployeeProfession" />
-        <activity android:name=".CreateEmployeeDescription" />
-        <activity android:name=".CreateEmployeeImage" />
-        <activity android:name=".CreateEmployeeZipcode" />
-        <activity android:name=".CreateEmployeeFinish"></activity>
+        <activity android:name=".GUI.CreateEmployeeYear" />
+        <activity android:name=".GUI.CreateEmployeeProfession" />
+        <activity android:name=".GUI.CreateEmployeeDescription" />
+        <activity android:name=".GUI.CreateEmployeeImage" />
+        <activity android:name=".GUI.CreateEmployeeZipcode" />
+        <activity android:name=".GUI.CreateEmployeeFinish"></activity>
     </application>
 
 </manifest>

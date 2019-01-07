@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication;
+package com.example.danie.flexicuapplication.GUI;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.danie.flexicuapplication.GUI.CreateEmployee;
+import com.example.danie.flexicuapplication.R;
 
 public class RentOut extends AppCompatActivity
     {
