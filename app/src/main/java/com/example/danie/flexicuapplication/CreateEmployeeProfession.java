@@ -8,17 +8,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class CreateEmployeeProfession extends AppCompatActivity implements View.OnClickListener {
+public class CreateEmployeeProfession extends AppCompatActivity implements View.OnClickListener
+    {
     Button buttonNextPage;
     TextView textViewTitle;
     EditText editTextErhverv;
     String name;
     String year;
-    String erhverv;
+    String profession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
-    {
+        {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_erhverv);
 
@@ -27,24 +28,22 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
 
-        Intent intent = getIntent();
-        name = intent.getStringExtra("NameOfEmployee");
-        year = intent.getStringExtra("YearOfEmployee");
+        name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         textViewTitle.setText(" Tilføj erhverv til " + name);
 
-    }
+        }
 
     @Override
-    public void onClick(View v) {
-        if ( v == buttonNextPage)
+    public void onClick(View v)
         {
-            erhverv = editTextErhverv.getText().toString();
-            Intent OpretAnsatPostnummer = new Intent(this, CreateEmployeeZipcode.class);
-            OpretAnsatPostnummer.putExtra("NameOfEmployee", name);
-            OpretAnsatPostnummer.putExtra("YearOfEmployee", year);
-            OpretAnsatPostnummer.putExtra("ErhvervOfEmployee", erhverv);
-            startActivity(OpretAnsatPostnummer);
+        if (v == buttonNextPage)
+            {
+            profession = editTextErhverv.getText().toString();
+            ((GlobalVariables) this.getApplication()).setTempEmployeeProfession(profession);
+            Intent createEmployeeZipcode = new Intent(this, CreateEmployeeZipcode.class);
+            startActivity(createEmployeeZipcode);
 
+
+            }
         }
     }
-}

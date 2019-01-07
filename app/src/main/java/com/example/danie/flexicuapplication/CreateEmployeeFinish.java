@@ -38,14 +38,11 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         buttonNextPage.setOnClickListener(this);
 
 
-
-        Intent previousIntent = getIntent();
-        name = previousIntent.getStringExtra("NameOfEmployee");
-        year = previousIntent.getStringExtra("YearOfEmployee");
-        erhverv = previousIntent.getStringExtra("ErhvervOfEmployee");
-        postcode = previousIntent.getStringExtra("PostnummerOfEmployee");
-        beskrivelse = previousIntent.getStringExtra("DescriptionOfEmployee");
-
+        name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
+        year = ((GlobalVariables) this.getApplication()).getTempEmployeeYear();
+        erhverv = ((GlobalVariables) this.getApplication()).getTempEmployeeProfession();
+        postcode = ((GlobalVariables) this.getApplication()).getTempEmployeeZipcode();
+        beskrivelse = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
 
         textViewName.setText("Navn: " + name);
         textViewYear.setText("Fødselsår: " + year);
@@ -62,8 +59,10 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             Intent Udlej = new Intent(this, RentOut.class);
             //TODO Tilføj et skærmbillede hvor PAY indtastes
             //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
-            CrudEmployee.EmployeBuilder employee = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250);
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250).builder();
+            Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(Udlej);
+
         }
     }
 }

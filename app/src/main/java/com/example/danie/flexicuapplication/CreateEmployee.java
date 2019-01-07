@@ -26,9 +26,10 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
         {
 
             String name = editTextName.getText().toString();
-            Intent OpretAnsatYear = new Intent(this, CreateEmployeeYear.class);
-            OpretAnsatYear.putExtra("NameOfEmployee", name);
-            startActivity(OpretAnsatYear);
+            ((GlobalVariables) this.getApplication()).setTempEmployeeName(name);
+            Intent createEmployeeYear = new Intent(this, CreateEmployeeYear.class);
+            startActivity(createEmployeeYear);
+
         }
     }
 }
