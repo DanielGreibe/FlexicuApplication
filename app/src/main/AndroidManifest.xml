@@ -25,7 +25,8 @@
         <activity android:name=".DataLayer.RentIn" />
         <activity android:name=".GUI.Navigation" />
         <activity android:name=".GUI.FiltersRentOut" />
-        <activity android:name=".TestActivity" />
+        <activity android:name=".GUI.CreateEmployeePay" />
+        <activity android:name=".GUI.CreateEmployeeDistance" />
         <activity android:name=".GUI.CreateEmployeeYear" />
         <activity android:name=".GUI.CreateEmployeeProfession" />
         <activity android:name=".GUI.CreateEmployeeDescription" />

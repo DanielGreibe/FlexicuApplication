@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication;
+package com.example.danie.flexicuapplication.GUI;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
+import com.example.danie.flexicuapplication.R;
 
 public class CreateEmployeePay extends AppCompatActivity implements View.OnClickListener
     {
