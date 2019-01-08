@@ -65,6 +65,13 @@ protected void onCreate(Bundle savedInstanceState)
             }
         else if ( v == buttonLogin)
             {
+            if (editTextUsername.getText().toString().equals("") && editTextPassword.getText().toString().equals(""))
+                {
+
+                editTextUsername.setText("danielgreibe@gmail.com");
+                editTextPassword.setText("flexicu25");
+                }
+
                 mAuth.signInWithEmailAndPassword(editTextUsername.getText().toString(), editTextPassword.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -78,6 +85,7 @@ protected void onCreate(Bundle savedInstanceState)
                         }
                     }
                 });
+            
             }
     }
 
