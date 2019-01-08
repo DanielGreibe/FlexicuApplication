@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication.DataLayer;
+package com.example.danie.flexicuapplication.GUI;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;

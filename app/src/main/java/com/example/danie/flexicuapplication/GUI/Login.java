@@ -60,8 +60,13 @@ protected void onCreate(Bundle savedInstanceState)
     public void onClick(View v) {
         if(v == textViewLoginLater)
             {
+            /*
             Intent Navigation = new Intent(this, Navigation.class);
             startActivity(Navigation);
+            */
+
+            Intent PreIndlej = new Intent(this, PreIndlej.class);
+            startActivity(PreIndlej);
             }
         else if ( v == buttonLogin)
             {
@@ -85,7 +90,7 @@ protected void onCreate(Bundle savedInstanceState)
                         }
                     }
                 });
-            
+
             }
     }
 
