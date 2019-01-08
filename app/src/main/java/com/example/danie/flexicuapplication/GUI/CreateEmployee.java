@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 
-public class CreateEmployee extends AppCompatActivity implements View.OnClickListener {
-        Button buttonNextPage;
-        TextView editTextName;
+public class CreateEmployee extends AppCompatActivity implements View.OnClickListener
+    {
+    Button buttonNextPage;
+    TextView editTextName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
@@ -24,15 +27,21 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
         }
 
     @Override
-    public void onClick(View v) {
-        if ( v == buttonNextPage )
+    public void onClick(View v)
         {
-
-            String name = editTextName.getText().toString();
-            ((GlobalVariables) this.getApplication()).setTempEmployeeName(name);
-            Intent createEmployeeYear = new Intent(this, CreateEmployeeYear.class);
-            startActivity(createEmployeeYear);
-
+        if (v == buttonNextPage)
+            {
+            if (editTextName.getText().toString().equals(""))
+                {
+                Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
+                }
+            else
+                {
+                String name = editTextName.getText().toString();
+                ((GlobalVariables) this.getApplication()).setTempEmployeeName(name);
+                Intent createEmployeeYear = new Intent(this, CreateEmployeeYear.class);
+                startActivity(createEmployeeYear);
+                }
+            }
         }
     }
-}
