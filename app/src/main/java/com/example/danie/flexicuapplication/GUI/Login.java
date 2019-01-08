@@ -51,8 +51,7 @@ protected void onCreate(Bundle savedInstanceState)
 
     buttonLogin.setOnClickListener(this);
     textViewLoginLater.setOnClickListener(this);
-    CriteriaDemo demo = new CriteriaDemo();
-    demo.start();
+
 
 
 }

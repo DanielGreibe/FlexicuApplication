@@ -10,7 +10,7 @@ public class CriteriaDistance implements CriteriaInterface{
         List<CrudEmployee> distance = new ArrayList<CrudEmployee>();
 
         for(CrudEmployee employee : persons){
-            if(employee.getDist() > 50){
+            if(employee.getDist() < 15){
                 distance.add(employee);
             }
         }

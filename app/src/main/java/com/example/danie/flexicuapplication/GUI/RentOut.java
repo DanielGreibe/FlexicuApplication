@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.danie.flexicuapplication.GUI.CreateEmployee;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaDemo;
 import com.example.danie.flexicuapplication.R;
 
 public class RentOut extends AppCompatActivity
@@ -29,7 +30,8 @@ public class RentOut extends AppCompatActivity
         mContext = getApplicationContext();
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         constLayout = findViewById(R.id.opretMedarbejder);
-
+            CriteriaDemo demo = new CriteriaDemo();
+            demo.start();
         constLayout.setOnClickListener((view) ->{
         Intent opretAnsat = new Intent(this, CreateEmployee.class);
         startActivity(opretAnsat);
