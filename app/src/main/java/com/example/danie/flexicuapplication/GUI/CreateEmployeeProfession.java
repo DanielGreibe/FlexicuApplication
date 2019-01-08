@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
@@ -41,10 +42,17 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         {
         if (v == buttonNextPage)
             {
-            profession = editTextErhverv.getText().toString();
-            ((GlobalVariables) this.getApplication()).setTempEmployeeProfession(profession);
-            Intent createEmployeePay = new Intent(this, CreateEmployeePay.class);
-            startActivity(createEmployeePay);
+            if (editTextErhverv.getText().toString().equals(""))
+                {
+                Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
+                }
+            else
+                {
+                profession = editTextErhverv.getText().toString();
+                ((GlobalVariables) this.getApplication()).setTempEmployeeProfession(profession);
+                Intent createEmployeePay = new Intent(this, CreateEmployeePay.class);
+                startActivity(createEmployeePay);
+                }
 
 
             }

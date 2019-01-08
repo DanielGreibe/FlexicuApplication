@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
@@ -38,10 +39,17 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
         {
         if (v == buttonNextPage)
             {
-            String pay = editTextPay.getText().toString();
-            ((GlobalVariables) this.getApplication()).setTempEmployeePay(pay);
-            Intent createEmployeeDistance = new Intent(this, CreateEmployeeDistance.class);
-            startActivity(createEmployeeDistance);
+            if (editTextPay.getText().equals(""))
+                {
+                Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
+                }
+            else
+                {
+                String pay = editTextPay.getText().toString();
+                ((GlobalVariables) this.getApplication()).setTempEmployeePay(pay);
+                Intent createEmployeeDistance = new Intent(this, CreateEmployeeDistance.class);
+                startActivity(createEmployeeDistance);
+                }
             }
         }
     }
