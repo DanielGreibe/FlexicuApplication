@@ -4,9 +4,8 @@ import android.app.Application;
 
 import com.google.firebase.auth.FirebaseUser;
 
-public class GlobalVariables extends Application
-    {
-    private com.google.firebase.auth.FirebaseUser FirebaseUser;
+public class GlobalVariables extends Application {
+    private static com.google.firebase.auth.FirebaseUser FirebaseUser;
 
     private String tempEmployeeDescription;
     private String tempEmployeeImage;
@@ -18,12 +17,11 @@ public class GlobalVariables extends Application
     private String tempEmployeeDistance;
 
     public com.google.firebase.auth.FirebaseUser getFirebaseUser()
-        {
+    {
         return FirebaseUser;
-        }
+    }
 
-    public void setFirebaseUser(com.google.firebase.auth.FirebaseUser firebaseUser)
-        {
+    public void setFirebaseUser(com.google.firebase.auth.FirebaseUser firebaseUser) {
         this.FirebaseUser = firebaseUser;
         }
 

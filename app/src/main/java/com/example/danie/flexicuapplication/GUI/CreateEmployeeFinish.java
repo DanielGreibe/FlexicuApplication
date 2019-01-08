@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 public class CreateEmployeeFinish extends AppCompatActivity implements View.OnClickListener {
 
@@ -73,10 +76,17 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         {
             Intent Udlej = new Intent(this, RentOut.class);
             //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
-            CrudEmployee employee = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler").pic(R.drawable.download).pay(250).builder();
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pic(R.drawable.download).pay(250).builder();
+
+            // Write a message to the database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference(((GlobalVariables) this.getApplication()).getFirebaseUser().getUid()+"/Medarbejdere");
+            Gson gson = new Gson();
+            String employeeJSON = gson.toJson(employee);
+            System.out.println(employeeJSON);
+            myRef.child(Integer.toString(employee.getID())).setValue(employeeJSON);
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(Udlej);
-
         }
     }
 }

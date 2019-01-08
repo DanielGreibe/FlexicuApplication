@@ -1,4 +1,12 @@
 package com.example.danie.flexicuapplication.LogicLayer;
+import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Random;
 
 public class CrudEmployee
 {
@@ -9,6 +17,7 @@ public class CrudEmployee
     private final int dist;
     boolean open;
     private final int pic;
+    private int ID;
 
     private CrudEmployee(EmployeBuilder builder){
         this.name = builder.name;
@@ -18,19 +27,51 @@ public class CrudEmployee
         this.open = false;
         this.pic = builder.pic;
         this.rank = builder.rank;
+        this.ID = builder.ID;
     }
-    public static class EmployeBuilder{
-        String name;
-        String job;
-        double rank;
-        double pay;
-        int dist;
-        boolean open;
-        int pic;
+public static class EmployeBuilder{
+    String name;
+    String job;
+    double rank;
+    double pay;
+    int dist;
+    boolean open;
+    int pic;
+    int ID;
 
         public EmployeBuilder(String name){
             this.name = name;
+            //Add ID here
 
+            final boolean[] unique = {false};
+            while(!unique[0]) {
+                int random = new Random().nextInt(9000) + 1000;
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+
+                //Check for existing ID.
+                myRef.child(String.valueOf(random)).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if(!snapshot.exists()){
+                            System.out.println("Unique ID");
+                            unique[0] = true;
+                        }else{
+                            System.out.println("ID not Unique");
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("Error!");
+                        unique[0] = false;
+                    }
+                });
+
+
+                this.ID = random;
+                unique[0] = true;
+
+            }
         }
 
         public EmployeBuilder job(String job){
@@ -124,6 +165,10 @@ public class CrudEmployee
 
     public int getPic() {
         return pic;
+    }
+
+    public int getID() {
+        return ID;
     }
 
 
