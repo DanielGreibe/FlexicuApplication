@@ -9,7 +9,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Random;
 
 public class CrudEmployee
-    {
+{
     private final String name;
     private final String job;
     private final double rank;
@@ -75,7 +75,7 @@ public static class EmployeBuilder{
         }
 
         public EmployeBuilder job(String job){
-             this.job = job;
+            this.job = job;
             return  this;
         }
 
@@ -103,73 +103,73 @@ public static class EmployeBuilder{
             return new CrudEmployee(this);
         }
 
-    public void setName(String name) {
-        this.name = name;
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setJob(String job) {
+            this.job = job;
+        }
+
+        public void setRank(double rank) {
+            this.rank = rank;
+        }
+
+        public void setPay(double pay) {
+            this.pay = pay;
+        }
+
+        public void setDist(int dist) {
+            this.dist = dist;
+        }
+
+        public void setOpen(boolean open) {
+            this.open = open;
+        }
+
+        public void setPic(int pic) {
+            this.pic = pic;
+        }
+
+
     }
-
-    public void setJob(String job) {
-        this.job = job;
-    }
-
-    public void setRank(double rank) {
-        this.rank = rank;
-    }
-
-    public void setPay(double pay) {
-        this.pay = pay;
-    }
-
-    public void setDist(int dist) {
-        this.dist = dist;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
-    public void setPic(int pic) {
-        this.pic = pic;
-    }
-
-
-}
 
     //Getter
     public String getName() {
         return name;
     }
 
-        public String getJob() {
-            return job;
-        }
+    public String getJob() {
+        return job;
+    }
 
-        public double getRank() {
-            return rank;
-        }
+    public double getRank() {
+        return rank;
+    }
 
-        public double getPay() {
-            return pay;
-        }
+    public double getPay() {
+        return pay;
+    }
 
-        public int getDist() {
-            return dist;
-        }
+    public int getDist() {
+        return dist;
+    }
 
-        public boolean getOpen() {
-            return open;
-        }
+    public boolean getOpen() {
+        return open;
+    }
 
-        public boolean isOpen() {
-            return open;
-        }
+    public boolean isOpen() {
+        return open;
+    }
 
-        public int getPic() {
-            return pic;
-        }
+    public int getPic() {
+        return pic;
+    }
 
-        public int getID() {
-            return ID;
-        }
+    public int getID() {
+        return ID;
+    }
 
 
     //Setter

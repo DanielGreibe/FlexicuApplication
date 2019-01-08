@@ -20,4 +20,5 @@
     <string name="TitleTextCreateEmployee">Hvad hedder personen som skal udlejes?</string>
     <string name="spring_over"> <u> Spring over </u> </string>
     <string name="navn">Navn</string>
+    <string name="title_activity_create_employee_distance">CreateEmployeeDistance</string>
 </resources>

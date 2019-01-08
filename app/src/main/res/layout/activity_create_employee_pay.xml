@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/FlexGrey">
-
+    android:background="@color/FlexGrey"
+    tools:context=".GUI.CreateEmployeePay">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -23,30 +23,30 @@
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="80dp"
-        android:text="Hvor langt har ____ mulighed for at køre?"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Midlertidig overskrift"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
-        android:id="@+id/editTextPostcode"
+        android:id="@+id/editTextDistance"
         android:layout_width="246dp"
         android:layout_height="49dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="70dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/layout_background_round_corners"
         android:ems="10"
         android:gravity="center"
-        android:hint="Indtast Radius"
+        android:hint="Indtast timeløn"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,16 +56,16 @@
         android:id="@+id/buttonNextPage"
         android:layout_width="276dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:background="@drawable/layout_background_round_corners_blue"
         android:text="Videre"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPostcode" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDistance" />
 
 </android.support.constraint.ConstraintLayout>

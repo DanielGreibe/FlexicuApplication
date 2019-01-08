@@ -8,9 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 
-public class CreateEmployeeYear extends AppCompatActivity implements View.OnClickListener {
+public class CreateEmployeeYear extends AppCompatActivity implements View.OnClickListener
+    {
     Button buttonNextPage;
     TextView textViewTitle;
     EditText editTextYear;
@@ -20,32 +22,34 @@ public class CreateEmployeeYear extends AppCompatActivity implements View.OnClic
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
-    {
+        {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_year);
 
         textViewTitle = findViewById(R.id.textViewTitle);
         editTextYear = findViewById(R.id.editTextYear);
 
-        Intent intent = getIntent();
-        name = intent.getStringExtra("NameOfEmployee");
+        name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         textViewTitle.setText(" Hvilket årstal er " + name + " født?");
 
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
 
 
-    }
+        }
 
     @Override
-    public void onClick(View v) {
-        if ( v == buttonNextPage)
+    public void onClick(View v)
         {
-        year = editTextYear.getText().toString();
-        Intent OpretAnsatErhverv = new Intent(this, CreateEmployeeProfession.class);
-            OpretAnsatErhverv.putExtra("NameOfEmployee", name);
-            OpretAnsatErhverv.putExtra("YearOfEmployee", year);
-        startActivity(OpretAnsatErhverv);
+        if (v == buttonNextPage)
+            {
+            year = editTextYear.getText().toString();
+            ((GlobalVariables) this.getApplication()).setTempEmployeeYear(year);
+            Intent createEmployeeProfession = new Intent(this, CreateEmployeeProfession.class);
+            createEmployeeProfession.putExtra("NameOfEmployee", name);
+            createEmployeeProfession.putExtra("YearOfEmployee", year);
+            startActivity(createEmployeeProfession);
+
+            }
         }
     }
-}

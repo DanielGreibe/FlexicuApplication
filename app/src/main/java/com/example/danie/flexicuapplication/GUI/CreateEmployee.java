@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 
 public class CreateEmployee extends AppCompatActivity implements View.OnClickListener {
@@ -28,9 +29,10 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
         {
 
             String name = editTextName.getText().toString();
-            Intent OpretAnsatYear = new Intent(this, CreateEmployeeYear.class);
-            OpretAnsatYear.putExtra("NameOfEmployee", name);
-            startActivity(OpretAnsatYear);
+            ((GlobalVariables) this.getApplication()).setTempEmployeeName(name);
+            Intent createEmployeeYear = new Intent(this, CreateEmployeeYear.class);
+            startActivity(createEmployeeYear);
+
         }
     }
 }
