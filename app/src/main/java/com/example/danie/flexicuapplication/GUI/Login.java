@@ -60,11 +60,23 @@ protected void onCreate(Bundle savedInstanceState)
     public void onClick(View v) {
         if(v == textViewLoginLater)
             {
+            /*
             Intent Navigation = new Intent(this, Navigation.class);
             startActivity(Navigation);
+            */
+
+            Intent PreIndlej = new Intent(this, PreIndlej.class);
+            startActivity(PreIndlej);
             }
         else if ( v == buttonLogin)
             {
+            if (editTextUsername.getText().toString().equals("") && editTextPassword.getText().toString().equals(""))
+                {
+
+                editTextUsername.setText("danielgreibe@gmail.com");
+                editTextPassword.setText("flexicu25");
+                }
+
                 mAuth.signInWithEmailAndPassword(editTextUsername.getText().toString(), editTextPassword.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -78,6 +90,7 @@ protected void onCreate(Bundle savedInstanceState)
                         }
                     }
                 });
+
             }
     }
 
