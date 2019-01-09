@@ -30,11 +30,14 @@ public class RentOut extends AppCompatActivity
         mContext = getApplicationContext();
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         constLayout = findViewById(R.id.opretMedarbejder);
+        String employeeDone= getIntent().getStringExtra("done");
             CriteriaDemo demo = new CriteriaDemo();
             demo.start();
-        constLayout.setOnClickListener((view) ->{
-        Intent opretAnsat = new Intent(this, CreateEmployee.class);
-        startActivity(opretAnsat);
+        constLayout.setOnClickListener((view) -> {
+                    Intent opretAnsat = new Intent(this, CreateEmployee.class);
+                    startActivity(opretAnsat);
+                });
+        /*
             CardView card = new CardView(mContext);
             card.setId(id);
             id++;
@@ -50,8 +53,9 @@ public class RentOut extends AppCompatActivity
             });
 
             }
-
-            /*
+        });
+*/
+/*
             card.setLayoutParams(getLinearLayout());
             card.setRadius(15);
             card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -64,9 +68,9 @@ public class RentOut extends AppCompatActivity
             card.addView(addTextView(new TextView(mContext)));
             card.addView(imgView);
             myContainer.addView(card);
-            */
 
-        });
+*/
+
 
         }
 
