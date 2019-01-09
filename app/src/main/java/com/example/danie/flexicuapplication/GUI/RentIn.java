@@ -1,10 +1,12 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +22,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     LinearLayout scroller;
     ImageView filterMenu;
     CrudEmployee test = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler ").pic(R.drawable.download).builder();
+    boolean filtered = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,12 +30,20 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         scroller = findViewById(R.id.linearLayout);
         filterMenu = findViewById(R.id.filterMenu);
         filterMenu.setOnClickListener(this);
+            Bundle bundle = this.getIntent().getExtras();
+
+            if(bundle != null){
+               int distVal = bundle.getInt("dist");
+               String payVal = bundle.getString("pay");
+               Log.e("pay", payVal);
+            }
 
         createNew(test);
 
     }
 
     public void createNew(CrudEmployee card){
+
         CardView cv = new CardView(getApplicationContext());
         cv.setOnClickListener(this);
         cv.setId(id++);
@@ -128,7 +139,9 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v == filterMenu){
-            createNew(test);
+            Intent intent = new Intent(this, FiltersRentOut.class);
+            startActivity(intent);
+            finish();
         }
         else{
             int temp = v.getId();
