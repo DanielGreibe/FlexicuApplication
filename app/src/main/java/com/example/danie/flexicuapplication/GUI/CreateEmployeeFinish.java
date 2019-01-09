@@ -86,7 +86,9 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             System.out.println(employeeJSON);
             myRef.child(Integer.toString(employee.getID())).setValue(employeeJSON);
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Udlej.putExtra("done", "done");
             startActivity(Udlej);
+
         }
     }
 }
