@@ -3,6 +3,7 @@ package com.example.danie.flexicuapplication.GUI;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee);
         editTextName = findViewById(R.id.editTextName);
+        editTextName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
         }

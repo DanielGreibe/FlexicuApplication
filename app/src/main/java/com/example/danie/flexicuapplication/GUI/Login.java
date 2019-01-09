@@ -70,7 +70,7 @@ protected void onCreate(Bundle savedInstanceState)
             }
         else if ( v == buttonLogin)
             {
-            if (editTextUsername.getText().toString().equals("") && editTextPassword.getText().toString().equals(""))
+            if (editTextUsername.getText().toString().equals("") || editTextPassword.getText().toString().equals(""))
                 {
 
                 editTextUsername.setText("danielgreibe@gmail.com");
