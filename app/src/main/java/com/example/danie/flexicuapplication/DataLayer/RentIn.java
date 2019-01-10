@@ -28,8 +28,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         filterMenu = findViewById(R.id.filterMenu);
         filterMenu.setOnClickListener(this);
 
-        createNew(test);
-
+        fill();
     }
 
     public void createNew(CrudEmployee card){
@@ -121,6 +120,12 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         CS.applyTo(cl);
 
     scroller.addView(cv);
+    }
+
+    public void fill(){
+        for(int i = 0; i<5;i++){
+            createNew(test);
+        }
     }
 
 
