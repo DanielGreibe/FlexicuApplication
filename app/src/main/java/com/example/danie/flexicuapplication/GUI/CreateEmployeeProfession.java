@@ -3,50 +3,60 @@ package com.example.danie.flexicuapplication.GUI;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 
-public class CreateEmployeeProfession extends AppCompatActivity implements View.OnClickListener {
+public class CreateEmployeeProfession extends AppCompatActivity implements View.OnClickListener
+    {
     Button buttonNextPage;
     TextView textViewTitle;
     EditText editTextErhverv;
     String name;
     String year;
-    String erhverv;
+    String profession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
-    {
+        {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_erhverv);
 
         textViewTitle = findViewById(R.id.textViewTitle);
         editTextErhverv = findViewById(R.id.editTextErhverv);
+        editTextErhverv.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
 
-        Intent intent = getIntent();
-        name = intent.getStringExtra("NameOfEmployee");
-        year = intent.getStringExtra("YearOfEmployee");
+        name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         textViewTitle.setText(" Tilføj erhverv til " + name);
 
-    }
+        }
 
     @Override
-    public void onClick(View v) {
-        if ( v == buttonNextPage)
+    public void onClick(View v)
         {
-            erhverv = editTextErhverv.getText().toString();
-            Intent OpretAnsatPostnummer = new Intent(this, CreateEmployeeZipcode.class);
-            OpretAnsatPostnummer.putExtra("NameOfEmployee", name);
-            OpretAnsatPostnummer.putExtra("YearOfEmployee", year);
-            OpretAnsatPostnummer.putExtra("ErhvervOfEmployee", erhverv);
-            startActivity(OpretAnsatPostnummer);
+        if (v == buttonNextPage)
+            {
+            if (editTextErhverv.getText().toString().equals(""))
+                {
+                Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
+                }
+            else
+                {
+                profession = editTextErhverv.getText().toString();
+                ((GlobalVariables) this.getApplication()).setTempEmployeeProfession(profession);
+                Intent createEmployeePay = new Intent(this, CreateEmployeePay.class);
+                startActivity(createEmployeePay);
+                }
 
+
+            }
         }
     }
-}

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.danie.flexicuapplication">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".LogicLayer.GlobalVariables"
@@ -15,6 +16,7 @@
         <activity android:name=".GUI.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -22,16 +24,18 @@
         <activity android:name=".GUI.MyRentOuts" />
         <activity android:name=".GUI.MyRentIns" />
         <activity android:name=".GUI.RentOut" />
-        <activity android:name=".DataLayer.RentIn" />
+        <activity android:name=".GUI.RentIn" />
         <activity android:name=".GUI.Navigation" />
         <activity android:name=".GUI.FiltersRentOut" />
-        <activity android:name=".TestActivity" />
+        <activity android:name=".GUI.CreateEmployeePay" />
+        <activity android:name=".GUI.CreateEmployeeDistance" />
         <activity android:name=".GUI.CreateEmployeeYear" />
         <activity android:name=".GUI.CreateEmployeeProfession" />
         <activity android:name=".GUI.CreateEmployeeDescription" />
         <activity android:name=".GUI.CreateEmployeeImage" />
         <activity android:name=".GUI.CreateEmployeeZipcode" />
-        <activity android:name=".GUI.CreateEmployeeFinish"></activity>
+        <activity android:name=".GUI.CreateEmployeeFinish" />
+        <activity android:name=".GUI.PreIndlej"></activity>
     </application>
 
 </manifest>

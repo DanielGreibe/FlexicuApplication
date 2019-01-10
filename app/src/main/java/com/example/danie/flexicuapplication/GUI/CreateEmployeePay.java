@@ -3,30 +3,35 @@ package com.example.danie.flexicuapplication.GUI;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 
-public class CreateEmployee extends AppCompatActivity implements View.OnClickListener
+public class CreateEmployeePay extends AppCompatActivity implements View.OnClickListener
     {
+
     Button buttonNextPage;
-    TextView editTextName;
+    TextView textViewTitle;
+    EditText editTextPay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_employee);
-        editTextName = findViewById(R.id.editTextName);
-        editTextName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        setContentView(R.layout.activity_create_employee_pay);
 
         buttonNextPage = findViewById(R.id.buttonNextPage);
+        textViewTitle = findViewById(R.id.textViewTitle);
+        editTextPay = findViewById(R.id.editTextDistance);
+
         buttonNextPage.setOnClickListener(this);
+        String name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
+        textViewTitle.setText("Indtast timeløn til " + name);
         }
 
     @Override
@@ -34,16 +39,16 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
         {
         if (v == buttonNextPage)
             {
-            if (editTextName.getText().toString().equals(""))
+            if (editTextPay.getText().equals(""))
                 {
                 Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                 }
             else
                 {
-                String name = editTextName.getText().toString();
-                ((GlobalVariables) this.getApplication()).setTempEmployeeName(name);
-                Intent createEmployeeYear = new Intent(this, CreateEmployeeYear.class);
-                startActivity(createEmployeeYear);
+                String pay = editTextPay.getText().toString();
+                ((GlobalVariables) this.getApplication()).setTempEmployeePay(pay);
+                Intent createEmployeeDistance = new Intent(this, CreateEmployeeDistance.class);
+                startActivity(createEmployeeDistance);
                 }
             }
         }

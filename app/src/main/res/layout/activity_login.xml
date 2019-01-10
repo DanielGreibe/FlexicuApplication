@@ -8,6 +8,18 @@
     android:background="@color/FlexGreen"
     tools:context=".GUI.Login">
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:adjustViewBounds="true"
+        android:background="@color/white"
+        android:contentDescription="@string/flexicu_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/flexicu_logo" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/LoginLayout"
         android:layout_width="291dp"
