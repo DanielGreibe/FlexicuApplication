@@ -23,6 +23,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     ImageView filterMenu;
     CrudEmployee test = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler ").pic(R.drawable.download).builder();
     boolean filtered = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +38,9 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
                String payVal = bundle.getString("pay");
                Log.e("pay", payVal);
             }
-
-        fill();
+            for(int i = 0; i < 20; i++){
+                createNew(test);
+            }
     }
 
     public void createNew(CrudEmployee card){
@@ -132,14 +134,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
 
     scroller.addView(cv);
     }
-
-    public void fill(){
-        for(int i = 0; i<5;i++){
-            createNew(test);
-        }
-    }
-
-
 
     @Override
     public void onClick(View v) {
