@@ -11,7 +11,9 @@ import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,11 +32,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class RentOut extends AppCompatActivity
-{
+public class RentOut extends AppCompatActivity implements View.OnClickListener {
     private Context mContext;
     private ConstraintLayout constLayout;
     private ConstraintLayout constCardLayout;
+    TextView textViewErhverv, textViewLejeperiodeStart;
     int id = 1;
     @SuppressLint("ResourceType")
     @Override
@@ -42,6 +44,8 @@ public class RentOut extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_out);
+        textViewErhverv = findViewById(R.id.erhvevtxt);
+        textViewLejeperiodeStart = findViewById(R.id.lejePeriodetxt);
         mContext = getApplicationContext();
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         constLayout = findViewById(R.id.opretMedarbejder);
@@ -53,8 +57,9 @@ public class RentOut extends AppCompatActivity
             CardView card = new CardView(mContext);
             card.setId(id);
             id++;
-            if(card.getId() == 1){
+            if(card.getId() > 0){
                 card.setOnClickListener((info) -> {
+
                     TextView txtLøn = findViewById(R.id.løntxt);
                     txtLøn.setText("200 kr");
                 });
@@ -110,6 +115,16 @@ public class RentOut extends AppCompatActivity
                     cv.setRadius(15);
                     ConstraintLayout cl = new ConstraintLayout(getApplicationContext());
                     cv.addView(cl);
+                    cv.setOnClickListener((view) ->
+                    {
+                        //Opdaterer TextViews med information fra brugeren
+                        //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
+                        //TODO Kan med fordel extractes til en metode.
+                        Log.e("Test" , "Du trykkede på CardView " + cv.getId());
+                        textViewLejeperiodeStart.setText("ID: " + obj.get("ID").toString());
+                        textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", "<"));
+
+                    });
                     //Add pic
                     ImageView IVProfilePic = new ImageView(getApplicationContext());
                     //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
@@ -194,6 +209,7 @@ public class RentOut extends AppCompatActivity
         cv.setRadius(15);
         ConstraintLayout cl = new ConstraintLayout(this);
         cv.addView(cl);
+        cv.setOnClickListener(this);
         //Add pic
         ImageView IVProfilePic = new ImageView(this);
         //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
@@ -235,4 +251,9 @@ public class RentOut extends AppCompatActivity
         return cl;
     }
 
+    @Override
+    public void onClick(View v)
+    {
+
+    }
 }
