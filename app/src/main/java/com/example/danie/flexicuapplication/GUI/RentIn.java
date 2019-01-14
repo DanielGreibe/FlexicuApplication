@@ -42,7 +42,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
     int counter = 0;
     LinearLayout scroller;
     ImageView filterMenu;
-    CriteriaInterface name = new CriteriaProfession("Futter");
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -70,10 +69,9 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
                         JsonParser parser = new JsonParser();
                         JsonElement element = parser.parse(entry.getValue().toString());
                         JsonObject obj = element.getAsJsonObject();
-
                         CrudEmployee people = new CrudEmployee.EmployeBuilder(
-                                obj.get("name").toString())
-                                .job(obj.get("job").toString())
+                                obj.get("name").toString().replace("\"",""))
+                                .job(obj.get("job").toString().replace("\"",""))
                                 .ID(Integer.parseInt(obj.get("ID").toString()))
                                 .pic(Integer.parseInt(obj.get("pic").toString()))
                                 .pay(Double.parseDouble(obj.get("pay").toString()))
@@ -83,11 +81,12 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
 
 
                     }
-                    if(bundle != null){
-                        String payVal = bundle.getString("pay");
-                        Log.e("pay", payVal);
-                        CriteriaInterface salaray = new CriteriaPay(Double.parseDouble(bundle.getString("pay")));
-                        salaray.meetCriteria(employees).forEach((a)-> createNew(salaray.meetCriteria(employees).get(counter++)));
+                    if(bundle != null ){
+                            String payVal = bundle.getString("pay");
+                            Log.e("pay", payVal);
+                            CriteriaInterface salaray = new CriteriaPay(Double.parseDouble(bundle.getString("pay")));
+                            salaray.meetCriteria(employees).forEach((a) -> createNew(salaray.meetCriteria(employees).get(counter++)));
+
                     }else {
                         employees.forEach((a)->createNew(employees.get(counter++)));
                     }
