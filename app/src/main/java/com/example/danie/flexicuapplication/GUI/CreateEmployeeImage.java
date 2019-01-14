@@ -20,12 +20,17 @@ import android.widget.Toast;
 
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class CreateEmployeeImage extends AppCompatActivity implements View.OnClickListener
-    {
+public class CreateEmployeeImage extends AppCompatActivity implements View.OnClickListener{
+
     Button buttonNextPage;
     ImageView preview;
     TextView textViewTitle;
@@ -41,6 +46,9 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
 
     //Gallery select variables
     public static final int GALLERY_SELECT = 1887;
+
+    //Upload variables
+    Uri imageUri = null;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -89,7 +97,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         public void onClick(View v) {
             if (v == buttonNextPage) {
                 Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
-                ((GlobalVariables) this.getApplication()).setTempEmployeeImage("URL");
+                ((GlobalVariables) this.getApplication()).setTempEmployeeImage(imageUri.toString());
                 startActivity(CreateEmployeeFinish);
             }
         }
@@ -112,6 +120,8 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         protected void onActivityResult(int requestCode, int resultCode, Intent data){
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
+                imageUri = Uri.parse(data.toURI());
+                System.out.println("URI IS: " + imageUri.toString());
 
                 //Make image square
                 int minPixels = 0;
@@ -125,7 +135,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 Bitmap photo = null;
                 if (resultCode == RESULT_OK) {
                     try {
-                        final Uri imageUri = data.getData();
+                        imageUri = data.getData();
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         photo = BitmapFactory.decodeStream(imageStream);
                     } catch (FileNotFoundException e) {
@@ -140,6 +150,4 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 preview.setImageBitmap(squareImg);
             }
         }
-
-
     }

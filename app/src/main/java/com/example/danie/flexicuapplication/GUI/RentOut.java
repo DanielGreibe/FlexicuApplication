@@ -5,7 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
@@ -32,10 +35,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -46,6 +55,9 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
     //Visual logic
     boolean employeeSelected = false;
+
+    //Storage ref
+    private StorageReference mStorageRef;
 
 
     private Context mContext;
@@ -78,7 +90,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         CriteriaDemo demo = new CriteriaDemo();
         demo.start();
         constLayout.setOnClickListener((view) ->{
-            Intent opretAnsat = new Intent(this, CreateEmployeeImage.class); //TODO change to CreateEmplyee.class
+            Intent opretAnsat = new Intent(this, CreateEmployee.class); //TODO change to CreateEmplyee.class
             startActivity(opretAnsat);
 
         });
@@ -90,11 +102,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             day = date.getDate();
             System.out.println("year: " + year + " Month: " + month + "day: " + day);
             showDialog(999);
-
-            //If rental dates selected and employee is selected
-            if(employeeSelected && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-            }
         });
 
         lejeSlut.setOnClickListener((view) ->{
@@ -103,11 +110,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             month = date.getMonth();
             day = date.getDate();
             showDialog(998);
-
-            //If rental dates selected and employee is selected
-            if(employeeSelected && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-            }
         });
 
         //Load workers from database
@@ -116,6 +118,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
         //Load employees and create cardviews and add to scroller
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()){
@@ -168,7 +171,31 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                     //IVProfilePic.setImageResource(R.drawable.circle);
                     //IVProfilePic.setBackground(R.drawable.roundimg);
                     //
+
+
+                    //Set temporary picture while real pictures are downloading
                     IVProfilePic.setImageResource(R.drawable.download);
+
+
+                    //We want to download images for the list of workers
+                    new AsyncTask<Void, Void, Bitmap>(){
+                        //Get pictures in background
+                        @Override
+                        protected Bitmap doInBackground(Void... voids) {
+                            //IVProfilePic.setImageBitmap(getBitmapFromURL(obj.get("pic").toString()));
+                            //System.out.println(obj.get("pic").toString().replace("\"", ""));
+                            return getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
+                        }
+
+                        //On return update images in list
+                        @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                        @Override
+                        protected void onPostExecute(Bitmap s) {
+                            super.onPostExecute(s);
+                            IVProfilePic.setImageBitmap(s);
+                        }
+                    }.execute();
+
                     IVProfilePic.setAdjustViewBounds(true);
                     cl.addView(IVProfilePic);
                     //Add Name and Job
@@ -199,7 +226,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                     myContainer.addView(cv);
                     //CrudEmployee staff = gson.fromJson(entry, );
                     //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
-
                 }
             }
             @Override
@@ -244,6 +270,10 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             // arg2 = month
             // arg3 = day
             textViewLejeperiodeStart.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
+            //If rental dates selected and employee is selected
+            if(employeeSelected && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
+                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+            }
         }
     };
 
@@ -254,6 +284,27 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             // arg2 = month
             // arg3 = day
             textViewLejeperiodeSlut.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
+            //If rental dates selected and employee is selected
+            if(employeeSelected && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
+                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+            }
         }
     };
+
+    public Bitmap getBitmapFromURL(String src) {
+        try {
+            //System.out.println(src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

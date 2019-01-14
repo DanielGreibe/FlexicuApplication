@@ -73,7 +73,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
                                 obj.get("name").toString().replace("\"",""))
                                 .job(obj.get("job").toString().replace("\"",""))
                                 .ID(Integer.parseInt(obj.get("ID").toString()))
-                                .pic(Integer.parseInt(obj.get("pic").toString()))
+                                .pic(obj.get("pic").toString())
                                 .pay(Double.parseDouble(obj.get("pay").toString()))
                                 .builder();
                         employees.add(people);
@@ -120,7 +120,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
         //Add pic
         ImageView IVProfilePic = new ImageView(this);
         IVProfilePic.setId(id++);
-        IVProfilePic.setImageResource(card.getPic());
+        //IVProfilePic.setImageResource(card.getPic());
         IVProfilePic.setAdjustViewBounds(true);
         IVProfilePic.setScaleX((float) 0.75);
         IVProfilePic.setScaleY((float) 0.75);
