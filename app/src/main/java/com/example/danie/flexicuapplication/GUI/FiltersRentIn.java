@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaPay;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.R;
 
@@ -38,10 +41,12 @@ public class FiltersRentIn extends AppCompatActivity
 
          btn.setOnClickListener((view)->{
                 Intent intent = new Intent(this, RentIn.class);
-                intent.putExtra("dist", seekBarDist.getProgress());
-                intent.putExtra("pay",  upperPay.getText().toString());
-                finish();
+                //intent.putExtra("dist", seekBarDist.getProgress());
+                intent.putExtra("pay", lowerPay.getText().toString());
+             System.out.println(lowerPay.getText().toString()+"-------------------------------------");
                 startActivity(intent);
+                finish();
+
 
 
             });

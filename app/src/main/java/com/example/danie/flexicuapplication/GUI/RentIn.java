@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaPay;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
@@ -41,8 +42,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
     int counter = 0;
     LinearLayout scroller;
     ImageView filterMenu;
-    CrudEmployee test = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler ").pic(R.drawable.download).builder();
-    boolean filtered = false;
     CriteriaInterface name = new CriteriaProfession("Futter");
 
 
@@ -54,51 +53,58 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
         scroller = findViewById(R.id.linearLayout);
         filterMenu = findViewById(R.id.filterMenu);
         filterMenu.setOnClickListener(this);
-            Bundle bundle = this.getIntent().getExtras();
+            Bundle bundle = getIntent().getExtras();
+
         List<CrudEmployee> employees = new ArrayList<>();
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
-        //Check for existing ID.
-        myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange (DataSnapshot snapshot){
-                for (DataSnapshot entry : snapshot.getChildren()) {
-                    //Parse JSON
-                    JsonParser parser = new JsonParser();
-                    JsonElement element = parser.parse(entry.getValue().toString());
-                    JsonObject obj = element.getAsJsonObject();
 
-                    CrudEmployee people = new CrudEmployee.EmployeBuilder(
-                            obj.get("name").toString())
-                            .job(obj.get("job").toString())
-                            .ID(Integer.parseInt(obj.get("ID").toString()))
-                            .pic(Integer.parseInt(obj.get("pic").toString()))
-                            .pay(Double.parseDouble(obj.get("pay").toString()))
-                            .builder();
-                    employees.add(people);
+            myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    for (DataSnapshot entry : snapshot.getChildren()) {
+                        //Parse JSON
+                        JsonParser parser = new JsonParser();
+                        JsonElement element = parser.parse(entry.getValue().toString());
+                        JsonObject obj = element.getAsJsonObject();
 
+                        CrudEmployee people = new CrudEmployee.EmployeBuilder(
+                                obj.get("name").toString())
+                                .job(obj.get("job").toString())
+                                .ID(Integer.parseInt(obj.get("ID").toString()))
+                                .pic(Integer.parseInt(obj.get("pic").toString()))
+                                .pay(Double.parseDouble(obj.get("pay").toString()))
+                                .builder();
+                        employees.add(people);
+
+
+
+                    }
+                    if(bundle != null){
+                        String payVal = bundle.getString("pay");
+                        Log.e("pay", payVal);
+                        CriteriaInterface salaray = new CriteriaPay(Double.parseDouble(bundle.getString("pay")));
+                        salaray.meetCriteria(employees).forEach((a)-> createNew(salaray.meetCriteria(employees).get(counter++)));
+                    }else {
+                        employees.forEach((a)->createNew(employees.get(counter++)));
+                    }
 
 
                 }
-                createNew(name.meetCriteria(employees).get(counter++));
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+
+        }
 
 
-            if(bundle != null){
-               String payVal = bundle.getString("pay");
-               Log.e("pay", payVal);
-            }
 
-    }
 
 
     public void createNew(CrudEmployee card){
