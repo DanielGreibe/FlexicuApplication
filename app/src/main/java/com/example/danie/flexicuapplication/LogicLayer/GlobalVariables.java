@@ -1,10 +1,12 @@
 package com.example.danie.flexicuapplication.LogicLayer;
 
 import android.app.Application;
+import android.location.Address;
 
 import com.google.firebase.auth.FirebaseUser;
 
-public class GlobalVariables extends Application {
+public class GlobalVariables extends Application
+    {
     private static com.google.firebase.auth.FirebaseUser FirebaseUser;
 
     private String tempEmployeeDescription;
@@ -15,13 +17,15 @@ public class GlobalVariables extends Application {
     private String tempEmployeeYear;
     private String tempEmployeeZipcode;
     private String tempEmployeeDistance;
+    private Address userAddress;
 
     public static com.google.firebase.auth.FirebaseUser getFirebaseUser()
-    {
+        {
         return FirebaseUser;
-    }
+        }
 
-    public void setFirebaseUser(com.google.firebase.auth.FirebaseUser firebaseUser) {
+    public void setFirebaseUser(com.google.firebase.auth.FirebaseUser firebaseUser)
+        {
         this.FirebaseUser = firebaseUser;
         }
 
@@ -103,5 +107,15 @@ public class GlobalVariables extends Application {
     public void setTempEmployeeDistance(String tempEmployeeDistance)
         {
         this.tempEmployeeDistance = tempEmployeeDistance;
+        }
+
+    public Address getUserAddress()
+        {
+        return userAddress;
+        }
+
+    public void setUserAddress(Address userAddress)
+        {
+        this.userAddress = userAddress;
         }
     }

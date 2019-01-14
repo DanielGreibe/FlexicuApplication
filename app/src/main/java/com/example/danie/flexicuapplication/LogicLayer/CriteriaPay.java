@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CriteriaPay implements CriteriaInterface {
+    int criteria;
     @Override
     public List<CrudEmployee> meetCriteria(List<CrudEmployee> employees) {
         List<CrudEmployee> payOver200 = new ArrayList<CrudEmployee>();
@@ -17,5 +18,12 @@ public class CriteriaPay implements CriteriaInterface {
             }
 
         return payOver200;
+    }
+
+    public int getCriteriaPay(){
+        return criteria;
+    }
+    public void setCriteriaPay(int criteria){
+        this.criteria=criteria;
     }
 }
