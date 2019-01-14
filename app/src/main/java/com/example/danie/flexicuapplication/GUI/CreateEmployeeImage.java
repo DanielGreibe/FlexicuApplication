@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +20,9 @@ import android.widget.Toast;
 
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class CreateEmployeeImage extends AppCompatActivity implements View.OnClickListener
     {
@@ -33,6 +38,9 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
     private static final int CAMERA_REQUEST = 1888;
     private ImageView imageView;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
+
+    //Gallery select variables
+    public static final int GALLERY_SELECT = 1887;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -54,8 +62,9 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
 
         preview.setVisibility(View.INVISIBLE);
 
+
+        //Tag billede button
         tagBilledeSelect.setOnClickListener((view) ->{
-            System.out.println("Hello");
             if (checkSelfPermission(Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.CAMERA},
@@ -65,6 +74,14 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+
+        //Tag billede button
+        vaelgBilledeSelect.setOnClickListener((view) ->{
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, GALLERY_SELECT);
+        });
+
     }
 
         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -95,6 +112,26 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         protected void onActivityResult(int requestCode, int resultCode, Intent data){
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
+
+                //Make image square
+                int minPixels = 0;
+                if(photo.getWidth() < photo.getHeight()) minPixels = photo.getWidth();
+                else minPixels = photo.getHeight();
+                Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth()-minPixels)/2), ((photo.getHeight()-minPixels)/2), minPixels, minPixels);
+
+                preview.setVisibility(View.VISIBLE);
+                preview.setImageBitmap(squareImg);
+            }else if(requestCode == GALLERY_SELECT){
+                Bitmap photo = null;
+                if (resultCode == RESULT_OK) {
+                    try {
+                        final Uri imageUri = data.getData();
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        photo = BitmapFactory.decodeStream(imageStream);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }else{return;} //Return if no image selected
                 int minPixels = 0;
                 if(photo.getWidth() < photo.getHeight()) minPixels = photo.getWidth();
                 else minPixels = photo.getHeight();
@@ -103,4 +140,6 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 preview.setImageBitmap(squareImg);
             }
         }
+
+
     }

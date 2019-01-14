@@ -44,6 +44,9 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     private Calendar calendar;
     private int year, month, day;
 
+    //Visual logic
+    boolean employeeSelected = false;
+
 
     private Context mContext;
     private ConstraintLayout constLayout;
@@ -87,6 +90,11 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             day = date.getDate();
             System.out.println("year: " + year + " Month: " + month + "day: " + day);
             showDialog(999);
+
+            //If rental dates selected and employee is selected
+            if(employeeSelected && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
+                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+            }
         });
 
         lejeSlut.setOnClickListener((view) ->{
@@ -95,6 +103,11 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             month = date.getMonth();
             day = date.getDate();
             showDialog(998);
+
+            //If rental dates selected and employee is selected
+            if(employeeSelected && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
+                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+            }
         });
 
         //Load workers from database
@@ -143,6 +156,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                         if(textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
                             udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
                         }
+                        employeeSelected = true;
 
                     });
                     //Add pic
