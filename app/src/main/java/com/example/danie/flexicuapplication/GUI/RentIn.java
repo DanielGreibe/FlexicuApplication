@@ -138,7 +138,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if(v == filterMenu){
-            Intent intent = new Intent(this, FiltersRentOut.class);
+            Intent intent = new Intent(this, FiltersRentIn.class);
             startActivity(intent);
             finish();
         }
