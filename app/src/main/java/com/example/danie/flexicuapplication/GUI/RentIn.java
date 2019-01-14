@@ -71,7 +71,13 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
                     JsonElement element = parser.parse(entry.getValue().toString());
                     JsonObject obj = element.getAsJsonObject();
 
-                    CrudEmployee people = new CrudEmployee.EmployeBuilder(obj.get("name").toString()).job(obj.get("job").toString()).ID(Integer.parseInt(obj.get("ID").toString())).pic(Integer.parseInt(obj.get("pic").toString())).builder();
+                    CrudEmployee people = new CrudEmployee.EmployeBuilder(
+                            obj.get("name").toString())
+                            .job(obj.get("job").toString())
+                            .ID(Integer.parseInt(obj.get("ID").toString()))
+                            .pic(Integer.parseInt(obj.get("pic").toString()))
+                            .pay(Double.parseDouble(obj.get("pay").toString()))
+                            .builder();
                     employees.add(people);
 
 

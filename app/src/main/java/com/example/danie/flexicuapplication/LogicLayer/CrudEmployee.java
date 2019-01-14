@@ -107,6 +107,10 @@ public class CrudEmployee
             return this;
         }
 
+        public EmployeBuilder ID(int ID){
+            this.ID = ID;
+            return this;
+        }
         public EmployeBuilder zipcode(int zipcode)
             {
             this.zipcode = zipcode;
