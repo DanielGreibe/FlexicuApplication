@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -15,7 +16,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,8 +36,9 @@ import com.google.gson.JsonParser;
 public class RentOut extends AppCompatActivity implements View.OnClickListener {
     private Context mContext;
     private ConstraintLayout constLayout;
+    private ConstraintLayout lejeStart, lejeSlut;
     private ConstraintLayout constCardLayout;
-    TextView textViewErhverv, textViewLejeperiodeStart;
+    TextView textViewErhverv, textViewLejeperiodeStart, textViewRadius, textViewPostnummer, textViewLøn, textViewLejeperiodeSlut;
     private ConstraintLayout udlejBtn;
     int id = 1;
     @SuppressLint("ResourceType")
@@ -46,8 +47,16 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_out);
-        textViewErhverv = findViewById(R.id.erhvevtxt);
-        textViewLejeperiodeStart = findViewById(R.id.lejeStart);
+
+        lejeSlut = findViewById(R.id.lejeSlut);
+        lejeStart = findViewById(R.id.lejeStart);
+
+        textViewRadius = findViewById(R.id.radiusTextView);
+        textViewPostnummer = findViewById(R.id.postnummerTextView);
+        textViewLøn = findViewById(R.id.lønTextView);
+        textViewLejeperiodeSlut = findViewById(R.id.textViewLejeperiodeSlut);
+        textViewErhverv = findViewById(R.id.erhvervTextView);
+        textViewLejeperiodeStart = findViewById(R.id.lejeStartTextView);
         mContext = getApplicationContext();
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         constLayout = findViewById(R.id.opretMedarbejder);
@@ -57,6 +66,17 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         constLayout.setOnClickListener((view) ->{
             Intent opretAnsat = new Intent(this, CreateEmployee.class);
             startActivity(opretAnsat);
+
+        });
+
+       /* lejeStart.setOnClickListener((view) ->{
+            public void showDatePicker(View view) {
+                DialogFragment newFragment = new MyDatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "date picker");
+            }
+        });*/
+
+        lejeSlut.setOnClickListener((view) ->{
 
         });
 
@@ -76,8 +96,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                     JsonObject obj = element.getAsJsonObject();
 
 
-                    System.out.println("ID IS "+obj.get("ID"));
-
                     // 2. JSON to Java object, read it from a Json String.
                     CardView cv = new CardView(getApplicationContext());
                     cv.setId(Integer.parseInt(obj.get("ID").toString()));
@@ -93,8 +111,10 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                         //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
                         //TODO Kan med fordel extractes til en metode.
                         Log.e("Test" , "Du trykkede på CardView " + cv.getId());
-                        textViewLejeperiodeStart.setText("ID: " + obj.get("ID").toString());
                         textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", ""));
+                        textViewLøn.setText(obj.get("pay").toString());
+                        textViewPostnummer.setText(obj.get("zipcode").toString());
+                        textViewRadius.setText(obj.get("dist").toString());
                         for(int i = 0; i <  myContainer.getChildCount(); i++){
                             myContainer.getChildAt(i).setBackgroundColor(Color.WHITE);
                         }
