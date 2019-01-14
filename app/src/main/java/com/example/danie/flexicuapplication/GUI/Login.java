@@ -134,6 +134,7 @@ protected void onCreate(Bundle savedInstanceState)
         ((GlobalVariables) this.getApplication()).setFirebaseUser(user);
         Intent Navigation = new Intent(this, Navigation.class);
         startActivity(Navigation);
+        finish();
     }
 
     private void sendGetRequestForCVRData(String url) {
