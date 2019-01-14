@@ -2,6 +2,7 @@ package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -29,13 +33,16 @@ import io.fabric.sdk.android.Fabric;
 
 public class Login extends AppCompatActivity implements View.OnClickListener
 {
-TextView textViewLoginLater;
+TextView textViewLoginLater, saveloginTV;
 EditText editTextUsername;
 EditText editTextPassword;
 Button buttonLogin;
 ConstraintLayout LoginLayout;
+SharedPreferences settings;
+SharedPreferences.Editor editor;
+ImageButton saveLog;
 
-//Network variables
+    //Network variables
 private RequestQueue myRequestQueue;
 private StringRequest myStringRequest;
 
@@ -51,6 +58,21 @@ protected void onCreate(Bundle savedInstanceState)
     editTextPassword = findViewById(R.id.editTextPassword);
     buttonLogin = findViewById(R.id.buttonLogin);
     LoginLayout = findViewById(R.id.LoginLayout);
+    saveLog = findViewById(R.id.saveLogin);
+    saveloginTV = findViewById(R.id.saveloginTV);
+    saveLog.setOnClickListener(this);
+    saveloginTV.setOnClickListener(this);
+
+    settings = getSharedPreferences("prefs",0);
+    editor = settings.edit();
+
+    String loginInfo = settings.getString("login","");
+    if (!loginInfo.equals("")){
+        String[] temp;
+        temp = loginInfo.split(",");
+        editTextUsername.setText(temp[0]);
+        editTextPassword.setText(temp[1]);
+       }
 
 
     //Init CrashLytics
@@ -79,19 +101,16 @@ protected void onCreate(Bundle savedInstanceState)
             Intent PreIndlej = new Intent(this, PreIndlej.class);
             startActivity(PreIndlej);
             }
-        else if ( v == buttonLogin)
-            {
-            if (editTextUsername.getText().toString().equals("") || editTextPassword.getText().toString().equals(""))
-                {
-
-                editTextUsername.setText("danielgreibe@gmail.com");
-                editTextPassword.setText("flexicu25");
-                }
-
+        else if ( v == buttonLogin) {
+            if (!editTextUsername.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                 mAuth.signInWithEmailAndPassword(editTextUsername.getText().toString(), editTextPassword.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            if(saveLog.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ui_radio_button_icon).getConstantState())){
+                                editor.putString("login", editTextUsername.getText().toString() + "," + editTextPassword.getText().toString());
+                                editor.commit();
+                            }
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             loginSuccess(user);
@@ -101,8 +120,14 @@ protected void onCreate(Bundle savedInstanceState)
                         }
                     }
                 });
-
             }
+        } else if(v == saveLog || v == saveloginTV){
+            if(saveLog.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ui_radio_button_icon).getConstantState())){
+               saveLog.setImageResource(R.drawable.ui_radio_button_uncheck_icon);
+            } else {
+                saveLog.setImageResource(R.drawable.ui_radio_button_icon);
+            }
+        }
     }
 
     public void loginSuccess(FirebaseUser user){
