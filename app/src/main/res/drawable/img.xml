@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- res/drawable/img.xml -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:drawable="@drawable/daniel"/>
+    <item android:drawable="@drawable/futte"/>
     <item android:drawable="@drawable/circle"/>
 
 </layer-list>

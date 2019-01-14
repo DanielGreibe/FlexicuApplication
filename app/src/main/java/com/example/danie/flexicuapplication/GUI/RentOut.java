@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Shader;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
@@ -32,12 +33,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 public class RentOut extends AppCompatActivity implements View.OnClickListener {
     private Context mContext;
     private ConstraintLayout constLayout;
     private ConstraintLayout constCardLayout;
-    TextView textViewErhverv, textViewLejeperiodeStart;
+    TextView textViewPay, textViewProfession, textViewZipcode, textViewDistance;
     private ConstraintLayout udlejBtn;
     int id = 1;
     @SuppressLint("ResourceType")
@@ -46,12 +48,14 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_out);
-        textViewErhverv = findViewById(R.id.erhvevtxt);
-        textViewLejeperiodeStart = findViewById(R.id.lejeStart);
-        mContext = getApplicationContext();
+        textViewProfession = findViewById(R.id.erhvevtxt);
+        textViewPay = findViewById(R.id.løntxt);
+        textViewZipcode = findViewById(R.id.postnummertxt);
+        textViewDistance = findViewById(R.id.radiustxt);
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         constLayout = findViewById(R.id.opretMedarbejder);
         udlejBtn = findViewById(R.id.UdlejBtn);
+        mContext = getApplicationContext();
         CriteriaDemo demo = new CriteriaDemo();
         demo.start();
         constLayout.setOnClickListener((view) ->{
@@ -90,11 +94,8 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                     cv.setOnClickListener((view) ->
                     {
                         //Opdaterer TextViews med information fra brugeren
-                        //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
-                        //TODO Kan med fordel extractes til en metode.
-                        Log.e("Test" , "Du trykkede på CardView " + cv.getId());
-                        textViewLejeperiodeStart.setText("ID: " + obj.get("ID").toString());
-                        textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", ""));
+                        UpdateTextviews(obj);
+
                         for(int i = 0; i <  myContainer.getChildCount(); i++){
                             myContainer.getChildAt(i).setBackgroundColor(Color.WHITE);
                         }
@@ -104,15 +105,23 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
                     });
                     //Add pic
-                    ImageView IVProfilePic = new ImageView(getApplicationContext());
+                    RoundedImageView IVProfilePic = new RoundedImageView(getApplicationContext());
                     //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
 
-
                     IVProfilePic.setId(id++);
-                    //IVProfilePic.setImageResource(R.drawable.circle);
-                    //IVProfilePic.setBackground(R.drawable.roundimg);
-                    //
-                    IVProfilePic.setImageResource(R.drawable.download);
+                    //IVProfilePic.setImageResource(R.drawable.img);
+                //IVProfilePic.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                IVProfilePic.setScaleType(ImageView.ScaleType.FIT_XY);
+                IVProfilePic.setCornerRadius((float) 10);
+                IVProfilePic.setBorderWidth((float) 2);
+                IVProfilePic.setBorderColor(Color.DKGRAY);
+                IVProfilePic.mutateBackground(true);
+                IVProfilePic.setImageDrawable(getResources().getDrawable(R.drawable.oliver, null));
+                IVProfilePic.setBackground(getResources().getDrawable(R.drawable.oliver, null));
+                IVProfilePic.setOval(true);
+                IVProfilePic.setTileModeX(Shader.TileMode.REPEAT);
+                IVProfilePic.setTileModeY(Shader.TileMode.REPEAT);
+
                     IVProfilePic.setAdjustViewBounds(true);
                     cl.addView(IVProfilePic);
                     //Add Name and Job
@@ -154,7 +163,16 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    public void setinfo(CardView CV){
+private void UpdateTextviews(JsonObject obj)
+    {
+    textViewDistance.setText(obj.get("dist").toString() + " km");
+    textViewPay.setText(obj.get("pay").toString() + " kr/t");
+    textViewProfession.setText(obj.get("job").toString());
+    textViewZipcode.setText(obj.get("zipcode").toString());
+    textViewProfession.setText(obj.get("job").toString().replaceAll("\"", ""));
+    }
+
+public void setinfo(CardView CV){
 
     }
 
@@ -175,59 +193,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         );
         params.setMargins(0,15,75,0);
         return  params;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @SuppressLint("ResourceAsColor")
-    public ConstraintLayout createNew(String name, String erhverv, double rank, Double pay, int Drawable){
-        CardView cv = new CardView(getApplicationContext());
-        cv.setId(id++);
-        LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
-        size.setMargins(0, 5, 0, 5);
-        cv.setLayoutParams(size);
-        cv.setRadius(15);
-        ConstraintLayout cl = new ConstraintLayout(this);
-        cv.addView(cl);
-        cv.setOnClickListener(this);
-        //Add pic
-        ImageView IVProfilePic = new ImageView(this);
-        //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
-
-
-        IVProfilePic.setId(id++);
-        //IVProfilePic.setImageResource(R.drawable.circle);
-        //IVProfilePic.setBackground(R.drawable.roundimg);
-        //
-        IVProfilePic.setImageResource(R.drawable.download);
-        IVProfilePic.setAdjustViewBounds(true);
-        cl.addView(IVProfilePic);
-        //Add Name and Job
-        TextView TVName = new TextView(this);
-        TVName.setId(id++);
-        TVName.setText(name+"\n"+erhverv);
-        TVName.setTextSize(18);
-
-        cl.addView(TVName);
-        //Add distance
-        //cv.setPadding(0,100,0,100);
-        //ReadMore
-
-        ConstraintSet CS = new ConstraintSet();
-        CS.clone(cl);
-        //Pic
-        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,0);
-        CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
-        //Name and Job
-        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT,8);
-        CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
-        CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
-
-
-
-        CS.applyTo(cl);
-
-
-        return cl;
     }
 
     @Override
