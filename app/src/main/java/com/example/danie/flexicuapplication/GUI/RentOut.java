@@ -1,6 +1,8 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +18,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,7 +36,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class RentOut extends AppCompatActivity implements View.OnClickListener {
+    //Date picker variables
+    private Calendar calendar;
+    private int year, month, day;
+
+
     private Context mContext;
     private ConstraintLayout constLayout;
     private ConstraintLayout lejeStart, lejeSlut;
@@ -54,7 +65,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         textViewRadius = findViewById(R.id.radiusTextView);
         textViewPostnummer = findViewById(R.id.postnummerTextView);
         textViewLøn = findViewById(R.id.lønTextView);
-        textViewLejeperiodeSlut = findViewById(R.id.textViewLejeperiodeSlut);
+        textViewLejeperiodeSlut = findViewById(R.id.lejeSlutTextView);
         textViewErhverv = findViewById(R.id.erhvervTextView);
         textViewLejeperiodeStart = findViewById(R.id.lejeStartTextView);
         mContext = getApplicationContext();
@@ -64,27 +75,33 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         CriteriaDemo demo = new CriteriaDemo();
         demo.start();
         constLayout.setOnClickListener((view) ->{
-            Intent opretAnsat = new Intent(this, CreateEmployee.class);
+            Intent opretAnsat = new Intent(this, CreateEmployeeImage.class); //TODO change to CreateEmplyee.class
             startActivity(opretAnsat);
 
         });
 
-       /* lejeStart.setOnClickListener((view) ->{
-            public void showDatePicker(View view) {
-                DialogFragment newFragment = new MyDatePickerFragment();
-                newFragment.show(getSupportFragmentManager(), "date picker");
-            }
-        });*/
+        lejeStart.setOnClickListener((view) ->{
+            Date date = new Date();
+            year = date.getYear() + 1900;
+            month = date.getMonth();
+            day = date.getDate();
+            System.out.println("year: " + year + " Month: " + month + "day: " + day);
+            showDialog(999);
+        });
 
         lejeSlut.setOnClickListener((view) ->{
-
+            Date date = new Date();
+            year = date.getYear() + 1900;
+            month = date.getMonth();
+            day = date.getDate();
+            showDialog(998);
         });
 
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
-        //Check for existing ID.
+        //Load employees and create cardviews and add to scroller
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -105,6 +122,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                     cv.setRadius(15);
                     ConstraintLayout cl = new ConstraintLayout(getApplicationContext());
                     cv.addView(cl);
+                    cv.setBackgroundResource(R.drawable.layout_background_round_corners);
                     cv.setOnClickListener((view) ->
                     {
                         //Opdaterer TextViews med information fra brugeren
@@ -112,15 +130,19 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                         //TODO Kan med fordel extractes til en metode.
                         Log.e("Test" , "Du trykkede på CardView " + cv.getId());
                         textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", ""));
-                        textViewLøn.setText(obj.get("pay").toString());
+                        textViewLøn.setText(obj.get("pay").toString()+" kr/t");
                         textViewPostnummer.setText(obj.get("zipcode").toString());
-                        textViewRadius.setText(obj.get("dist").toString());
+                        textViewRadius.setText(obj.get("dist").toString()+" km");
                         for(int i = 0; i <  myContainer.getChildCount(); i++){
-                            myContainer.getChildAt(i).setBackgroundColor(Color.WHITE);
+                            myContainer.getChildAt(i).setBackgroundResource(R.drawable.layout_background_round_corners);
                         }
 
-                        view.setBackgroundColor(Color.rgb(0,153,203));
-                        udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+                        view.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+
+                        //If rental dates selected
+                        if(textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
+                            udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+                        }
 
                     });
                     //Add pic
@@ -174,20 +196,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    public void setinfo(CardView CV){
-
-    }
-
-    public TextView addTextView(TextView TV){
-        TV.setLayoutParams(getLinearLayout());
-        TV.setText("Thomas - snedker");
-        TV.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
-        TV.setTextColor(Color.BLACK);
-        TV.setPadding(125,0,0,0);
-
-        return TV;
-    }
-
     public ViewGroup.LayoutParams getLinearLayout(){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -197,62 +205,41 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         return  params;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @SuppressLint("ResourceAsColor")
-    public ConstraintLayout createNew(String name, String erhverv, double rank, Double pay, int Drawable){
-        CardView cv = new CardView(getApplicationContext());
-        cv.setId(id++);
-        LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
-        size.setMargins(0, 5, 0, 5);
-        cv.setLayoutParams(size);
-        cv.setRadius(15);
-        ConstraintLayout cl = new ConstraintLayout(this);
-        cv.addView(cl);
-        cv.setOnClickListener(this);
-        //Add pic
-        ImageView IVProfilePic = new ImageView(this);
-        //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
-
-
-        IVProfilePic.setId(id++);
-        //IVProfilePic.setImageResource(R.drawable.circle);
-        //IVProfilePic.setBackground(R.drawable.roundimg);
-        //
-        IVProfilePic.setImageResource(R.drawable.download);
-        IVProfilePic.setAdjustViewBounds(true);
-        cl.addView(IVProfilePic);
-        //Add Name and Job
-        TextView TVName = new TextView(this);
-        TVName.setId(id++);
-        TVName.setText(name+"\n"+erhverv);
-        TVName.setTextSize(18);
-
-        cl.addView(TVName);
-        //Add distance
-        //cv.setPadding(0,100,0,100);
-        //ReadMore
-
-        ConstraintSet CS = new ConstraintSet();
-        CS.clone(cl);
-        //Pic
-        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,0);
-        CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
-        //Name and Job
-        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT,8);
-        CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
-        CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
-
-
-
-        CS.applyTo(cl);
-
-
-        return cl;
-    }
-
     @Override
     public void onClick(View v)
     {
 
     }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        // TODO Auto-generated method stub
+        if (id == 999) {
+            DatePickerDialog datepicker =new DatePickerDialog(this, myDateListener, year, month, day);
+            return datepicker;
+        }
+        if (id == 998)
+            return new DatePickerDialog(this, myDateListener2, year, month, day);
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            textViewLejeperiodeStart.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
+        }
+    };
+
+    private DatePickerDialog.OnDateSetListener myDateListener2 = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
+            // arg1 = year
+            // arg2 = month
+            // arg3 = day
+            textViewLejeperiodeSlut.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
+        }
+    };
 }

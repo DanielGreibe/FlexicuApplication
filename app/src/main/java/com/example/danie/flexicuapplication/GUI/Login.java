@@ -56,7 +56,7 @@ protected void onCreate(Bundle savedInstanceState)
     //Init CrashLytics
     Fabric.with(this, new Crashlytics());
 
-    //Crashlytics.getInstance().crash(); // Force a crash
+    //Crashlytics.getInstance().crash(); // Force a crash to test Crashlytics
     // Initialize Firebase Auth
     mAuth = FirebaseAuth.getInstance();
 
