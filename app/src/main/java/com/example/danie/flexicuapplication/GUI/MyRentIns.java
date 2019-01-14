@@ -66,7 +66,7 @@ public class MyRentIns extends AppCompatActivity {
 
         DatabaseReference myRefTEST = database.getReference(((GlobalVariables) this.getApplication()).getFirebaseUser().getUid()+"/Indlejninger");
         Gson gson = new Gson();
-        String indlejningJSON = gson.toJson("Navn", "job", "Lejeperiode Start", "Lejeperiode Slut");
+        String indlejningJSON = gson.toJson("");
         myRefTEST.child(Integer.toString(2344)).setValue(indlejningJSON);
 
         //Check for existing ID.
