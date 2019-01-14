@@ -55,9 +55,13 @@ protected void onCreate(Bundle savedInstanceState)
         //Do something in background
         @Override
         protected String doInBackground(Void... voids) {
-            //CVRParser test = new CVRParser();
-            //System.out.println("HERE123"+test.getResult("NOVO"));
+            /*
+            Outcommented so the app doesnt crash at launch.
+            CVRParser test = new CVRParser();
+            System.out.println("HERE123"+test.getResult("NOVO"));
+            */
             return null;
+
         }
 
         //Do something when background process closes (Gets return from 'doInBackground')
