@@ -6,13 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CriteriaPay implements CriteriaInterface {
-    int criteria;
+    private int searchCriteria;
+    public CriteriaPay(int searchCriteria)
+    {
+        this.searchCriteria = searchCriteria;
+    }
     @Override
     public List<CrudEmployee> meetCriteria(List<CrudEmployee> employees) {
+
         List<CrudEmployee> payOver200 = new ArrayList<CrudEmployee>();
 
             for(CrudEmployee employee: employees) {
-                if(employee.getPay() > 200){
+                if(employee.getPay() == searchCriteria){
                     payOver200.add(employee);
                 }
             }
@@ -20,10 +25,4 @@ public class CriteriaPay implements CriteriaInterface {
         return payOver200;
     }
 
-    public int getCriteriaPay(){
-        return criteria;
-    }
-    public void setCriteriaPay(int criteria){
-        this.criteria=criteria;
-    }
 }
