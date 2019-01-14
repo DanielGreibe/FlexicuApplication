@@ -29,10 +29,10 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     String name;
     String year;
     String erhverv;
-    String postcode;
+    int zipcode;
     String beskrivelse;
     String pay;
-    String distance;
+    int distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         year = ((GlobalVariables) this.getApplication()).getTempEmployeeYear();
         erhverv = ((GlobalVariables) this.getApplication()).getTempEmployeeProfession();
-        postcode = ((GlobalVariables) this.getApplication()).getTempEmployeeZipcode();
+        zipcode = ((GlobalVariables) this.getApplication()).getTempEmployeeZipcode();
         beskrivelse = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
         pay = ((GlobalVariables) this.getApplication()).getTempEmployeePay();
         distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
@@ -63,7 +63,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         textViewName.setText("Navn: " + name);
         textViewYear.setText("Fødselsår: " + year);
         textViewErhverv.setText("Erhverv: " + erhverv);
-        textViewPostcode.setText("Postnummer: " + postcode);
+        textViewPostcode.setText("Postnummer: " + zipcode);
         textViewDescription.setText("Beskrivelse: " + beskrivelse);
         textViewPay.setText("Timeløn: " + pay + " kr/t");
         textViewDistance.setText("Afstand: " + distance + " km");
@@ -76,7 +76,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         {
             Intent Udlej = new Intent(this, RentOut.class);
             //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
-            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pic(R.drawable.download).pay(250).builder();
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pic(R.drawable.download).pay(250).zipcode(zipcode).dist(distance).builder();
 
             // Write a message to the database
             FirebaseDatabase database = FirebaseDatabase.getInstance();

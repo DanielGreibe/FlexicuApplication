@@ -36,7 +36,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     private Context mContext;
     private ConstraintLayout constLayout;
     private ConstraintLayout constCardLayout;
-    TextView textViewErhverv, textViewLejeperiodeStart, textViewLøn, textViewRadius;
+    TextView textViewErhverv, textViewLejeperiodeStart, textViewLøn, textViewRadius, textViewZipcode;
     int id = 1;
     @SuppressLint("ResourceType")
     @Override
@@ -48,6 +48,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         textViewLejeperiodeStart = findViewById(R.id.lejePeriodetxt);
         textViewLøn = findViewById(R.id.løntxt);
         textViewRadius = findViewById(R.id.radiustxt);
+        textViewZipcode = findViewById(R.id.postnummertxt);
         mContext = getApplicationContext();
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         constLayout = findViewById(R.id.opretMedarbejder);
@@ -127,6 +128,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                         textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", "<"));
                         textViewRadius.setText(obj.get("dist").toString());
                         textViewLøn.setText(obj.get("pay").toString());
+                        textViewZipcode.setText(obj.get("zipcode").toString());
 
                     });
                     //Add pic
