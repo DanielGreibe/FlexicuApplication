@@ -12,13 +12,24 @@ import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class MyRentIns extends AppCompatActivity {
 
@@ -49,8 +60,41 @@ public class MyRentIns extends AppCompatActivity {
 
         mainLayout = findViewById(R.id.MineIndlejninger_mainLayout);
 
-        for(int i = 0; i<20; i++)
-        createNew("Mathias", "Java",4.2, 250., R.drawable.mathias);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+
+
+        DatabaseReference myRefTEST = database.getReference(((GlobalVariables) this.getApplication()).getFirebaseUser().getUid()+"/Indlejninger");
+        Gson gson = new Gson();
+        String indlejningJSON = gson.toJson("");
+        myRefTEST.child(Integer.toString(2344)).setValue(indlejningJSON);
+
+        //Check for existing ID.
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot entry : snapshot.getChildren()){
+
+                    //Parse JSON
+                    JsonParser parser = new JsonParser();
+                    JsonElement element = parser.parse(entry.getValue().toString());
+                    JsonObject obj = element.getAsJsonObject();
+
+
+                    System.out.println("ID IS "+obj.get("ID"));
+                    createNew(obj.get("name").toString().replaceAll("\"",""), obj.get("job").toString().replaceAll("\"","")/*, obj.get("rank").toString(), obj.get("pay").toString(), obj.get("pic")*/);
+
+
+
+                   // TVName.setText(obj.get("name").toString().replaceAll("\"", "")+"\n"+obj.get("job").toString().replaceAll("\"", ""));
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error!");
+            }
+        });
 
         /*ConstraintLayout firstEmployee = findViewById(R.id.firstEmployee);
         ConstraintLayout firstEmployee2 = findViewById(R.id.firstEmployee2);
@@ -99,7 +143,7 @@ public class MyRentIns extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @SuppressLint("ResourceAsColor")
-    public void createNew(String name, String erhverv, double rank, Double pay, int Drawable){
+    public void createNew(String name, String erhverv/*, String rank, Double pay, int Drawable*/){
         CardView cv = new CardView(getApplicationContext());
         cv.setId(id++);
         LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);

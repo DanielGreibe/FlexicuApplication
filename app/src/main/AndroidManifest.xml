@@ -26,7 +26,7 @@
         <activity android:name=".GUI.RentOut" />
         <activity android:name=".GUI.RentIn" />
         <activity android:name=".GUI.Navigation" />
-        <activity android:name=".GUI.FiltersRentOut" />
+        <activity android:name=".GUI.FiltersRentIn" />
         <activity android:name=".GUI.CreateEmployeePay" />
         <activity android:name=".GUI.CreateEmployeeDistance" />
         <activity android:name=".GUI.CreateEmployeeYear" />
