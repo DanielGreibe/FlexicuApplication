@@ -30,10 +30,7 @@ public class FiltersRentOut extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_out_filters);
             List<CrudEmployee> people = new ArrayList<CrudEmployee>();
-            people.add(new CrudEmployee.EmployeBuilder("john").pay(201).job("mur").dist(70).builder());
-            //people.add(new CrudEmployee.EmployeBuilder("fut").pay(199).builder());
-            people.add(new CrudEmployee.EmployeBuilder("bob").pay(202).job("elektro").dist(20).builder());
-            people.add(new CrudEmployee.EmployeBuilder("julemanden").pay(150).job("væg").dist(10).builder());
+
 
         btn = findViewById(R.id.searchBtn);
         lowerPay = findViewById(R.id.payLower);

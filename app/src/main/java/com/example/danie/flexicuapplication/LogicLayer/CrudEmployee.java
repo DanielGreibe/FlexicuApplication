@@ -99,6 +99,11 @@ public static class EmployeBuilder{
             return this;
         }
 
+        public EmployeBuilder ID(int id){
+            ID = id;
+            return this;
+        }
+
         public CrudEmployee builder(){
             return new CrudEmployee(this);
         }
