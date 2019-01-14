@@ -15,6 +15,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     private ConstraintLayout constLayout;
     private ConstraintLayout constCardLayout;
     TextView textViewErhverv, textViewLejeperiodeStart;
+    private ConstraintLayout udlejBtn;
     int id = 1;
     @SuppressLint("ResourceType")
     @Override
@@ -45,46 +47,16 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_out);
         textViewErhverv = findViewById(R.id.erhvevtxt);
-        textViewLejeperiodeStart = findViewById(R.id.lejePeriodetxt);
+        textViewLejeperiodeStart = findViewById(R.id.lejeStart);
         mContext = getApplicationContext();
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         constLayout = findViewById(R.id.opretMedarbejder);
+        udlejBtn = findViewById(R.id.UdlejBtn);
         CriteriaDemo demo = new CriteriaDemo();
         demo.start();
         constLayout.setOnClickListener((view) ->{
             Intent opretAnsat = new Intent(this, CreateEmployee.class);
             startActivity(opretAnsat);
-            CardView card = new CardView(mContext);
-            card.setId(id);
-            id++;
-            if(card.getId() > 0){
-                card.setOnClickListener((info) -> {
-
-                    TextView txtLøn = findViewById(R.id.løntxt);
-                    txtLøn.setText("200 kr");
-                });
-            }else if (card.getId() == 2){
-                card.setOnClickListener((info) -> {
-                    TextView txtLøn = findViewById(R.id.løntxt);
-                    txtLøn.setText("0 kr");
-                });
-
-            }
-
-            /*
-            card.setLayoutParams(getLinearLayout());
-            card.setRadius(15);
-            card.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-
-            ImageView imgView = new ImageView(this);
-            imgView.setImageResource(R.drawable.download);
-            imgView.setAdjustViewBounds(true);
-
-
-            card.addView(addTextView(new TextView(mContext)));
-            card.addView(imgView);
-            myContainer.addView(card);
-            */
 
         });
 
@@ -122,7 +94,13 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                         //TODO Kan med fordel extractes til en metode.
                         Log.e("Test" , "Du trykkede på CardView " + cv.getId());
                         textViewLejeperiodeStart.setText("ID: " + obj.get("ID").toString());
-                        textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", "<"));
+                        textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", ""));
+                        for(int i = 0; i <  myContainer.getChildCount(); i++){
+                            myContainer.getChildAt(i).setBackgroundColor(Color.WHITE);
+                        }
+
+                        view.setBackgroundColor(Color.rgb(0,153,203));
+                        udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
 
                     });
                     //Add pic
@@ -140,8 +118,8 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                     //Add Name and Job
                     TextView TVName = new TextView(getApplicationContext());
                     TVName.setId(id++);
-                    TVName.setText(obj.get("name").toString().replaceAll("\"", "")+"\n"+obj.get("job").toString().replaceAll("\"", "<"));
-                    TVName.setTextSize(18);
+                    TVName.setText(obj.get("name").toString().replaceAll("\"", "")+"\n"+obj.get("job").toString().replaceAll("\"", ""));
+                    TVName.setTextSize(15);
 
                     cl.addView(TVName);
                     //Add distance
@@ -161,6 +139,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
 
                     CS.applyTo(cl);
+
                     myContainer.addView(cv);
                     //CrudEmployee staff = gson.fromJson(entry, );
                     //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));

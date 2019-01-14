@@ -3,22 +3,17 @@ package com.example.danie.flexicuapplication.GUI;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaDistance;
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaPay;
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiltersRentOut extends AppCompatActivity
+public class FiltersRentIn extends AppCompatActivity
     {
         private Button btn;
         private EditText lowerPay;
@@ -28,7 +23,7 @@ public class FiltersRentOut extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rent_out_filters);
+        setContentView(R.layout.activity_rent_in_filters);
             List<CrudEmployee> people = new ArrayList<CrudEmployee>();
 
 

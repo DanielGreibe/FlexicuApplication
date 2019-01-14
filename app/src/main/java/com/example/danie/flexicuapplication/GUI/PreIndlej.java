@@ -44,7 +44,7 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_indlej);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        editTextZipcode = findViewById(R.id.editTextZipcode);
+        //editTextZipcode = findViewById(R.id.editTextZipcode);
 
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);

@@ -16,7 +16,7 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
     Button nextPage;
     TextView titel;
     String name;
-    String zipcode;
+    int zipcode;
     EditText editTextZipcode;
 
     @Override
@@ -37,7 +37,7 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
         {
         if (v == nextPage)
             {
-            zipcode = editTextZipcode.getText().toString();
+            zipcode = Integer.parseInt(editTextZipcode.getText().toString());
             ((GlobalVariables) this.getApplication()).setTempEmployeeZipcode(zipcode);
             Intent createEmployeeDescription = new Intent(this, CreateEmployeeDescription.class);
             startActivity(createEmployeeDescription);

@@ -24,26 +24,26 @@ public class MyRentOuts extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_my_rent_outs);
 
         mainLayout = findViewById(R.id.MineIndlejninger_mainLayout);
-        rentPeriodStart = findViewById(R.id.textViewRentPeriodStart);
+        /*rentPeriodStart = findViewById(R.id.textViewRentPeriodStart);
         rentPeriodEnd = findViewById(R.id.textViewRentPeriodEnd);
         tenant = findViewById(R.id.textViewTenant);
         profession = findViewById(R.id.textViewProfession);
         location = findViewById(R.id.textViewLocation);
 
-        firstEmployee = findViewById(R.id.firstEmployee);
-        firstEmployee.setOnClickListener(this);
-        mainLayout.setOnClickListener(this);
+        firstEmployee = findViewById(R.id.firstEmployee);*/
+//        firstEmployee.setOnClickListener(this);
+//        mainLayout.setOnClickListener(this);
         }
 
     @Override
     public void onClick(View v) {
-        if ( v == firstEmployee )
+       /* if ( v == firstEmployee )
         {
             rentPeriodStart.setText("Tekst ændret");
             rentPeriodEnd.setText("Tekst ændret");
             tenant.setText("Tekst ændret");
             profession.setText("Tekst ændret");
             location.setText("Tekst ændret");
-        }
+        }*/
     }
 }

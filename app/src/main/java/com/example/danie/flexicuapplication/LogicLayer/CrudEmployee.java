@@ -9,7 +9,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Random;
 
 public class CrudEmployee
-{
+    {
     private final String name;
     private final String job;
     private final double rank;
@@ -17,9 +17,12 @@ public class CrudEmployee
     private final int dist;
     boolean open;
     private final int pic;
-    private int ID;
+    private final int ID;
+    private final int zipcode;
 
-    private CrudEmployee(EmployeBuilder builder){
+
+    private CrudEmployee(EmployeBuilder builder)
+        {
         this.name = builder.name;
         this.job = builder.job;
         this.pay = builder.pay;
@@ -28,18 +31,23 @@ public class CrudEmployee
         this.pic = builder.pic;
         this.rank = builder.rank;
         this.ID = builder.ID;
-    }
-public static class EmployeBuilder{
-    String name;
-    String job;
-    double rank;
-    double pay;
-    int dist;
-    boolean open;
-    int pic;
-    int ID;
+        this.zipcode = builder.zipcode;
+        }
 
-        public EmployeBuilder(String name){
+    public static class EmployeBuilder
+        {
+        String name;
+        String job;
+        double rank;
+        double pay;
+        int dist;
+        boolean open;
+        int pic;
+        int ID;
+        int zipcode;
+
+        public EmployeBuilder(String name)
+            {
             this.name = name;
             //Add ID here
 
@@ -99,12 +107,14 @@ public static class EmployeBuilder{
             return this;
         }
 
-        public EmployeBuilder ID(int id){
-            ID = id;
+        public EmployeBuilder zipcode(int zipcode)
+            {
+            this.zipcode = zipcode;
             return this;
-        }
+            }
 
-        public CrudEmployee builder(){
+        public CrudEmployee builder()
+            {
             return new CrudEmployee(this);
         }
 

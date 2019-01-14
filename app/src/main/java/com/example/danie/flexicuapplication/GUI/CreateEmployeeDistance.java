@@ -44,7 +44,7 @@ public class CreateEmployeeDistance extends AppCompatActivity implements View.On
                 }
             else
                 {
-                String distance = editTextDistance.getText().toString();
+                int distance = Integer.parseInt(editTextDistance.getText().toString());
                 ((GlobalVariables) this.getApplication()).setTempEmployeeDistance(distance);
                 Intent createEmployeeZipcode = new Intent(this, CreateEmployeeZipcode.class);
                 startActivity(createEmployeeZipcode);
