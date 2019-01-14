@@ -36,6 +36,10 @@
         <activity android:name=".GUI.CreateEmployeeZipcode" />
         <activity android:name=".GUI.CreateEmployeeFinish" />
         <activity android:name=".GUI.PreIndlej"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="243681149e701f64f3e01a1c62b0a5362858d0fd" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

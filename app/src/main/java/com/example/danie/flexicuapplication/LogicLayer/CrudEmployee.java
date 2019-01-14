@@ -1,5 +1,4 @@
 package com.example.danie.flexicuapplication.LogicLayer;
-
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,73 +52,60 @@ public class CrudEmployee
             //Add ID here
 
             final boolean[] unique = {false};
-            while (!unique[0])
-                {
+            while(!unique[0]) {
                 int random = new Random().nextInt(9000) + 1000;
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere");
+                DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
                 //Check for existing ID.
-                myRef.child(String.valueOf(random)).addValueEventListener(new ValueEventListener()
-                    {
+                myRef.child(String.valueOf(random)).addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot snapshot)
-                        {
-                        if (!snapshot.exists())
-                            {
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if(!snapshot.exists()){
                             System.out.println("Unique ID");
                             unique[0] = true;
-                            }
-                        else
-                            {
+                        }else{
                             System.out.println("ID not Unique");
-                            }
                         }
-
+                    }
                     @Override
-                    public void onCancelled(DatabaseError databaseError)
-                        {
+                    public void onCancelled(DatabaseError databaseError) {
                         System.out.println("Error!");
                         unique[0] = false;
-                        }
-                    });
+                    }
+                });
 
 
                 this.ID = random;
                 unique[0] = true;
 
-                }
             }
+        }
 
-        public EmployeBuilder job(String job)
-            {
+        public EmployeBuilder job(String job){
             this.job = job;
-            return this;
-            }
+            return  this;
+        }
 
-        public EmployeBuilder rank(double rank)
-            {
+        public EmployeBuilder rank(double rank){
             this.rank = rank;
-            return this;
-            }
+            return  this;
+        }
 
-        public EmployeBuilder pay(double pay)
-            {
+        public EmployeBuilder pay(double pay){
             this.pay = pay;
             return this;
-            }
+        }
 
-        public EmployeBuilder dist(int dist)
-            {
+        public  EmployeBuilder dist(int dist){
             this.dist = dist;
             return this;
-            }
+        }
 
-        public EmployeBuilder pic(int pic)
-            {
+        public EmployeBuilder pic(int pic){
             this.pic = pic;
             return this;
-            }
+        }
 
         public EmployeBuilder zipcode(int zipcode)
             {
@@ -130,105 +116,79 @@ public class CrudEmployee
         public CrudEmployee builder()
             {
             return new CrudEmployee(this);
-            }
-
-        public void setName(String name)
-            {
-            this.name = name;
-            }
-
-        public void setJob(String job)
-            {
-            this.job = job;
-            }
-
-        public void setRank(double rank)
-            {
-            this.rank = rank;
-            }
-
-        public void setPay(double pay)
-            {
-            this.pay = pay;
-            }
-
-        public void setDist(int dist)
-            {
-            this.dist = dist;
-            }
-
-        public void setOpen(boolean open)
-            {
-            this.open = open;
-            }
-
-        public void setPic(int pic)
-            {
-            this.pic = pic;
-            }
-
-        public void setZipcode(int zipcode)
-            {
-            this.zipcode = zipcode;
-            }
-
-
         }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setJob(String job) {
+            this.job = job;
+        }
+
+        public void setRank(double rank) {
+            this.rank = rank;
+        }
+
+        public void setPay(double pay) {
+            this.pay = pay;
+        }
+
+        public void setDist(int dist) {
+            this.dist = dist;
+        }
+
+        public void setOpen(boolean open) {
+            this.open = open;
+        }
+
+        public void setPic(int pic) {
+            this.pic = pic;
+        }
+
+
+    }
 
     //Getter
-    public String getName()
-        {
+    public String getName() {
         return name;
-        }
+    }
 
-    public String getJob()
-        {
+    public String getJob() {
         return job;
-        }
+    }
 
-    public double getRank()
-        {
+    public double getRank() {
         return rank;
-        }
+    }
 
-    public double getPay()
-        {
+    public double getPay() {
         return pay;
-        }
+    }
 
-    public int getDist()
-        {
+    public int getDist() {
         return dist;
-        }
+    }
 
-    public boolean getOpen()
-        {
+    public boolean getOpen() {
         return open;
-        }
+    }
 
-    public boolean isOpen()
-        {
+    public boolean isOpen() {
         return open;
-        }
+    }
 
-    public int getPic()
-        {
+    public int getPic() {
         return pic;
-        }
+    }
 
-    public int getID()
-        {
+    public int getID() {
         return ID;
-        }
-
-    public int getZipcode()
-        {
-        return zipcode;
-        }
+    }
 
 
     //Setter
 
-    }
+}
 
 

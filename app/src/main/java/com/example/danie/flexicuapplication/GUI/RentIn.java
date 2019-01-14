@@ -1,6 +1,10 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.content.Intent;
+import android.location.Criteria;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
@@ -12,18 +16,37 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
+import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.Console;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class RentIn extends AppCompatActivity implements View.OnClickListener {
+public class RentIn extends AppCompatActivity implements View.OnClickListener{
 
     int id = 0;
+    int counter = 0;
     LinearLayout scroller;
     ImageView filterMenu;
     CrudEmployee test = new CrudEmployee.EmployeBuilder("Mathias").job("Java Udvikler ").pic(R.drawable.download).builder();
     boolean filtered = false;
+    CriteriaInterface name = new CriteriaProfession("Futter");
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,16 +55,45 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         filterMenu = findViewById(R.id.filterMenu);
         filterMenu.setOnClickListener(this);
             Bundle bundle = this.getIntent().getExtras();
+        List<CrudEmployee> employees = new ArrayList<>();
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+
+        //Check for existing ID.
+        myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange (DataSnapshot snapshot){
+                for (DataSnapshot entry : snapshot.getChildren()) {
+                    //Parse JSON
+                    JsonParser parser = new JsonParser();
+                    JsonElement element = parser.parse(entry.getValue().toString());
+                    JsonObject obj = element.getAsJsonObject();
+
+                    CrudEmployee people = new CrudEmployee.EmployeBuilder(obj.get("name").toString()).job(obj.get("job").toString()).ID(Integer.parseInt(obj.get("ID").toString())).pic(Integer.parseInt(obj.get("pic").toString())).builder();
+                    employees.add(people);
+
+
+
+                }
+                createNew(name.meetCriteria(employees).get(counter++));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
             if(bundle != null){
-               int distVal = bundle.getInt("dist");
                String payVal = bundle.getString("pay");
                Log.e("pay", payVal);
             }
-            for(int i = 0; i < 20; i++){
-                createNew(test);
-            }
+
     }
+
 
     public void createNew(CrudEmployee card){
 
@@ -132,7 +184,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
 
         CS.applyTo(cl);
 
-    scroller.addView(cv);
+        scroller.addView(cv);
     }
 
     @Override
@@ -153,4 +205,5 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener {
         }
 
     }
+
 }
