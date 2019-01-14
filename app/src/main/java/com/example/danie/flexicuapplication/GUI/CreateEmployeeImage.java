@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -48,6 +50,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
     public static final int GALLERY_SELECT = 1887;
 
     //Upload variables
+    String ImageString = null;
     Uri imageUri = null;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -97,7 +100,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         public void onClick(View v) {
             if (v == buttonNextPage) {
                 Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
-                ((GlobalVariables) this.getApplication()).setTempEmployeeImage(imageUri.toString());
+                ((GlobalVariables) this.getApplication()).setTempEmployeeImage(ImageString);
                 startActivity(CreateEmployeeFinish);
             }
         }
@@ -120,8 +123,8 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         protected void onActivityResult(int requestCode, int resultCode, Intent data){
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                imageUri = Uri.parse(data.toURI());
-                System.out.println("URI IS: " + imageUri.toString());
+                //imageUri = Uri.parse(data.toURI());
+                //System.out.println("URI IS: " + imageUri.toString());
 
                 //Make image square
                 int minPixels = 0;
@@ -129,6 +132,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 else minPixels = photo.getHeight();
                 Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth()-minPixels)/2), ((photo.getHeight()-minPixels)/2), minPixels, minPixels);
 
+                ImageString = BitMapToString(squareImg);
                 preview.setVisibility(View.VISIBLE);
                 preview.setImageBitmap(squareImg);
             }else if(requestCode == GALLERY_SELECT){
@@ -146,8 +150,17 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 if(photo.getWidth() < photo.getHeight()) minPixels = photo.getWidth();
                 else minPixels = photo.getHeight();
                 Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth()-minPixels)/2), ((photo.getHeight()-minPixels)/2), minPixels, minPixels);
+                ImageString = BitMapToString(squareImg);
                 preview.setVisibility(View.VISIBLE);
                 preview.setImageBitmap(squareImg);
             }
         }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp=Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
     }

@@ -2,12 +2,15 @@ package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -55,6 +59,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     String pay;
     int distance;
     Uri imageUri;
+    Bitmap imgData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +85,8 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         beskrivelse = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
         pay = ((GlobalVariables) this.getApplication()).getTempEmployeePay();
         distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
-        imageUri = Uri.parse(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
+        //imageUri = Uri.parse(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
+        imgData = StringToBitMap(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
 
 
         textViewName.setText("Navn: " + name);
@@ -115,7 +121,11 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference databaseRef = mStorageRef.child("Users/"+getFirebaseUser().getUid()+"/Medarbejdere/"+ID+".jpg");
 
-        databaseRef.putFile(imageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imgData.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        databaseRef.putBytes(data).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()){
@@ -141,6 +151,17 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                 }
             }
         });
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
 
