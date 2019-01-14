@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.CrudRentIns;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 import com.google.firebase.database.DataSnapshot;
@@ -42,6 +43,7 @@ public class MyRentIns extends AppCompatActivity {
     TextView textViewLejer;
     TextView textViewErhverv;
     TextView textViewLokation;
+    JsonObject obj;
 
 
     @SuppressLint("ResourceAsColor")
@@ -61,13 +63,15 @@ public class MyRentIns extends AppCompatActivity {
         mainLayout = findViewById(R.id.MineIndlejninger_mainLayout);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+        DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
 
-
-        DatabaseReference myRefTEST = database.getReference(((GlobalVariables) this.getApplication()).getFirebaseUser().getUid()+"/Indlejninger");
+        /*CrudRentIns en = new CrudRentIns("Ternet Ninja", "Kriger", "1/2 - 2019", "1/4 - 2019", "Aske", "Ika", 4.9);
+        CrudRentIns to = new CrudRentIns("Daniel Gribe", "Java", "1/4 - 2019", "15/7 - 2019", "Mathias", "Lyngby", 4.0);
         Gson gson = new Gson();
-        String indlejningJSON = gson.toJson("");
-        myRefTEST.child(Integer.toString(2344)).setValue(indlejningJSON);
+        String employeeJSON = gson.toJson(en);
+        myRef.child(Integer.toString(en.getID())).setValue(employeeJSON);
+        employeeJSON = gson.toJson(to);
+        myRef.child(Integer.toString(to.getID())).setValue(employeeJSON);*/
 
         //Check for existing ID.
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -78,16 +82,11 @@ public class MyRentIns extends AppCompatActivity {
                     //Parse JSON
                     JsonParser parser = new JsonParser();
                     JsonElement element = parser.parse(entry.getValue().toString());
-                    JsonObject obj = element.getAsJsonObject();
+                    obj = element.getAsJsonObject();
 
 
                     System.out.println("ID IS "+obj.get("ID"));
-                    createNew(obj.get("name").toString().replaceAll("\"",""), obj.get("job").toString().replaceAll("\"","")/*, obj.get("rank").toString(), obj.get("pay").toString(), obj.get("pic")*/);
-
-
-
-                   // TVName.setText(obj.get("name").toString().replaceAll("\"", "")+"\n"+obj.get("job").toString().replaceAll("\"", ""));
-
+                    createNew(obj);
                 }
             }
             @Override
@@ -96,38 +95,6 @@ public class MyRentIns extends AppCompatActivity {
             }
         });
 
-        /*ConstraintLayout firstEmployee = findViewById(R.id.firstEmployee);
-        ConstraintLayout firstEmployee2 = findViewById(R.id.firstEmployee2);
-        ConstraintLayout firstEmployee3 = findViewById(R.id.firstEmployee3);
-        ConstraintLayout firstEmployee4 = findViewById(R.id.firstEmployee4);
-        ConstraintLayout firstEmployee5 = findViewById(R.id.firstEmployee5);
-        ConstraintLayout firstEmployee6 = findViewById(R.id.firstEmployee6);
-        ConstraintLayout firstEmployee7 = findViewById(R.id.firstEmployee7);
-        ConstraintLayout firstEmployee8 = findViewById(R.id.firstEmployee8);
-        ConstraintLayout firstEmployee9 = findViewById(R.id.firstEmployee9);
-        ConstraintLayout firstEmployee10 = findViewById(R.id.firstEmployee10);
-        ConstraintLayout firstEmployee11 = findViewById(R.id.firstEmployee11);
-        ConstraintLayout firstEmployee12 = findViewById(R.id.firstEmployee12);
-        ConstraintLayout firstEmployee13 = findViewById(R.id.firstEmployee13);
-        ConstraintLayout firstEmployee14 = findViewById(R.id.firstEmployee14);
-        ConstraintLayout firstEmployee15 = findViewById(R.id.firstEmployee15);
-        ConstraintLayout firstEmployee16 = findViewById(R.id.firstEmployee16);
-        ConstraintLayout firstEmployee17 = findViewById(R.id.firstEmployee17);
-        ConstraintLayout firstEmployee18 = findViewById(R.id.firstEmployee18);
-        ConstraintLayout firstEmployee19 = findViewById(R.id.firstEmployee19);
-        ConstraintLayout firstEmployee20 = findViewById(R.id.firstEmployee20);
-
-        ImageView profileImage2 = findViewById(R.id.profile_image2);
-        TextView nameBox2 = findViewById(R.id.nameBox2);
-
-        nameBox2.setText("Oliver");
-        profileImage2.setImageResource(R.drawable.oliver);
-
-
-
-
-        scroller.removeView(firstEmployee);
-        scroller.addView(firstEmployee);*/
 
 //Listview og __view
         //Over i XML-fil
@@ -143,7 +110,7 @@ public class MyRentIns extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @SuppressLint("ResourceAsColor")
-    public void createNew(String name, String erhverv/*, String rank, Double pay, int Drawable*/){
+    public void createNew(JsonObject obj){
         CardView cv = new CardView(getApplicationContext());
         cv.setId(id++);
         LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
@@ -167,13 +134,20 @@ public class MyRentIns extends AppCompatActivity {
         //Add Name and Job
         TextView TVName = new TextView(this);
         TVName.setId(id++);
-        TVName.setText(name+"\n"+erhverv);
+        TVName.setText(obj.get("name").toString().replaceAll("\"","")+"\n"+obj.get("job").toString().replaceAll("\"",""));
         TVName.setTextSize(18);
 
         cl.addView(TVName);
         //Add distance
         //cv.setPadding(0,100,0,100);
         //ReadMore
+
+        String rank = obj.get("rank").toString().replace("\"","");
+        String rentStart = obj.get("rentStart").toString().replace("\"", "");
+        String rentEnd = obj.get("rentEnd").toString().replaceAll("\"","");
+        String job = obj.get("job").toString().replace("\"","");
+        String owner = obj.get("owner").toString().replaceAll("\"","");
+        String location = obj.get("location").toString().replaceAll("\"","");
 
         ConstraintSet CS = new ConstraintSet();
         CS.clone(cl);
@@ -193,11 +167,11 @@ public class MyRentIns extends AppCompatActivity {
         cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewLejeperiodeStart.setText("1/3/2019");
-                textViewLejeperiodeSlut.setText("1/9/2019");
-                textViewLejer.setText("DTU");
-                textViewErhverv.setText(erhverv);
-                textViewLokation.setText("Lyngby");
+                textViewLejeperiodeStart.setText(rentStart);
+                textViewLejeperiodeSlut.setText(rentEnd);
+                textViewLejer.setText(owner);
+                textViewErhverv.setText(job);
+                textViewLokation.setText(location);
             }
         });
 

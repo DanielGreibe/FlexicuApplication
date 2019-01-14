@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CriteriaPay implements CriteriaInterface {
-    private int searchCriteria;
-    public CriteriaPay(int searchCriteria)
+    private double searchCriteria;
+    public CriteriaPay(double searchCriteria)
     {
         this.searchCriteria = searchCriteria;
     }

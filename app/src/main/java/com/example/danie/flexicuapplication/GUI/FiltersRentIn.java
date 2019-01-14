@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaPay;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.R;
 
@@ -25,10 +28,7 @@ public class FiltersRentIn extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_in_filters);
             List<CrudEmployee> people = new ArrayList<CrudEmployee>();
-            people.add(new CrudEmployee.EmployeBuilder("john").pay(201).job("mur").dist(70).builder());
-            //people.add(new CrudEmployee.EmployeBuilder("fut").pay(199).builder());
-            people.add(new CrudEmployee.EmployeBuilder("bob").pay(202).job("elektro").dist(20).builder());
-            people.add(new CrudEmployee.EmployeBuilder("julemanden").pay(150).job("væg").dist(10).builder());
+
 
         btn = findViewById(R.id.searchBtn);
         lowerPay = findViewById(R.id.payLower);
@@ -41,10 +41,12 @@ public class FiltersRentIn extends AppCompatActivity
 
          btn.setOnClickListener((view)->{
                 Intent intent = new Intent(this, RentIn.class);
-                intent.putExtra("dist", seekBarDist.getProgress());
-                intent.putExtra("pay",  upperPay.getText().toString());
-                finish();
+                //intent.putExtra("dist", seekBarDist.getProgress());
+                intent.putExtra("pay", lowerPay.getText().toString());
+             System.out.println(lowerPay.getText().toString()+"-------------------------------------");
                 startActivity(intent);
+                finish();
+
 
 
             });
