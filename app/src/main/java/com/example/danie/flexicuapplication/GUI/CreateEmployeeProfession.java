@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -53,10 +54,17 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
                 profession = editTextErhverv.getText().toString();
                 ((GlobalVariables) this.getApplication()).setTempEmployeeProfession(profession);
                 Intent createEmployeePay = new Intent(this, CreateEmployeePay.class);
-                startActivity(createEmployeePay);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                    startActivity(createEmployeePay, bndlanimation);
                 }
 
 
             }
+        }
+        public void onBackPressed() {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            finish();
         }
     }
