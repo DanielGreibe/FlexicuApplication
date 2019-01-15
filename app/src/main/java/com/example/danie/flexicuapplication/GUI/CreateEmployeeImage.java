@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
@@ -34,10 +35,9 @@ import java.io.InputStream;
 public class CreateEmployeeImage extends AppCompatActivity implements View.OnClickListener{
 
     Button buttonNextPage;
-    ImageView preview;
+    ImageView preview, crossPreview;
     TextView textViewTitle;
-    TextView textViewImage;
-    TextView firmaBilledeSelect, tagBilledeSelect, vaelgBilledeSelect;
+    ConstraintLayout firmaBilledeSelect, tagBilledeSelect, vaelgBilledeSelect;
     String name;
     String erhverv;
 
@@ -59,12 +59,12 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_image);
 
+        crossPreview = findViewById(R.id.crossPreview);
         preview = findViewById(R.id.imageViewPreview);
         firmaBilledeSelect = findViewById(R.id.vaelgFirmaBillede);
         vaelgBilledeSelect = findViewById(R.id.vaelgBillede);
         tagBilledeSelect = findViewById(R.id.tagBillede);
         textViewTitle = findViewById(R.id.textViewTitle);
-        textViewImage = findViewById(R.id.tagBillede);
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         textViewTitle.setText("Tilføj et billede af " + name + " eller firmaets logo");
 
@@ -72,6 +72,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         buttonNextPage.setOnClickListener(this);
 
         preview.setVisibility(View.INVISIBLE);
+        crossPreview.setVisibility(View.INVISIBLE);
 
 
         //Tag billede button
@@ -91,6 +92,13 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, GALLERY_SELECT);
+        });
+
+        //Tag billede button
+        crossPreview.setOnClickListener((view) ->{
+            crossPreview.setVisibility(View.INVISIBLE);
+            preview.setVisibility(View.INVISIBLE);
+            ImageString = null;
         });
 
     }
@@ -135,6 +143,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 ImageString = BitMapToString(squareImg);
                 preview.setVisibility(View.VISIBLE);
                 preview.setImageBitmap(squareImg);
+                crossPreview.setVisibility(View.VISIBLE);
             }else if(requestCode == GALLERY_SELECT){
                 Bitmap photo = null;
                 if (resultCode == RESULT_OK) {
@@ -153,6 +162,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 ImageString = BitMapToString(squareImg);
                 preview.setVisibility(View.VISIBLE);
                 preview.setImageBitmap(squareImg);
+                crossPreview.setVisibility(View.VISIBLE);
             }
         }
 
