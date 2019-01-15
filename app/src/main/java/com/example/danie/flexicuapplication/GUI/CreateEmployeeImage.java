@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
+import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -95,7 +96,20 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
             startActivityForResult(photoPickerIntent, GALLERY_SELECT);
         });
 
-        //Tag billede button
+        //Brug firmabillede
+        firmaBilledeSelect.setOnClickListener((view) ->{
+            ImageString = "flexicu";
+            crossPreview.setVisibility(View.VISIBLE);
+            preview.setVisibility(View.VISIBLE);
+
+            //Get round image
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
+            bitmap = RoundedImageView.getCroppedBitmap(bitmap, 200);
+            preview.setImageBitmap(bitmap);
+
+        });
+
+        //Slet preview button
         crossPreview.setOnClickListener((view) ->{
             crossPreview.setVisibility(View.INVISIBLE);
             preview.setVisibility(View.INVISIBLE);
@@ -142,6 +156,8 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 if(photo.getWidth() < photo.getHeight()) minPixels = photo.getWidth();
                 else minPixels = photo.getHeight();
                 Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth()-minPixels)/2), ((photo.getHeight()-minPixels)/2), minPixels, minPixels);
+                //Get round image
+                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 200);
 
                 ImageString = BitMapToString(squareImg);
                 preview.setVisibility(View.VISIBLE);
@@ -162,6 +178,8 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 if(photo.getWidth() < photo.getHeight()) minPixels = photo.getWidth();
                 else minPixels = photo.getHeight();
                 Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth()-minPixels)/2), ((photo.getHeight()-minPixels)/2), minPixels, minPixels);
+                //Get round image
+                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 200);
                 ImageString = BitMapToString(squareImg);
                 preview.setVisibility(View.VISIBLE);
                 preview.setImageBitmap(squareImg);

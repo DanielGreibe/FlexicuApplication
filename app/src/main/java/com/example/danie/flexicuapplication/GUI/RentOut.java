@@ -19,6 +19,7 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaDemo;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentOut;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
+import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -99,6 +101,8 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         opretMedarbejderButton = findViewById(R.id.opretMedarbejder);
         udlejBtn = findViewById(R.id.UdlejBtn);
+
+
         CriteriaDemo demo = new CriteriaDemo();
         demo.start();
         opretMedarbejderButton.setOnClickListener((view) ->{
@@ -314,8 +318,25 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         //
 
         if(obj.get("pic").toString().replaceAll("\"", "").equals("flexicu")){
-            loadingbar.setVisibility(View.INVISIBLE);
-            IVProfilePic.setImageResource(R.drawable.flexiculogocube);
+
+            if(loadingbar.getVisibility() == View.VISIBLE) {
+                //Set fade animation and hide after animation end
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(1500);
+                anim.setRepeatCount(0);
+                anim.willChangeBounds();
+                loadingbar.startAnimation(anim);
+                loadingbar.postOnAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingbar.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
+            //Get round image
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
+            bitmap = RoundedImageView.getCroppedBitmap(bitmap, 200);
+            IVProfilePic.setImageBitmap(bitmap);
         }else{
             //Set temporary picture while real pictures are downloading
             IVProfilePic.setImageResource(R.drawable.download);
@@ -334,8 +355,22 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                 @Override
                 protected void onPostExecute(Bitmap s) {
                     super.onPostExecute(s);
+                    s = RoundedImageView.getCroppedBitmap(s, 200);
                     IVProfilePic.setImageBitmap(s);
-                    loadingbar.setVisibility(View.INVISIBLE);
+                    if(loadingbar.getVisibility() == View.VISIBLE) {
+                        //Set fade animation and hide after animation end
+                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                        anim.setDuration(1500);
+                        anim.setRepeatCount(0);
+                        anim.willChangeBounds();
+                        loadingbar.startAnimation(anim);
+                        loadingbar.postOnAnimation(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingbar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }
 
                 }
             }.execute();
@@ -354,7 +389,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         ConstraintSet CS = new ConstraintSet();
         CS.clone(cl);
         //Pic
-        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,0);
+        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,15);
         CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
         CS.connect(IVProfilePic.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
 
