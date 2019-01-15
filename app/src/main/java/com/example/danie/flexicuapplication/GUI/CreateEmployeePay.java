@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,8 +49,16 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
                 String pay = editTextPay.getText().toString();
                 ((GlobalVariables) this.getApplication()).setTempEmployeePay(pay);
                 Intent createEmployeeDistance = new Intent(this, CreateEmployeeDistance.class);
-                startActivity(createEmployeeDistance);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                    startActivity(createEmployeeDistance, bndlanimation);
                 }
             }
         }
+        public void onBackPressed() {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            finish();
+        }
+
     }

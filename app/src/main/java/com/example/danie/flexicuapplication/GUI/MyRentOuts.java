@@ -46,4 +46,10 @@ public class MyRentOuts extends AppCompatActivity implements View.OnClickListene
             location.setText("Tekst ændret");
         }*/
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        finish();
+    }
 }

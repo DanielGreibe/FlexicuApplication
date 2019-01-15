@@ -12,6 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,15 +46,49 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_indlej);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        //editTextZipcode = findViewById(R.id.editTextZipcode);
+        editTextZipcode = findViewById(R.id.editTextZipcode);
 
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
+        buttonNextPage.setAlpha(0.3f);
         textViewDescription = findViewById(R.id.textViewDescription);
         buttonGetLocation = findViewById(R.id.buttonGetLocation);
         buttonGetLocation.setOnClickListener(this);
-        buttonGetLocation.setImageResource(R.drawable.marker);
-        buttonGetLocation.setBackgroundDrawable(null);
+        buttonGetLocation.setImageResource(R.drawable.gpsposition2);
+        buttonGetLocation.setBackgroundResource(0);
+
+
+        editTextZipcode.addTextChangedListener(new TextWatcher()
+            {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+                {
+
+                }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+                {
+                String text = s.toString();
+                if (text.length() > 3 && text.matches("[0-9]+"))
+                    {
+                    buttonNextPage.setClickable(true);
+                    buttonNextPage.setAlpha(1f);
+
+                    }
+                else
+                    {
+                    buttonNextPage.setClickable(false);
+                    buttonNextPage.setAlpha(0.3f);
+                    }
+                }
+
+            @Override
+            public void afterTextChanged(Editable s)
+                {
+
+                }
+            });
 
 
         }
@@ -93,13 +129,15 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
                                                 {
                                                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                                                 ((GlobalVariables) PreIndlej.this.getApplication()).setUserAddress(addresses.get(0));
-                                                List<Address> addresses2 = geocoder.getFromLocationName("Kongens Lyngby" , 1);
-                                                Log.e("Address2" , "Latitude: " + addresses2.get(0).getLatitude());
-                                                Log.e("Address2" , "Longitude " + addresses2.get(0).getLongitude());
-                                                Log.e("Address1", addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryName());
-                                                editTextZipcode.setText(addresses.get(0).getPostalCode() + "  -  " + addresses.get(0).getLocality());
+                                                editTextZipcode.setText(addresses.get(0).getPostalCode());
 
-                                                Log.e("Addresse" , ((GlobalVariables) PreIndlej.this.getApplication()).getUserAddress().getPostalCode());
+                                                /* //Unusued Code, is there for reference at a later time
+                                                List<Address> addresses2 = geocoder.getFromLocationName("Kongens Lyngby", 1);
+                                                Log.e("Address2", "Latitude: " + addresses2.get(0).getLatitude());
+                                                Log.e("Address2", "Longitude " + addresses2.get(0).getLongitude());
+                                                Log.e("Address1", addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryName());
+                                                */
+                                                Log.e("Addresse", ((GlobalVariables) PreIndlej.this.getApplication()).getUserAddress().getPostalCode());
                                                 } catch (IOException e)
                                                 {
                                                 e.printStackTrace();
@@ -107,20 +145,11 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
                                             }
                                         }
                                     });
-
-
             }
-        else if ( v == buttonNextPage)
+        else if (v == buttonNextPage)
             {
-            if ( editTextZipcode.getText().length() < 4)
-                {
-                Toast.makeText(this, "Tryk på knappen eller indtast et postnummer", Toast.LENGTH_SHORT).show();
-                }
-            else
-                {
                 Intent RentIn = new Intent(this, RentIn.class);
                 startActivity(RentIn);
-                }
             }
 
         }

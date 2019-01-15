@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -61,14 +62,17 @@ public class CreateEmployeeYear extends AppCompatActivity implements View.OnClic
             Intent createEmployeeProfession = new Intent(this, CreateEmployeeProfession.class);
             createEmployeeProfession.putExtra("NameOfEmployee", name);
             createEmployeeProfession.putExtra("YearOfEmployee", year);
-            startActivity(createEmployeeProfession);
+                Bundle bndlanimation =
+                        ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                startActivity(createEmployeeProfession, bndlanimation);
             }
         }
 
         @Override
         public void onBackPressed() {
             super.onBackPressed();
-            overridePendingTransition(R.anim.fui_slide_out_left, R.anim.fui_slide_out_left);
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            finish();
         }
     }
 

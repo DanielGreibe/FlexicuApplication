@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,24 +43,33 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
                 {
                     //Opens the MineUdlejninger page
                     Intent MineUdlejninger = new Intent(this, MyRentOuts.class);
-                    startActivity(MineUdlejninger);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                    startActivity(MineUdlejninger, bndlanimation);
                 }
             else if ( v == buttonMineIndlejninger)
                 {
                     //Opens the MineIndlejninger page
                     Intent MineIndlejninger = new Intent(this, MyRentIns.class);
-                    startActivity(MineIndlejninger);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                    startActivity(MineIndlejninger, bndlanimation);
                 }
             else if ( v == buttonIndlej)
                 {
                     //Opens the Indlej page
                     Intent Indlej = new Intent(this, RentIn.class);
-                    startActivity(Indlej);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                    startActivity(Indlej, bndlanimation);
                 }
             else if (v == buttonUdlej)
                 {
                     //Opens the Udlej page
                     Intent Udlej = new Intent(this, RentOut.class);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                    startActivity(Udlej, bndlanimation);
                     Udlej.putExtra("callingActivity", "navigation");
                     startActivity(Udlej);
                 }

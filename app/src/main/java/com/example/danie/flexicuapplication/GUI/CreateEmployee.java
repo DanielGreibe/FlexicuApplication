@@ -45,12 +45,18 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
                 ((GlobalVariables) this.getApplication()).setTempEmployeeName(name);
                 Intent createEmployeeYear = new Intent(this, CreateEmployeeYear.class);
                     Bundle bndlanimation =
-                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).toBundle();
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                     startActivity(createEmployeeYear, bndlanimation);
 
                 }
                 }
             }
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            finish();
+        }
 
     }
 
