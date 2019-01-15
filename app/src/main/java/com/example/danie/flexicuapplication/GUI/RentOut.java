@@ -310,7 +310,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
         if(obj.get("pic").toString().replaceAll("\"", "").equals("flexicu")){
             loadingbar.setVisibility(View.INVISIBLE);
-            IVProfilePic.setImageResource(R.drawable.oliver);
+            IVProfilePic.setImageResource(R.drawable.flexiculogocube);
         }else{
             //Set temporary picture while real pictures are downloading
             IVProfilePic.setImageResource(R.drawable.download);
