@@ -1,6 +1,7 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -92,7 +93,9 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         demo.start();
         constLayout.setOnClickListener((view) ->{
             Intent opretAnsat = new Intent(this, CreateEmployee.class); //TODO change to CreateEmplyee.class
-            startActivity(opretAnsat);
+            Bundle bndlanimation =
+                    ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+            startActivity(opretAnsat, bndlanimation);
 
         });
 
@@ -309,5 +312,11 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             e.printStackTrace();
             return null;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        finish();
     }
 }
