@@ -2,6 +2,7 @@ package com.example.danie.flexicuapplication.GUI;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -109,7 +110,9 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
             if (v == buttonNextPage) {
                 Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
                 ((GlobalVariables) this.getApplication()).setTempEmployeeImage(ImageString);
-                startActivity(CreateEmployeeFinish);
+                Bundle bndlanimation =
+                        ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                startActivity(CreateEmployeeFinish, bndlanimation);
             }
         }
 
@@ -172,5 +175,12 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         byte [] b=baos.toByteArray();
         String temp=Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        finish();
     }
     }
