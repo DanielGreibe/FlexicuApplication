@@ -60,6 +60,7 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
                 {
                     //Opens the Udlej page
                     Intent Udlej = new Intent(this, RentOut.class);
+                    Udlej.putExtra("callingActivity", "navigation");
                     startActivity(Udlej);
                 }
         }
