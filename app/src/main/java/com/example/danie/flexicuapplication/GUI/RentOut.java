@@ -336,7 +336,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             }.execute();
         }
 
-
         IVProfilePic.setAdjustViewBounds(true);
         cl.addView(IVProfilePic);
         //Add Name and Job
@@ -346,9 +345,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         TVName.setTextSize(15);
 
         cl.addView(TVName);
-        //Add distance
-        //cv.setPadding(0,100,0,100);
-        //ReadMore
 
         ConstraintSet CS = new ConstraintSet();
         CS.clone(cl);
@@ -361,8 +357,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT,8);
         CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
         CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
-
-
 
         CS.applyTo(cl);
 
