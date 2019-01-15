@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPay;
@@ -43,10 +44,13 @@ public class FiltersRentIn extends AppCompatActivity
                 Intent intent = new Intent(this, RentIn.class);
                 //intent.putExtra("dist", seekBarDist.getProgress());
                 intent.putExtra("pay", lowerPay.getText().toString());
-             System.out.println(lowerPay.getText().toString()+"-------------------------------------");
-                startActivity(intent);
-                finish();
-
+                if (lowerPay.getText().toString().equals(""))
+                {
+                    Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
+                }else {
+                    startActivity(intent);
+                    finish();
+                }
 
 
             });

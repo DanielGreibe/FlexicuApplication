@@ -8,6 +8,45 @@
     tools:context=".GUI.CreateEmployeeImage">
 
 
+    <TextView
+        android:id="@+id/vaelgBillede"
+        android:layout_width="119dp"
+        android:layout_height="119dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/layout_background_round_corners"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Vælg billede"
+        android:inputType="textPersonName"
+        android:text="Vælg Billede"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewPreview"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
+    <TextView
+        android:id="@+id/vaelgFirmaBillede"
+        android:layout_width="119dp"
+        android:layout_height="119dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/layout_background_round_corners"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Vælg billede"
+        android:inputType="textPersonName"
+        android:text="Brug Firmalogo"
+        app:layout_constraintEnd_toStartOf="@+id/tagBillede"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
@@ -36,12 +75,12 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
-        android:id="@+id/textViewImage"
+        android:id="@+id/tagBillede"
         android:layout_width="119dp"
-        android:layout_height="129dp"
+        android:layout_height="119dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/layout_background_round_corners"
@@ -49,7 +88,9 @@
         android:gravity="center"
         android:hint="Vælg billede"
         android:inputType="textPersonName"
+        android:text="Tag Billede"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
@@ -67,7 +108,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewImage" />
+        app:layout_constraintTop_toBottomOf="@+id/tagBillede" />
 
     <TextView
         android:id="@+id/textView10"
@@ -83,5 +124,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonNextPage" />
+
+    <ImageView
+        android:id="@+id/imageViewPreview"
+        android:layout_width="119dp"
+        android:layout_height="119dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        app:srcCompat="@drawable/circle" />
 
 </android.support.constraint.ConstraintLayout>

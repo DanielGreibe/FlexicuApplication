@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.URL;
 import java.util.Random;
 
 public class CrudEmployee
@@ -16,7 +17,7 @@ public class CrudEmployee
     private final double pay;
     private final int dist;
     boolean open;
-    private final int pic;
+    private String pic;
     private final int ID;
     private final int zipcode;
 
@@ -42,7 +43,7 @@ public class CrudEmployee
         double pay;
         int dist;
         boolean open;
-        int pic;
+        String pic;
         int ID;
         int zipcode;
 
@@ -102,7 +103,7 @@ public class CrudEmployee
             return this;
         }
 
-        public EmployeBuilder pic(int pic){
+        public EmployeBuilder pic(String pic){
             this.pic = pic;
             return this;
         }
@@ -146,7 +147,7 @@ public class CrudEmployee
             this.open = open;
         }
 
-        public void setPic(int pic) {
+        public void setPic(String pic) {
             this.pic = pic;
         }
 
@@ -182,13 +183,15 @@ public class CrudEmployee
         return open;
     }
 
-    public int getPic() {
+    public String getPic() {
         return pic;
     }
 
     public int getID() {
         return ID;
     }
+
+    public void setPic(String URL){pic = URL;}
 
 
     //Setter

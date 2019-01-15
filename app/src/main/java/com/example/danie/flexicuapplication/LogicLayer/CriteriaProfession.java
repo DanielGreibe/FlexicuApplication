@@ -15,9 +15,7 @@ public class CriteriaProfession implements CriteriaInterface {
         List<CrudEmployee> profession = new ArrayList<CrudEmployee>();
 
         for(CrudEmployee employee: persons) {
-            System.out.println(employee.getJob().replace("\"", "")+" equals " + searchCriteria.toString());
-            if(employee.getJob().replace("\"","").equals(searchCriteria)){
-                System.out.println("this is from filter -----------------"+persons.get(0).getJob());
+            if(employee.getJob().equals(searchCriteria)){
                 profession.add(employee);
             }
         }

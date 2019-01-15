@@ -24,7 +24,7 @@
         android:paddingLeft="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/filterMenu"
-        app:layout_constraintTop_toBottomOf="@+id/imageView12" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPreview" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -44,7 +44,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView12"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPreview"
         app:srcCompat="@drawable/menu_kvadrat" />
 
     <View
