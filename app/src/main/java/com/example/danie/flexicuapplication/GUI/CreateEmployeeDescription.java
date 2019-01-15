@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -51,9 +52,16 @@ public class CreateEmployeeDescription extends AppCompatActivity implements View
             beskrivelse = editTextDescription.getText().toString();
             ((GlobalVariables) this.getApplication()).setTempEmployeeDescription(beskrivelse);
             Intent createEmployeeImage = new Intent(this, CreateEmployeeImage.class);
-            startActivity(createEmployeeImage);
-
+                Bundle bndlanimation =
+                        ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                startActivity(createEmployeeImage, bndlanimation);
 
             }
+        }
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            finish();
         }
     }

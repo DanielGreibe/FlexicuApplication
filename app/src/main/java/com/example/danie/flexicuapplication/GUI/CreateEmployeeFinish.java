@@ -105,7 +105,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         {
             Intent Udlej = new Intent(this, RentOut.class);
             //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
-            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(250).zipcode(zipcode).dist(distance).builder();
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(250).zipcode(zipcode).dist(distance).available(true).builder();
 
             //Upload image if standard image is selected or if custom image is selected!
             if(((GlobalVariables) this.getApplication()).getTempEmployeeImage().equals("flexicu")){
@@ -123,7 +123,10 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
 
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Udlej.putExtra("callingActivity", "createEmployeeFinish");
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            Intent intent = new Intent(this, RentOut.class);
             startActivity(Udlej);
+            finish();
         }
     }
 
@@ -176,4 +179,10 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        finish();
+    }
 }
