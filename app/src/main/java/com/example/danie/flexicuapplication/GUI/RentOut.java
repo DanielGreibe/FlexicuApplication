@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -129,12 +130,16 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRefUdlejid = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
-        DatabaseReference myRefUdlejninger = database.getReference("Udlejninger/");
+        DatabaseReference myRefUdlejninger = database.getReference("Udlejninger");
+        Gson gson = new Gson();
 
 
         udlejBtn.setOnClickListener((view) ->{
-            //CrudRentOut newRentOut = new CrudRentOut();
-            //myRefUdlejid.child((GlobalVariables.getFirebaseUser().getUid()) + );
+            CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString());
+            String rentOutJSON = gson.toJson(newRentOut);
+            myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
+            String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
+            myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
         });
 
         //Load workers from database

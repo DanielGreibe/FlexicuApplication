@@ -123,7 +123,10 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
 
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Udlej.putExtra("callingActivity", "createEmployeeFinish");
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            Intent intent = new Intent(this, RentOut.class);
             startActivity(Udlej);
+            finish();
         }
     }
 
@@ -176,4 +179,10 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        finish();
+    }
 }
