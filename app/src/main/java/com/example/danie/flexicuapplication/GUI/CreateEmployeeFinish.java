@@ -105,10 +105,22 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         {
             Intent Udlej = new Intent(this, RentOut.class);
             //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
-            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(250).zipcode(zipcode).dist(distance).builder();
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(250).zipcode(zipcode).dist(distance).available(true).builder();
 
-            //Upload image
-            uploadImg(employee.getID(), employee);
+            //Upload image if standard image is selected or if custom image is selected!
+            if(((GlobalVariables) this.getApplication()).getTempEmployeeImage().equals("flexicu")){
+                employee.setPic("flexicu"); //TODO ADD STANDARD IMG LINK
+                // Write a message to the database
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference(( getFirebaseUser().getUid()+"/Medarbejdere"));
+                Gson gson = new Gson();
+                String employeeJSON = gson.toJson(employee);
+                System.out.println(employeeJSON);
+                myRef.child(Integer.toString(employee.getID())).setValue(employeeJSON);
+            }else {
+                uploadImg(employee.getID(), employee);
+            }
+
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Udlej.putExtra("callingActivity", "createEmployeeFinish");
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
