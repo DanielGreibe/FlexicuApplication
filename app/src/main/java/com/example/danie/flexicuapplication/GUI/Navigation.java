@@ -69,9 +69,8 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
                     Intent Udlej = new Intent(this, RentOut.class);
                     Bundle bndlanimation =
                             ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
-                    startActivity(Udlej, bndlanimation);
                     Udlej.putExtra("callingActivity", "navigation");
-                    startActivity(Udlej);
+                    startActivity(Udlej, bndlanimation);
                 }
         }
     }

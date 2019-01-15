@@ -370,6 +370,8 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        Intent intent = new Intent(this, Navigation.class);
+        intent.putExtra("callingActivity", "navigation");
         finish();
     }
 }
