@@ -105,7 +105,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         {
             Intent Udlej = new Intent(this, RentOut.class);
             //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
-            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(250).zipcode(zipcode).dist(distance).builder();
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(250).zipcode(zipcode).dist(distance).available(true).builder();
 
             //Upload image
             uploadImg(employee.getID(), employee);
