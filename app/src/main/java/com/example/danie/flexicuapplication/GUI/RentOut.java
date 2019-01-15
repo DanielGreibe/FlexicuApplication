@@ -249,6 +249,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void createEmployeeView(DataSnapshot entry, LinearLayout myContainer){
 
         //Parse JSON
@@ -307,31 +308,34 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         //IVProfilePic.setBackground(R.drawable.roundimg);
         //
 
+        if(obj.get("pic").toString().replaceAll("\"", "").equals("flexicu")){
+            loadingbar.setVisibility(View.INVISIBLE);
+            IVProfilePic.setImageResource(R.drawable.oliver);
+        }else{
+            //Set temporary picture while real pictures are downloading
+            IVProfilePic.setImageResource(R.drawable.download);
+            //We want to download images for the list of workers
+            new AsyncTask<Void, Void, Bitmap>(){
+                //Get pictures in background
+                @Override
+                protected Bitmap doInBackground(Void... voids) {
+                    //IVProfilePic.setImageBitmap(getBitmapFromURL(obj.get("pic").toString()));
+                    //System.out.println(obj.get("pic").toString().replace("\"", ""));
+                    return getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
+                }
 
-        //Set temporary picture while real pictures are downloading
-        IVProfilePic.setImageResource(R.drawable.download);
+                //On return update images in list
+                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                @Override
+                protected void onPostExecute(Bitmap s) {
+                    super.onPostExecute(s);
+                    IVProfilePic.setImageBitmap(s);
+                    loadingbar.setVisibility(View.INVISIBLE);
 
+                }
+            }.execute();
+        }
 
-        //We want to download images for the list of workers
-        new AsyncTask<Void, Void, Bitmap>(){
-            //Get pictures in background
-            @Override
-            protected Bitmap doInBackground(Void... voids) {
-                //IVProfilePic.setImageBitmap(getBitmapFromURL(obj.get("pic").toString()));
-                //System.out.println(obj.get("pic").toString().replace("\"", ""));
-                return getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
-            }
-
-            //On return update images in list
-            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-            @Override
-            protected void onPostExecute(Bitmap s) {
-                super.onPostExecute(s);
-                IVProfilePic.setImageBitmap(s);
-                loadingbar.setVisibility(View.INVISIBLE);
-
-            }
-        }.execute();
 
         IVProfilePic.setAdjustViewBounds(true);
         cl.addView(IVProfilePic);
