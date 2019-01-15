@@ -53,7 +53,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     private int year, month, day;
 
     //Visual logic
-    boolean employeeSelected = false;
+    int employeeSelected = 0;
     String callingActivity = "default";
     ArrayList<Integer> existingViews = new ArrayList<>();
 
@@ -212,7 +212,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             // arg3 = day
             textViewLejeperiodeStart.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
             //If rental dates selected and employee is selected
-            if(employeeSelected && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
+            if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
                 udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
             }
         }
@@ -226,7 +226,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             // arg3 = day
             textViewLejeperiodeSlut.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
             //If rental dates selected and employee is selected
-            if(employeeSelected && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
+            if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
                 udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
             }
         }
@@ -294,7 +294,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             if(textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
                 udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
             }
-            employeeSelected = true;
+            employeeSelected = tempID;
 
         });
         //Add pic
