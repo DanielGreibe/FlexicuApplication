@@ -85,8 +85,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
                                 .builder();
                         employees.add(people);
 
-
-
                     }
                     if(bundle != null ){
                             String payVal = bundle.getString("pay");

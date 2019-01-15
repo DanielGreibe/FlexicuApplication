@@ -44,7 +44,7 @@ public class FiltersRentIn extends AppCompatActivity
                 Intent intent = new Intent(this, RentIn.class);
                 //intent.putExtra("dist", seekBarDist.getProgress());
                 intent.putExtra("pay", lowerPay.getText().toString());
-                if (lowerPay.getText().toString().equals(""))
+                if (lowerPay.getText().toString().equals("") || upperPay.getText().toString().equals(""))
                 {
                     Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                 }else {
