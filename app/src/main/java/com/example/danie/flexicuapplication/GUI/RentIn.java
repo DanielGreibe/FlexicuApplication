@@ -1,7 +1,10 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -32,6 +35,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.Console;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +127,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
         //Add pic
         ImageView IVProfilePic = new ImageView(this);
         IVProfilePic.setId(id++);
-        //IVProfilePic.setImageResource(card.getPic());
         IVProfilePic.setAdjustViewBounds(true);
         IVProfilePic.setScaleX((float) 0.75);
         IVProfilePic.setScaleY((float) 0.75);
@@ -224,4 +230,6 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
         finish();
     }
 
+
 }
+

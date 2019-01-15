@@ -51,11 +51,12 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
         buttonNextPage.setAlpha(0.3f);
+        buttonNextPage.setClickable(false);
         textViewDescription = findViewById(R.id.textViewDescription);
         buttonGetLocation = findViewById(R.id.buttonGetLocation);
         buttonGetLocation.setOnClickListener(this);
         buttonGetLocation.setImageResource(R.drawable.gpsposition2);
-        buttonGetLocation.setBackgroundResource(0);
+        buttonGetLocation.setBackgroundResource(R.color.fui_transparent);
 
 
         editTextZipcode.addTextChangedListener(new TextWatcher()
@@ -70,7 +71,7 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
             public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
                 String text = s.toString();
-                if (text.length() > 3 && text.matches("[0-9]+"))
+                if (text.length() == 4 && text.matches("[0-9]+"))
                     {
                     buttonNextPage.setClickable(true);
                     buttonNextPage.setAlpha(1f);
