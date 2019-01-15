@@ -14,7 +14,7 @@
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/layout_background_round_corners"
@@ -23,8 +23,9 @@
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toEndOf="@+id/filterMenu"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPreview" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -33,18 +34,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/freeSearch"
         app:layout_constraintEnd_toEndOf="@+id/freeSearch"
         app:layout_constraintTop_toTopOf="@+id/freeSearch"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@android:drawable/ic_search_category_default" />
 
     <ImageView
         android:id="@+id/filterMenu"
         android:layout_width="38dp"
         android:layout_height="53dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        app:layout_constraintBottom_toBottomOf="@+id/freeSearch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewPreview"
+        app:layout_constraintTop_toTopOf="@+id/freeSearch"
         app:srcCompat="@drawable/menu_kvadrat" />
 
     <View
@@ -55,22 +56,24 @@
         android:background="@color/colorPrimaryDark"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/freeSearch" />
 
     <ScrollView
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="434dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider">
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -87,6 +90,7 @@
         android:background="@color/white"
         android:contentDescription="@string/flexicu_logo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/flexicu_logo" />
