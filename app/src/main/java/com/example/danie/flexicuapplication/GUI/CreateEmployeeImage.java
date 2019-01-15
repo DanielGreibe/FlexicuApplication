@@ -50,7 +50,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
     public static final int GALLERY_SELECT = 1887;
 
     //Upload variables
-    String ImageString = null;
+    String ImageString = "flexicu";
     Uri imageUri = null;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -98,7 +98,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         crossPreview.setOnClickListener((view) ->{
             crossPreview.setVisibility(View.INVISIBLE);
             preview.setVisibility(View.INVISIBLE);
-            ImageString = null;
+            ImageString = "flexicu";
         });
 
     }
