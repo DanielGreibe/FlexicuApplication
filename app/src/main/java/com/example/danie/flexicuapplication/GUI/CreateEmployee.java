@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,8 +44,13 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
                 String name = editTextName.getText().toString();
                 ((GlobalVariables) this.getApplication()).setTempEmployeeName(name);
                 Intent createEmployeeYear = new Intent(this, CreateEmployeeYear.class);
-                startActivity(createEmployeeYear);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).toBundle();
+                    startActivity(createEmployeeYear, bndlanimation);
+
+                }
                 }
             }
-        }
+
     }
+

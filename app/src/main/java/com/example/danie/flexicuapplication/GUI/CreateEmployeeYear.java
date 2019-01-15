@@ -62,7 +62,13 @@ public class CreateEmployeeYear extends AppCompatActivity implements View.OnClic
             createEmployeeProfession.putExtra("NameOfEmployee", name);
             createEmployeeProfession.putExtra("YearOfEmployee", year);
             startActivity(createEmployeeProfession);
-
             }
         }
+
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.fui_slide_out_left, R.anim.fui_slide_out_left);
+        }
     }
+
