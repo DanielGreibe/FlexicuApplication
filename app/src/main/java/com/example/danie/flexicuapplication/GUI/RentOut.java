@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaDemo;
+import com.example.danie.flexicuapplication.LogicLayer.CrudRentOut;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 import com.google.firebase.database.DataSnapshot;
@@ -102,7 +103,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         opretMedarbejderButton.setOnClickListener((view) ->{
             Intent opretAnsat = new Intent(this, CreateEmployee.class); //TODO change to CreateEmplyee.class
             Bundle bndlanimation =
-                    ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                    ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
             startActivity(opretAnsat, bndlanimation);
 
         });
@@ -127,7 +128,17 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+        DatabaseReference myRefUdlejid = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
+        DatabaseReference myRefUdlejninger = database.getReference("Udlejninger/");
+
+
+        udlejBtn.setOnClickListener((view) ->{
+            //CrudRentOut newRentOut = new CrudRentOut();
+            //myRefUdlejid.child((GlobalVariables.getFirebaseUser().getUid()) + );
+        });
+
+        //Load workers from database
+        DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
         //If employee has been created
         if(callingActivity.equals("createEmployeeFinish")){
@@ -146,11 +157,11 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                     System.out.println("Error!");
                 }
             };
-            myRef.addValueEventListener(postListener);
+            myRefMedarbejder.addValueEventListener(postListener);
         }
 
         //Load employees and create cardviews and add to scroller
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onDataChange(DataSnapshot snapshot) {
