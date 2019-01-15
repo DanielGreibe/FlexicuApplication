@@ -70,6 +70,8 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
                     Bundle bndlanimation =
                             ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                     startActivity(Udlej, bndlanimation);
+                    Udlej.putExtra("callingActivity", "navigation");
+                    startActivity(Udlej);
                 }
         }
     }

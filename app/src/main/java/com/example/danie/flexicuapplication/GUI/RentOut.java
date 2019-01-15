@@ -8,19 +8,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -38,7 +34,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -48,6 +43,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -58,14 +54,16 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
     //Visual logic
     boolean employeeSelected = false;
+    String callingActivity = "default";
+    ArrayList<Integer> existingViews = new ArrayList<>();
 
     //Storage ref
     private StorageReference mStorageRef;
 
 
     private Context mContext;
-    private ConstraintLayout constLayout;
-    private ConstraintLayout lejeStart, lejeSlut;
+    private ConstraintLayout opretMedarbejderButton;
+    private ConstraintLayout lejeStart, lejeSlut, loadingbar;
     private ConstraintLayout constCardLayout;
     TextView textViewErhverv, textViewLejeperiodeStart, textViewRadius, textViewPostnummer, textViewLøn, textViewLejeperiodeSlut;
     private ConstraintLayout udlejBtn;
@@ -77,8 +75,18 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_out);
 
+        //Get intent and parse values
+        Intent intent = getIntent();
+        callingActivity = intent.getStringExtra("callingActivity");
+
         lejeSlut = findViewById(R.id.lejeSlut);
         lejeStart = findViewById(R.id.lejeStart);
+
+        //Setup loading bar and hide
+        loadingbar = findViewById(R.id.loadingbar);
+        loadingbar.bringToFront();
+        loadingbar.setVisibility(View.INVISIBLE);
+
 
         textViewRadius = findViewById(R.id.radiusTextView);
         textViewPostnummer = findViewById(R.id.postnummerTextView);
@@ -88,11 +96,11 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         textViewLejeperiodeStart = findViewById(R.id.lejeStartTextView);
         mContext = getApplicationContext();
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
-        constLayout = findViewById(R.id.opretMedarbejder);
+        opretMedarbejderButton = findViewById(R.id.opretMedarbejder);
         udlejBtn = findViewById(R.id.UdlejBtn);
         CriteriaDemo demo = new CriteriaDemo();
         demo.start();
-        constLayout.setOnClickListener((view) ->{
+        opretMedarbejderButton.setOnClickListener((view) ->{
             Intent opretAnsat = new Intent(this, CreateEmployee.class); //TODO change to CreateEmplyee.class
             Bundle bndlanimation =
                     ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
@@ -117,6 +125,8 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             showDialog(998);
         });
 
+
+        //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRefUdlejid = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
         DatabaseReference myRefUdlejninger = database.getReference("Udlejninger/");
@@ -130,118 +140,33 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         //Load workers from database
         DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
+        //If employee has been created
+        if(callingActivity.equals("createEmployeeFinish")){
+            System.out.println("Correct activity!");
+            loadingbar.setVisibility(View.VISIBLE);
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot entry : dataSnapshot.getChildren()){
+                        createEmployeeView(entry, myContainer);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println("Error!");
+                }
+            };
+            myRefMedarbejder.addValueEventListener(postListener);
+        }
+
         //Load employees and create cardviews and add to scroller
         myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot entry : snapshot.getChildren()){
-
-                    //Parse JSON
-                    JsonParser parser = new JsonParser();
-                    JsonElement element = parser.parse(entry.getValue().toString());
-                    JsonObject obj = element.getAsJsonObject();
-
-
-                    // 2. JSON to Java object, read it from a Json String.
-                    CardView cv = new CardView(getApplicationContext());
-                    cv.setId(Integer.parseInt(obj.get("ID").toString()));
-                    LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
-                    size.setMargins(0, 5, 0, 5);
-                    cv.setLayoutParams(size);
-                    cv.setRadius(15);
-                    ConstraintLayout cl = new ConstraintLayout(getApplicationContext());
-                    cv.addView(cl);
-                    cv.setBackgroundResource(R.drawable.layout_background_round_corners);
-                    cv.setOnClickListener((view) ->
-                    {
-                        //Opdaterer TextViews med information fra brugeren
-                        //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
-                        //TODO Kan med fordel extractes til en metode.
-                        Log.e("Test" , "Du trykkede på CardView " + cv.getId());
-                        textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", ""));
-                        textViewLøn.setText(obj.get("pay").toString()+" kr/t");
-                        textViewPostnummer.setText(obj.get("zipcode").toString());
-                        textViewRadius.setText(obj.get("dist").toString()+" km");
-                        for(int i = 0; i <  myContainer.getChildCount(); i++){
-                            myContainer.getChildAt(i).setBackgroundResource(R.drawable.layout_background_round_corners);
-                        }
-
-                        view.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-
-                        //If rental dates selected
-                        if(textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                            udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-                        }
-                        employeeSelected = true;
-
-                    });
-                    //Add pic
-                    ImageView IVProfilePic = new ImageView(getApplicationContext());
-                    //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
-
-
-                    IVProfilePic.setId(id++);
-                    //IVProfilePic.setImageResource(R.drawable.circle);
-                    //IVProfilePic.setBackground(R.drawable.roundimg);
-                    //
-
-
-                    //Set temporary picture while real pictures are downloading
-                    IVProfilePic.setImageResource(R.drawable.download);
-
-
-                    //We want to download images for the list of workers
-                    new AsyncTask<Void, Void, Bitmap>(){
-                        //Get pictures in background
-                        @Override
-                        protected Bitmap doInBackground(Void... voids) {
-                            //IVProfilePic.setImageBitmap(getBitmapFromURL(obj.get("pic").toString()));
-                            //System.out.println(obj.get("pic").toString().replace("\"", ""));
-                            return getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
-                        }
-
-                        //On return update images in list
-                        @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-                        @Override
-                        protected void onPostExecute(Bitmap s) {
-                            super.onPostExecute(s);
-                            IVProfilePic.setImageBitmap(s);
-                        }
-                    }.execute();
-
-                    IVProfilePic.setAdjustViewBounds(true);
-                    cl.addView(IVProfilePic);
-                    //Add Name and Job
-                    TextView TVName = new TextView(getApplicationContext());
-                    TVName.setId(id++);
-                    TVName.setText(obj.get("name").toString().replaceAll("\"", "")+"\n"+obj.get("job").toString().replaceAll("\"", ""));
-                    TVName.setTextSize(15);
-
-                    cl.addView(TVName);
-                    //Add distance
-                    //cv.setPadding(0,100,0,100);
-                    //ReadMore
-
-                    ConstraintSet CS = new ConstraintSet();
-                    CS.clone(cl);
-                    //Pic
-                    CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,0);
-                    CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
-                    CS.connect(IVProfilePic.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
-
-                    //Name and Job
-                    CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT,8);
-                    CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
-                    CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
-
-
-
-                    CS.applyTo(cl);
-
-                    myContainer.addView(cv);
-                    //CrudEmployee staff = gson.fromJson(entry, );
-                    //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
+                for (DataSnapshot entry : snapshot.getChildren()) {
+                    createEmployeeView(entry, myContainer);
                 }
             }
             @Override
@@ -322,6 +247,124 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void createEmployeeView(DataSnapshot entry, LinearLayout myContainer){
+
+        //Parse JSON
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(entry.getValue().toString());
+        JsonObject obj = element.getAsJsonObject();
+
+        int tempID = Integer.parseInt(String.valueOf(obj.get("ID")));
+        if(existingViews.contains(tempID)){
+            return;
+        }
+
+        existingViews.add(Integer.parseInt(String.valueOf(obj.get("ID"))));
+
+
+        // 2. JSON to Java object, read it from a Json String.
+        CardView cv = new CardView(getApplicationContext());
+        cv.setId(Integer.parseInt(obj.get("ID").toString()));
+        LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
+        size.setMargins(0, 5, 0, 5);
+        cv.setLayoutParams(size);
+        cv.setRadius(15);
+        ConstraintLayout cl = new ConstraintLayout(getApplicationContext());
+        cv.addView(cl);
+        cv.setBackgroundResource(R.drawable.layout_background_round_corners);
+        cv.setOnClickListener((view) ->
+        {
+            //Opdaterer TextViews med information fra brugeren
+            //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
+            //TODO Kan med fordel extractes til en metode.
+            Log.e("Test" , "Du trykkede på CardView " + cv.getId());
+            textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", ""));
+            textViewLøn.setText(obj.get("pay").toString()+" kr/t");
+            textViewPostnummer.setText(obj.get("zipcode").toString());
+            textViewRadius.setText(obj.get("dist").toString()+" km");
+            for(int i = 0; i <  myContainer.getChildCount(); i++){
+                myContainer.getChildAt(i).setBackgroundResource(R.drawable.layout_background_round_corners);
+            }
+
+            view.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+
+            //If rental dates selected
+            if(textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
+                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+            }
+            employeeSelected = true;
+
+        });
+        //Add pic
+        ImageView IVProfilePic = new ImageView(getApplicationContext());
+        //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
+
+
+        IVProfilePic.setId(id++);
+        //IVProfilePic.setImageResource(R.drawable.circle);
+        //IVProfilePic.setBackground(R.drawable.roundimg);
+        //
+
+
+        //Set temporary picture while real pictures are downloading
+        IVProfilePic.setImageResource(R.drawable.download);
+
+
+        //We want to download images for the list of workers
+        new AsyncTask<Void, Void, Bitmap>(){
+            //Get pictures in background
+            @Override
+            protected Bitmap doInBackground(Void... voids) {
+                //IVProfilePic.setImageBitmap(getBitmapFromURL(obj.get("pic").toString()));
+                //System.out.println(obj.get("pic").toString().replace("\"", ""));
+                return getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
+            }
+
+            //On return update images in list
+            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+            @Override
+            protected void onPostExecute(Bitmap s) {
+                super.onPostExecute(s);
+                IVProfilePic.setImageBitmap(s);
+                loadingbar.setVisibility(View.INVISIBLE);
+
+            }
+        }.execute();
+
+        IVProfilePic.setAdjustViewBounds(true);
+        cl.addView(IVProfilePic);
+        //Add Name and Job
+        TextView TVName = new TextView(getApplicationContext());
+        TVName.setId(id++);
+        TVName.setText(obj.get("name").toString().replaceAll("\"", "")+"\n"+obj.get("job").toString().replaceAll("\"", ""));
+        TVName.setTextSize(15);
+
+        cl.addView(TVName);
+        //Add distance
+        //cv.setPadding(0,100,0,100);
+        //ReadMore
+
+        ConstraintSet CS = new ConstraintSet();
+        CS.clone(cl);
+        //Pic
+        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,0);
+        CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
+        CS.connect(IVProfilePic.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
+
+        //Name and Job
+        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT,8);
+        CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
+        CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
+
+
+
+        CS.applyTo(cl);
+
+        myContainer.addView(cv);
+        //CrudEmployee staff = gson.fromJson(entry, );
+        //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
     }
     @Override
     public void onBackPressed() {

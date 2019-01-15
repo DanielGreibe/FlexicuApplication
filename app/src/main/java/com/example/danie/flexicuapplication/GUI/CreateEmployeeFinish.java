@@ -111,7 +111,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             uploadImg(employee.getID(), employee);
 
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Udlej.putExtra("done", "done");
+            Udlej.putExtra("callingActivity", "createEmployeeFinish");
             startActivity(Udlej);
         }
     }
