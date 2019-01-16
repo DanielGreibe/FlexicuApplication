@@ -1,10 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Criteria;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -19,9 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.danie.flexicuapplication.LogicLayer.AndCriteria;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaPay;
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayLower;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayUpper;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
@@ -34,11 +31,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.Console;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,10 +52,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
         filterMenu = findViewById(R.id.filterMenu);
         filterMenu.setOnClickListener(this);
             Bundle bundle = getIntent().getExtras();
-
         List<CrudEmployee> employees = new ArrayList<>();
-
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
@@ -87,10 +76,10 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
 
                     }
                     if(bundle != null ){
-                            String payVal = bundle.getString("pay");
-                            Log.e("pay", payVal);
-                            CriteriaInterface salaray = new CriteriaPay(Double.parseDouble(bundle.getString("pay")));
-                            salaray.meetCriteria(employees).forEach((a) -> createNew(salaray.meetCriteria(employees).get(counter++)));
+                            CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(bundle.getString("payLower")));
+                            CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(bundle.getString("payUpper")));
+                            CriteriaInterface payBounds = new AndCriteria(payLower, payUpper);
+                            payBounds.meetCriteria(employees).forEach((a) -> createNew(payBounds.meetCriteria(employees).get(counter++)));
 
                     }else {
                         employees.forEach((a)->createNew(employees.get(counter++)));
