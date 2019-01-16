@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ ConstraintLayout LoginLayout;
 SharedPreferences settings;
 SharedPreferences.Editor editor;
 ImageButton saveLog;
+ProgressBar proBar;
 
     //Network variables
 private RequestQueue myRequestQueue;
@@ -66,6 +68,8 @@ protected void onCreate(Bundle savedInstanceState)
     saveloginTV = findViewById(R.id.saveloginTV);
     saveLog.setOnClickListener(this);
     saveloginTV.setOnClickListener(this);
+    proBar = findViewById(R.id.progressBar);
+    proBar.setVisibility(View.INVISIBLE);
 
     settings = getSharedPreferences("prefs",0);
     editor = settings.edit();
@@ -106,6 +110,7 @@ protected void onCreate(Bundle savedInstanceState)
             startActivity(PreIndlej);
             }
         else if ( v == buttonLogin) {
+            proBar.setVisibility(View.VISIBLE);
             if (!editTextUsername.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                 mAuth.signInWithEmailAndPassword(editTextUsername.getText().toString(), editTextPassword.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -121,6 +126,7 @@ protected void onCreate(Bundle savedInstanceState)
                         } else {
                             // If sign in fails, display a message to the user.
                             textViewLoginLater.setText("Login unsuccessful!");
+                            proBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });
