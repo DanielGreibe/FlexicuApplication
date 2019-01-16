@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,13 +29,14 @@ public class CreateUser_cvr extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user_cvr);
 
-        EditText cvrFelt = findViewById(R.id.CVREditText);
+        EditText cvrFelt = findViewById(R.id.PasswordEditText);
         Button næste = findViewById(R.id.buttonNextPage);
+        cvrFelt.setText("39762226");
 
         næste.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendGetRequestForCVRData("http://cvrapi.dk/api?search=%22amsiq%22&country=dk&format=json");
+                sendGetRequestForCVRData(Integer.parseInt(cvrFelt.getText().toString()));
             }
         });
 
@@ -62,18 +62,20 @@ public class CreateUser_cvr extends AppCompatActivity {
         });
     }
 
-    private void sendGetRequestForCVRData(String url) {
+    private void sendGetRequestForCVRData(int CVR) {
         myRequestQueue = Volley.newRequestQueue(this);
         //Method, URL, successListener, errorListener
         //If call is not successful select from offline word-list
         myStringRequest = new StringRequest(
                 Request.Method.GET,
-                url,
+                "https://cvrapi.dk/api?search="+CVR+"&country=dk",
                 response -> {
                     System.out.println("RESPONSE IS: " + response);
                     System.out.println("ok");
-                    Intent Navigation = new Intent(this, CreateUser_cvr.class);
-                    startActivity(Navigation);
+                    Intent user_information = new Intent(this, CreateUser_infomation.class);
+                    user_information.putExtra("CVR", CVR);
+                    user_information.putExtra("DATA", response);
+                    startActivity(user_information);
                 },
                 error -> {
 

@@ -23,7 +23,9 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateHidden"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".GUI.CreateUser_infomation"></activity>
+        <activity android:name=".GUI.CreateUser_password"></activity>
+        <activity android:name=".GUI.CreateUser_photo" />
+        <activity android:name=".GUI.CreateUser_infomation" />
         <activity android:name=".GUI.CreateUser_cvr" />
         <activity android:name=".GUI.Login">
             <intent-filter>
