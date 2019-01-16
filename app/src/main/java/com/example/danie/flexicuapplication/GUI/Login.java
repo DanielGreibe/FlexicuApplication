@@ -41,15 +41,12 @@ TextView textViewLoginLater, saveloginTV;
 EditText editTextUsername;
 EditText editTextPassword;
 Button buttonLogin;
+Button opretBruger;
 ConstraintLayout LoginLayout;
 SharedPreferences settings;
 SharedPreferences.Editor editor;
 ImageButton saveLog;
 ProgressBar proBar;
-
-    //Network variables
-private RequestQueue myRequestQueue;
-private StringRequest myStringRequest;
 
 private FirebaseAuth mAuth;
 @SuppressLint("StaticFieldLeak")
@@ -59,6 +56,7 @@ protected void onCreate(Bundle savedInstanceState)
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    opretBruger = findViewById(R.id.buttonCreateUser);
     textViewLoginLater = findViewById(R.id.textViewLoginLater);
     editTextUsername = findViewById(R.id.editTextUsername);
     editTextPassword = findViewById(R.id.editTextPassword);
@@ -68,6 +66,9 @@ protected void onCreate(Bundle savedInstanceState)
     saveloginTV = findViewById(R.id.saveloginTV);
     saveLog.setOnClickListener(this);
     saveloginTV.setOnClickListener(this);
+    buttonLogin.setOnClickListener(this);
+    textViewLoginLater.setOnClickListener(this);
+    opretBruger.setOnClickListener(this);
     proBar = findViewById(R.id.progressBar);
     proBar.setVisibility(View.INVISIBLE);
 
@@ -89,11 +90,6 @@ protected void onCreate(Bundle savedInstanceState)
     //Crashlytics.getInstance().crash(); // Force a crash to test Crashlytics
     // Initialize Firebase Auth
     mAuth = FirebaseAuth.getInstance();
-
-    buttonLogin.setOnClickListener(this);
-    textViewLoginLater.setOnClickListener(this);
-
-    sendGetRequestForCVRData("http://cvrapi.dk/api?search=%22amsiq%22&country=dk&format=json");
 
 }
 
@@ -137,6 +133,9 @@ protected void onCreate(Bundle savedInstanceState)
             } else {
                 saveLog.setImageResource(R.drawable.ui_radio_button_icon);
             }
+        } else if(v == opretBruger){
+            Intent Navigation = new Intent(this, CreateUser_cvr.class);
+            startActivity(Navigation);
         }
     }
 
@@ -145,25 +144,6 @@ protected void onCreate(Bundle savedInstanceState)
         Intent Navigation = new Intent(this, Navigation.class);
         startActivity(Navigation);
         finish();
-    }
-
-    private void sendGetRequestForCVRData(String url) {
-        myRequestQueue = Volley.newRequestQueue(this);
-        //Method, URL, successListener, errorListener
-        //If call is not successful select from offline word-list
-        myStringRequest = new StringRequest(
-                Request.Method.GET,
-                url,
-                response -> {
-                    System.out.println("RESPONSE IS: " + response);
-                    System.out.println("ok");
-                },
-                error -> {
-
-                }
-        ); //End of 'new StringRequest' arguments
-
-        myRequestQueue.add(myStringRequest);
     }
 
 
