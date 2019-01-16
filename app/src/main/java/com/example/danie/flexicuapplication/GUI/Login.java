@@ -89,7 +89,7 @@ protected void onCreate(Bundle savedInstanceState)
     buttonLogin.setOnClickListener(this);
     textViewLoginLater.setOnClickListener(this);
 
-    sendGetRequestForCVRData("http://cvrapi.dk/api?search=%22amsiq%22&country=dk&format=xml");
+    sendGetRequestForCVRData("http://cvrapi.dk/api?search=%22amsiq%22&country=dk&format=json");
 
 }
 
