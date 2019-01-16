@@ -2,15 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.danie.flexicuapplication">
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:windowSoftInputMode="stateHidden"
         android:name=".LogicLayer.GlobalVariables"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +21,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:windowSoftInputMode="stateHidden"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".GUI.TabbedRentOut"
+            android:label="@string/title_activity_tabbed_rent_out"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".GUI.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,11 +49,11 @@
         <activity android:name=".GUI.CreateEmployeeImage" />
         <activity android:name=".GUI.CreateEmployeeZipcode" />
         <activity android:name=".GUI.CreateEmployeeFinish" />
-        <activity android:name=".GUI.PreIndlej"></activity>
+        <activity android:name=".GUI.PreIndlej" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="243681149e701f64f3e01a1c62b0a5362858d0fd" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

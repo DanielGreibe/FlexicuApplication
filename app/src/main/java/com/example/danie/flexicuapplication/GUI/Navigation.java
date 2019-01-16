@@ -43,7 +43,7 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
             else if (v == buttonUdlej)
                 {
                     //Opens the Udlej page
-                    Intent Udlej = new Intent(this, RentOut.class);
+                    Intent Udlej = new Intent(this, TabbedRentOut.class);
                     Bundle bndlanimation =
                             ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                     Udlej.putExtra("callingActivity", "navigation");
