@@ -22,36 +22,16 @@ public class CrudRentOut {
     String rank;
     String pay;
 
-    public CrudRentOut(String id, String rentStart, String rentEnd){
+    public CrudRentOut(String id, String name, String job, String pic, String rentStart, String rentEnd, String rank, String pay){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.id = id;
+        this.name = name;
+        this.job = job;
+        this.pic = pic;
         this.rentStart = rentStart;
         this.rentEnd = rentEnd;
-        this.pic = "TEST";
-
-        DatabaseReference myRefId = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+id);
-
-        myRefId.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                System.out.println("SNAPSHOT HERE "+snapshot.toString());
-                    //Parse JSON
-                    JsonParser parser = new JsonParser();
-                    JsonElement element = parser.parse(snapshot.getValue().toString());
-                    JsonObject obj = element.getAsJsonObject();
-
-                    name = obj.get("name").toString().replaceAll("\"","");
-                    job = obj.get("job").toString().replaceAll("\"","");
-                    //pic = obj.get("pic").toString().replaceAll("\"","");
-                    rank = obj.get("rank").toString().replaceAll("\"","");
-                    pay = obj.get("pay").toString().replaceAll("\"","");
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Error!");
-            }
-        });
-
+        this.rank = rank;
+        this.pay = pay;
 
         boolean[] unique = {false};
         while (!unique[0]) {
