@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaDemo;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentOut;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
@@ -45,10 +47,12 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class RentOut extends AppCompatActivity implements View.OnClickListener {
     //Date picker variables
@@ -245,12 +249,19 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         try {
             //System.out.println(src);
             URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url
+            /*HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
             connection.setDoInput(true);
             connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            InputStream input = connection.getInputStream();*/
+
+            ImageView temp = null;
+            Glide.with(this)
+                    .load(url)
+                    .into(temp);
+
+
+            Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), temp.getId());
             return myBitmap;
         } catch (IOException e) {
             e.printStackTrace();
@@ -341,13 +352,43 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             //Set temporary picture while real pictures are downloading
             IVProfilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
+
+            //Bitmap s = getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
+
+            //System.out.println(src);
+            URL url = null;
+            try {
+                url = new URL(obj.get("pic").toString().replace("\"", ""));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            /*HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();*/
+
+            //We want to download images for the list of workers
+            URL finalUrl = url;
             new AsyncTask<Void, Void, Bitmap>(){
                 //Get pictures in background
                 @Override
                 protected Bitmap doInBackground(Void... voids) {
-                    //IVProfilePic.setImageBitmap(getBitmapFromURL(obj.get("pic").toString()));
-                    //System.out.println(obj.get("pic").toString().replace("\"", ""));
-                    return getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
+                    try {
+                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
+                        Bitmap myBitmap = Glide
+                                .with(IVProfilePic)
+                                .asBitmap()
+                                .load(finalUrl)
+                                .submit()
+                                .get();
+                        return myBitmap;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
                 }
 
                 //On return update images in list
@@ -374,6 +415,23 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
                 }
             }.execute();
+
+
+
+            if(loadingbar.getVisibility() == View.VISIBLE) {
+                //Set fade animation and hide after animation end
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(1500);
+                anim.setRepeatCount(0);
+                anim.willChangeBounds();
+                loadingbar.startAnimation(anim);
+                loadingbar.postOnAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingbar.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
         }
 
         IVProfilePic.setAdjustViewBounds(true);
@@ -397,6 +455,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT,8);
         CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
         CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
+        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.LEFT, 250);
 
         CS.applyTo(cl);
 
