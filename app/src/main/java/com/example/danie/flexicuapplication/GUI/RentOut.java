@@ -412,7 +412,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                             }
                         });
                     }
-
                 }
             }.execute();
 
