@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -142,12 +143,38 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         Gson gson = new Gson();
 
 
-        udlejBtn.setOnClickListener((view) ->{
-            CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString());
-            String rentOutJSON = gson.toJson(newRentOut);
-            myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
-            String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
-            myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
+        udlejBtn.setOnClickListener((view) -> {
+            if(employeeSelected != 0
+                    && textViewLejeperiodeSlut.getText().toString().contains("/")
+                    && textViewLejeperiodeStart.getText().toString().contains("/")){
+                DatabaseReference myRefId = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/" + employeeSelected);
+                myRefId.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        //Parse JSON
+                        JsonParser parser = new JsonParser();
+                        JsonElement element = parser.parse(snapshot.getValue().toString());
+                        JsonObject obj = element.getAsJsonObject();
+
+                        String tempName = obj.get("name").toString().replaceAll("\"", "");
+                        String tempJob = obj.get("job").toString().replaceAll("\"", "");
+                        String tempPic = obj.get("pic").toString().replaceAll("\"", "");
+                        String tempRank = obj.get("rank").toString().replaceAll("\"", "");
+                        String tempPay = obj.get("pay").toString().replaceAll("\"", "");
+
+                        CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), tempName, tempJob, tempPic, textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString(), tempRank, tempPay);
+                        String rentOutJSON = gson.toJson(newRentOut);
+                        myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
+                        String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
+                        myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("Error!");
+                    }
+                });
+            }
         });
 
         //Load workers from database
