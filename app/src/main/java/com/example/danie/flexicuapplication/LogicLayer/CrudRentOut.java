@@ -27,6 +27,7 @@ public class CrudRentOut {
         this.id = id;
         this.rentStart = rentStart;
         this.rentEnd = rentEnd;
+        this.pic = "TEST";
 
         DatabaseReference myRefId = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+id);
 
@@ -41,7 +42,7 @@ public class CrudRentOut {
 
                     name = obj.get("name").toString().replaceAll("\"","");
                     job = obj.get("job").toString().replaceAll("\"","");
-                    pic = obj.get("pic").toString().replaceAll("\"","");
+                    //pic = obj.get("pic").toString().replaceAll("\"","");
                     rank = obj.get("rank").toString().replaceAll("\"","");
                     pay = obj.get("pay").toString().replaceAll("\"","");
             }
