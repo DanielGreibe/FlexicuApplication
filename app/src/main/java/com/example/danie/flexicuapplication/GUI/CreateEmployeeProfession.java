@@ -8,8 +8,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +30,11 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
     {
     Button buttonNextPage;
     TextView textViewTitle;
-    EditText editTextErhverv;
+    Spinner editTextErhverv;
     String name;
     String year;
     String profession;
+    ArrayList<String> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,11 +43,17 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         setContentView(R.layout.activity_create_employee_erhverv);
 
         textViewTitle = findViewById(R.id.textViewTitle);
-        editTextErhverv = findViewById(R.id.editTextErhverv);
-        editTextErhverv.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        editTextErhverv = findViewById(R.id.spinnerJob);
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
+        items.add("Håndværker");
+        items.add("VVS");
+        items.add("Elektrkker");
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");git
 
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+            editTextErhverv.setAdapter(adapter);
             //SETUP PROGRESSBAR
             HorizontalStepView stepView = findViewById(R.id.step_view);
             List<StepBean> stepsBeanList = new ArrayList<>();
@@ -85,13 +96,13 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         {
         if (v == buttonNextPage)
             {
-            if (editTextErhverv.getText().toString().equals(""))
+            if (editTextErhverv.getSelectedItem().toString().equals(""))
                 {
                 Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                 }
             else
                 {
-                profession = editTextErhverv.getText().toString();
+                profession = editTextErhverv.getSelectedItem().toString();
                 ((GlobalVariables) this.getApplication()).setTempEmployeeProfession(profession);
                 Intent createEmployeePay = new Intent(this, CreateEmployeePay.class);
                     Bundle bndlanimation =
