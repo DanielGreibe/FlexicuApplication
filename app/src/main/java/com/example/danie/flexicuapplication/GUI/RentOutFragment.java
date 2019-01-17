@@ -118,7 +118,8 @@ public class RentOutFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot entry : dataSnapshot.getChildren()){
-                        createEmployeeView(entry, myContainer);
+                       // createEmployeeView(entry, myContainer);
+
                     }
                 }
 
@@ -136,10 +137,28 @@ public class RentOutFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
-                    createEmployeeView(entry, myContainer);
+                   // createEmployeeView(entry, myContainer);
+                createEmployeeNew(entry,myContainer);
                 }
             }
-            @Override
+
+        private void createEmployeeNew(DataSnapshot entry, LinearLayout myContainer)
+            {
+            View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
+            TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
+            TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
+            TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
+            TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewStatus);
+
+            textViewPay.setText("Pay");
+            textViewZipcode.setText("Zipcode");
+            textViewDistance.setText("Distance");
+            textViewStatus.setText("Status");
+
+            myContainer.addView(ExpandableCardview);
+            }
+
+        @Override
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("Error!");
             }
@@ -235,7 +254,7 @@ public class RentOutFragment extends Fragment {
 
         if(obj.get("pic").toString().replaceAll("\"", "").equals("flexicu")){
 
-            if(loadingbar.getVisibility() == View.VISIBLE) {
+           /*if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(1500);
@@ -249,6 +268,7 @@ public class RentOutFragment extends Fragment {
                     }
                 });
             }
+            */
             //Get round image
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
             bitmap = RoundedImageView.getCroppedBitmap(bitmap, 200);
