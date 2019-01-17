@@ -9,10 +9,13 @@ public class AndCriteria implements CriteriaInterface {
 
     private CriteriaInterface criteria;
     private CriteriaInterface otherCriteria;
+    private CriteriaInterface someOther;
 
-    public AndCriteria(CriteriaInterface criteria, CriteriaInterface otherCriteria) {
+    public AndCriteria(CriteriaInterface criteria, CriteriaInterface otherCriteria, CriteriaInterface someOther) {
         this.criteria = criteria;
         this.otherCriteria = otherCriteria;
+        this.someOther = someOther;
+
     }
 
     @Override

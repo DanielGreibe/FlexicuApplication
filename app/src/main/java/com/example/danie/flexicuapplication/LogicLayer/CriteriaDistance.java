@@ -4,24 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CriteriaDistance implements CriteriaInterface{
-    int dist;
+    private double searchCriteria;
+
+    public CriteriaDistance(double searchCriteria) {
+        this.searchCriteria = searchCriteria;
+    }
+
     @Override
+
     public List<CrudEmployee> meetCriteria(List<CrudEmployee> persons) {
         List<CrudEmployee> distance = new ArrayList<CrudEmployee>();
 
         for(CrudEmployee employee : persons){
-            if(employee.getDist() < 10){
+            if(employee.getDist() < searchCriteria ){
                 distance.add(employee);
             }
         }
         return distance;
     }
 
-    public int getCriteriaDist(){
-        return dist;
-    }
-
-    public void setCriteriaDist(int dist){
-        this.dist = dist;
-    }
 }

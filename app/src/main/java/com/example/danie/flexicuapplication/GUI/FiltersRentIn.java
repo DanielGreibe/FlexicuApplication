@@ -28,7 +28,7 @@ public class FiltersRentIn extends AppCompatActivity
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_in_filters);
-            List<String> filterList = new ArrayList<String>();
+           ArrayList<String> filterList = new ArrayList<String>();
 
 
         btn = findViewById(R.id.searchBtn);
@@ -64,8 +64,11 @@ public class FiltersRentIn extends AppCompatActivity
                 Intent intent = new Intent(this, RentIn.class);
                 //intent.putExtra("dist", seekBarDist.getProgress());
                 filterList.add(lowerPay.getText().toString());
-                intent.putExtra("payLower", lowerPay.getText().toString());
-                intent.putExtra("payUpper", upperPay.getText().toString());
+                filterList.add(upperPay.getText().toString());
+                filterList.add(String.valueOf(seekBarDist.getProgress()));
+                intent.putStringArrayListExtra("filterValues", filterList);
+                //intent.putExtra("payLower", lowerPay.getText().toString());
+              //  intent.putExtra("payUpper", upperPay.getText().toString());
                 if (lowerPay.getText().toString().equals("") && upperPay.getText().toString().equals(""))
                 {
                     Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();

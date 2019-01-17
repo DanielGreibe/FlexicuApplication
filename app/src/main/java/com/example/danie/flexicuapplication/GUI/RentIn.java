@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.danie.flexicuapplication.LogicLayer.AndCriteria;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaDistance;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayLower;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayUpper;
@@ -86,9 +87,11 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
 
                     }
                     if(bundle != null ){
-                            CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(bundle.getString("payLower")));
-                            CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(bundle.getString("payUpper")));
-                            CriteriaInterface payBounds = new AndCriteria(payLower, payUpper);
+                       ArrayList<String> filterValues =  bundle.getStringArrayList("filterValues");
+                            CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
+                            CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
+                            CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
+                            CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
                             payBounds.meetCriteria(employees).forEach((a) -> createNew(payBounds.meetCriteria(employees).get(counter++)));
 
                     }else {
