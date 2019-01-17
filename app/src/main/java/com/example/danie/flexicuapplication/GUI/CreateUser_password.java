@@ -117,8 +117,11 @@ public class CreateUser_password extends AppCompatActivity {
 
                 }
             });
+
             Intent login = new Intent(this ,Login.class);
+            login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(login);
+            finish();
         });
 
     }
