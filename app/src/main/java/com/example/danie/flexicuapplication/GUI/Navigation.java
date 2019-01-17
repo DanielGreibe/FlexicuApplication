@@ -2,6 +2,8 @@ package com.example.danie.flexicuapplication.GUI;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +17,7 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
     Button buttonIndlej;
     Button buttonUdlej;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
@@ -23,6 +26,9 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_navigation);
         buttonIndlej = findViewById(R.id.buttonIndlej);
         buttonUdlej = findViewById(R.id.buttonUdlej);
+
+        buttonIndlej.setElevation(8);
+        buttonUdlej.setElevation(8);
 
         buttonIndlej.setOnClickListener(this);
         buttonUdlej.setOnClickListener(this);
