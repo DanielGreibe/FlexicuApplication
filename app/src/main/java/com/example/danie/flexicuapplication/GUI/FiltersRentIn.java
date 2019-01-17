@@ -28,7 +28,7 @@ public class FiltersRentIn extends AppCompatActivity
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_in_filters);
-            List<CrudEmployee> people = new ArrayList<CrudEmployee>();
+            List<String> filterList = new ArrayList<String>();
 
 
         btn = findViewById(R.id.searchBtn);
@@ -63,6 +63,7 @@ public class FiltersRentIn extends AppCompatActivity
          btn.setOnClickListener((view)->{
                 Intent intent = new Intent(this, RentIn.class);
                 //intent.putExtra("dist", seekBarDist.getProgress());
+                filterList.add(lowerPay.getText().toString());
                 intent.putExtra("payLower", lowerPay.getText().toString());
                 intent.putExtra("payUpper", upperPay.getText().toString());
                 if (lowerPay.getText().toString().equals("") && upperPay.getText().toString().equals(""))
