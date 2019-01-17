@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textViewStatus" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewHeaderStatus" />
 
     <TextView
         android:id="@+id/textViewLejer"
@@ -87,7 +87,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDistance" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewHeaderDistance" />
 
     <ImageView
         android:id="@+id/imageView19"
@@ -308,7 +308,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewLejeperiodeSlut" />
 
     <TextView
-        android:id="@+id/textViewStatus"
+        android:id="@+id/textViewHeaderStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -328,7 +328,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewErhverv" />
 
     <TextView
-        android:id="@+id/textViewDistance"
+        android:id="@+id/textViewHeaderDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
