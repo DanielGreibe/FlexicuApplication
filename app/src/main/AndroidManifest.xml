@@ -24,6 +24,10 @@
         android:windowSoftInputMode="stateHidden"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".GUI.TabbedRentIn"
+            android:label="@string/title_activity_tabbed_rent_in"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".GUI.TabbedRentOut"
             android:label="@string/title_activity_tabbed_rent_out"
             android:theme="@style/AppTheme.NoActionBar" />

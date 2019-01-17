@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#427d3c</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="green">#009933</color>
     <color name="white">#ffffff</color>
     <color name="FlexGrey">#b0c4dd</color>
     <color name="FlexGreen">#427d3c</color>
-    <color name="FlexBlue">#0099cb</color>
+    <color name="FlexBlue">#0099CB</color>
     <color name="FlexTurquoise">#ccffff</color>
     <string name="green">\@color/green</string>
     <color name="colorProgressBar">#ff6900</color>

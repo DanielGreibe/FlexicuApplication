@@ -35,7 +35,7 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
             if ( v == buttonIndlej)
                 {
                     //Opens the Indlej page
-                    Intent Indlej = new Intent(this, RentIn.class);
+                    Intent Indlej = new Intent(this, TabbedRentIn.class);
                     Bundle bndlanimation =
                             ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                     startActivity(Indlej, bndlanimation);
