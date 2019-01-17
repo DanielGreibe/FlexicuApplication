@@ -49,7 +49,6 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         items.add("Håndværker");
         items.add("VVS");
         items.add("Elektrkker");
-        items.add("Snedker");
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
             editTextErhverv.setAdapter(adapter);
