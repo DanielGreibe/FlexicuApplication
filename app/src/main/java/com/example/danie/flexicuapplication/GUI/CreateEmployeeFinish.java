@@ -142,7 +142,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     {
         if ( v == buttonNextPage )
         {
-            Intent Udlej = new Intent(this, RentOut.class);
+            Intent Udlej = new Intent(this, TabbedRentOut.class);
             //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
             CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).available(true).builder();
 
@@ -163,7 +163,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Udlej.putExtra("callingActivity", "createEmployeeFinish");
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-            Intent intent = new Intent(this, RentOut.class);
             startActivity(Udlej);
             finish();
         }
