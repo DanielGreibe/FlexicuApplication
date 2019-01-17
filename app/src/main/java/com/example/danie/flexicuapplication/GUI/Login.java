@@ -87,8 +87,8 @@ protected void onCreate(Bundle savedInstanceState)
 
     //Toggle button
     saveLog.setColorBorder(R.color.FlexGreen);
-    saveLog.setLabelOn("Ja");
-    saveLog.setLabelOff("Nej");
+    saveLog.setLabelOn("Til");
+    saveLog.setLabelOff("Fra");
 
     String loginInfo = settings.getString("login","");
     if (!loginInfo.equals("")){
