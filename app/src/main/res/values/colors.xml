@@ -11,4 +11,6 @@
     <color name="FlexTurquoise">#ccffff</color>
     <string name="green">\@color/green</string>
     <color name="colorProgressBar">#ff6900</color>
+    <color name="gray">#D3D3D3</color>
+    <color name="darkgray">#A9A9A9</color>
 </resources>
