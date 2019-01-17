@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -73,7 +74,7 @@ public class RentOutFragment extends Fragment {
     private ConstraintLayout lejeStart, lejeSlut, loadingbar;
     private ConstraintLayout constCardLayout;
     TextView textViewErhverv, textViewLejeperiodeStart, textViewRadius, textViewPostnummer, textViewLøn, textViewLejeperiodeSlut;
-    private ConstraintLayout addEmployeeBtn;
+    private Button addEmployeeBtn;
     int id = 1;
     @SuppressLint("ResourceType")
 
@@ -82,58 +83,29 @@ public class RentOutFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rent_out, container, false);
         //Get intent and parse values
-       /* Intent intent = getIntent();
-        callingActivity = intent.getStringExtra("callingActivity");
-*/
-        //Setup loading bar and hide
-        loadingbar = view.findViewById(R.id.loadingbar);
-        loadingbar.bringToFront();
-        loadingbar.setVisibility(View.INVISIBLE);
-        addEmployeeBtn = view.findViewById(R.id.addEmployee);
-        LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout);
+        //Intent intent = getIntent();
+        callingActivity = "navigation";//intent.getStringExtra("callingActivity");
 
-        CriteriaDemo demo = new CriteriaDemo();
-        demo.start();
-        opretMedarbejderButton.setOnClickListener((vieww) ->{
+        //Setup loading bar and hide
+     /*   loadingbar = view.findViewById(R.id.loadingbar);
+        loadingbar.bringToFront();
+        loadingbar.setVisibility(View.INVISIBLE);*/
+        addEmployeeBtn = view.findViewById(R.id.addEmployee);
+        LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
+
+
+        addEmployeeBtn.setOnClickListener((vieww) ->{
             Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class); //TODO change to CreateEmplyee.class
             Bundle bndlanimation =
                     ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
             startActivity(opretAnsat, bndlanimation);
 
         });
-
-        lejeStart.setOnClickListener((vieww) ->{
-            Date date = new Date();
-            year = date.getYear() + 1900;
-            month = date.getMonth();
-            day = date.getDate();
-            System.out.println("year: " + year + " Month: " + month + "day: " + day);
-           // showDialog(999);
-        });
-
-        lejeSlut.setOnClickListener((vieww) ->{
-            Date date = new Date();
-            year = date.getYear() + 1900;
-            month = date.getMonth();
-            day = date.getDate();
-           // showDialog(998);
-        });
-
-
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRefUdlejid = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
         DatabaseReference myRefUdlejninger = database.getReference("Udlejninger");
         Gson gson = new Gson();
-
-
-        addEmployeeBtn.setOnClickListener((vieww) ->{
-            CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString());
-            String rentOutJSON = gson.toJson(newRentOut);
-            myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
-            String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
-            myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
-        });
 
         //Load workers from database
         DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
@@ -173,7 +145,6 @@ public class RentOutFragment extends Fragment {
             }
         });
 
-
         return view;
 
     }
@@ -187,19 +158,6 @@ public class RentOutFragment extends Fragment {
         params.setMargins(0,15,75,0);
         return  params;
     }
-    /*
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        // TODO Auto-generated method stub
-        if (id == 999) {
-            DatePickerDialog datepicker =new DatePickerDialog(mContext, myDateListener, year, month, day);
-            return datepicker;
-        }
-        if (id == 998)
-            return new DatePickerDialog(mContext, myDateListener2, year, month, day);
-        return null;
-    }*/
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -229,29 +187,6 @@ public class RentOutFragment extends Fragment {
         }
     };
 
-    public Bitmap getBitmapFromURL(String src) {
-        try {
-            //System.out.println(src);
-            URL url = new URL(src);
-            /*HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();*/
-
-            ImageView temp = null;
-            Glide.with(this)
-                    .load(url)
-                    .into(temp);
-
-
-            Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), temp.getId());
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     @SuppressLint("StaticFieldLeak")
     public void createEmployeeView(DataSnapshot entry, LinearLayout myContainer){
@@ -270,13 +205,13 @@ public class RentOutFragment extends Fragment {
 
 
         // 2. JSON to Java object, read it from a Json String.
-        @SuppressLint("RestrictedApi") CardView cv = new CardView(getApplicationContext());
+       CardView cv = new CardView(getContext());
         cv.setId(Integer.parseInt(obj.get("ID").toString()));
         LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
         size.setMargins(0, 5, 0, 5);
         cv.setLayoutParams(size);
         cv.setRadius(15);
-        @SuppressLint("RestrictedApi") ConstraintLayout cl = new ConstraintLayout(getApplicationContext());
+        @SuppressLint("RestrictedApi") ConstraintLayout cl = new ConstraintLayout(getContext());
         cv.addView(cl);
         cv.setBackgroundResource(R.drawable.layout_background_round_corners);
         cv.setOnClickListener((view) ->
@@ -284,32 +219,19 @@ public class RentOutFragment extends Fragment {
             //Opdaterer TextViews med information fra brugeren
             //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
             //TODO Kan med fordel extractes til en metode.
-            Log.e("Test" , "Du trykkede på CardView " + cv.getId());
-            textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", ""));
-            textViewLøn.setText(obj.get("pay").toString()+" kr/t");
-            textViewPostnummer.setText(obj.get("zipcode").toString());
-            textViewRadius.setText(obj.get("dist").toString()+" km");
             for(int i = 0; i <  myContainer.getChildCount(); i++){
                 myContainer.getChildAt(i).setBackgroundResource(R.drawable.layout_background_round_corners);
             }
 
             view.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
 
-            //If rental dates selected
-            if(textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                addEmployeeBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-            }
-            employeeSelected = tempID;
-
         });
         //Add pic
         @SuppressLint("RestrictedApi") ImageView IVProfilePic = new ImageView(getApplicationContext());
-        //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
+
 
 
         IVProfilePic.setId(id++);
-        //IVProfilePic.setImageResource(R.drawable.circle);
-        //IVProfilePic.setBackground(R.drawable.roundimg);
 
         if(obj.get("pic").toString().replaceAll("\"", "").equals("flexicu")){
 
@@ -336,7 +258,6 @@ public class RentOutFragment extends Fragment {
             IVProfilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
 
-            //Bitmap s = getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
 
             //System.out.println(src);
             URL url = null;
@@ -345,11 +266,6 @@ public class RentOutFragment extends Fragment {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            /*HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();*/
 
             //We want to download images for the list of workers
             URL finalUrl = url;
@@ -381,7 +297,7 @@ public class RentOutFragment extends Fragment {
                     super.onPostExecute(s);
                     s = RoundedImageView.getCroppedBitmap(s, 200);
                     IVProfilePic.setImageBitmap(s);
-                    if(loadingbar.getVisibility() == View.VISIBLE) {
+                 /*   if(loadingbar.getVisibility() == View.VISIBLE) {
                         //Set fade animation and hide after animation end
                         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                         anim.setDuration(1500);
@@ -394,14 +310,14 @@ public class RentOutFragment extends Fragment {
                                 loadingbar.setVisibility(View.INVISIBLE);
                             }
                         });
-                    }
+                    }*/
 
                 }
             }.execute();
 
 
 
-            if(loadingbar.getVisibility() == View.VISIBLE) {
+           /* if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(1500);
@@ -414,7 +330,7 @@ public class RentOutFragment extends Fragment {
                         loadingbar.setVisibility(View.INVISIBLE);
                     }
                 });
-            }
+            }*/
         }
 
         IVProfilePic.setAdjustViewBounds(true);

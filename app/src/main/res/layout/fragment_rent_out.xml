@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/FlexGrey"
     tools:context=".GUI.RentOutFragment">
 
     <android.support.constraint.ConstraintLayout
@@ -13,7 +14,7 @@
         <ScrollView
             android:id="@+id/scrollviewUdlej"
             android:layout_width="363dp"
-            android:layout_height="652dp"
+            android:layout_height="416dp"
             android:layout_marginStart="24dp"
             android:layout_marginLeft="24dp"
             android:layout_marginTop="16dp"
@@ -21,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/scrollViewLayout"
+                android:id="@+id/scrollViewLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
@@ -34,7 +35,9 @@
             android:layout_marginStart="120dp"
             android:layout_marginLeft="120dp"
             android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
             android:text="opret medarbejder"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scrollviewUdlej" />
     </android.support.constraint.ConstraintLayout>
