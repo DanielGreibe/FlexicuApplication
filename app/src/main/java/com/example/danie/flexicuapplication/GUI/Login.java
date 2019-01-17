@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +29,7 @@ import com.crashlytics.android.Crashlytics;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
+import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -45,10 +49,13 @@ Button opretBruger;
 ConstraintLayout LoginLayout;
 SharedPreferences settings;
 SharedPreferences.Editor editor;
-ImageButton saveLog;
+LabeledSwitch saveLog;
 ProgressBar proBar;
 
+boolean saveData = true;
+
 private FirebaseAuth mAuth;
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 @SuppressLint("StaticFieldLeak")
 @Override
 protected void onCreate(Bundle savedInstanceState)
@@ -74,6 +81,14 @@ protected void onCreate(Bundle savedInstanceState)
 
     settings = getSharedPreferences("prefs",0);
     editor = settings.edit();
+    buttonLogin.setElevation(8);
+    opretBruger.setElevation(8);
+
+
+    //Toggle button
+    saveLog.setColorBorder(R.color.FlexGreen);
+    saveLog.setLabelOn("Ja");
+    saveLog.setLabelOff("Nej");
 
     String loginInfo = settings.getString("login","");
     if (!loginInfo.equals("")){
@@ -112,7 +127,7 @@ protected void onCreate(Bundle savedInstanceState)
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            if(saveLog.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ui_radio_button_icon).getConstantState())){
+                            if(saveData){
                                 editor.putString("login", editTextUsername.getText().toString() + "," + editTextPassword.getText().toString());
                                 editor.commit();
                             }
@@ -127,12 +142,8 @@ protected void onCreate(Bundle savedInstanceState)
                     }
                 });
             }
-        } else if(v == saveLog || v == saveloginTV){
-            if(saveLog.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.ui_radio_button_icon).getConstantState())){
-               saveLog.setImageResource(R.drawable.ui_radio_button_uncheck_icon);
-            } else {
-                saveLog.setImageResource(R.drawable.ui_radio_button_icon);
-            }
+        } else if(v == saveLog){
+            saveData = !saveData;
         } else if(v == opretBruger){
             Intent Navigation = new Intent(this, CreateUser_cvr.class);
             startActivity(Navigation);

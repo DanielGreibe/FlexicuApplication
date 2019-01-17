@@ -35,14 +35,6 @@
         <activity android:name=".GUI.CreateUser_photo" />
         <activity android:name=".GUI.CreateUser_infomation" />
         <activity android:name=".GUI.CreateUser_cvr" />
-        <activity
-            android:name=".GUI.TabbedRentIn"
-            android:label="@string/title_activity_tabbed_rent_in"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".GUI.TabbedRentOut"
-            android:label="@string/title_activity_tabbed_rent_out"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".GUI.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
