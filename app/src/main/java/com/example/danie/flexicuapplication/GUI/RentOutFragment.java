@@ -8,15 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -27,7 +29,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaDemo;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentOut;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
@@ -38,7 +39,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -46,8 +46,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,7 +53,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-public class RentOut extends AppCompatActivity implements View.OnClickListener {
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
+public class RentOutFragment extends Fragment {
     //Date picker variables
     private Calendar calendar;
     private int year, month, day;
@@ -74,114 +74,43 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     private ConstraintLayout lejeStart, lejeSlut, loadingbar;
     private ConstraintLayout constCardLayout;
     TextView textViewErhverv, textViewLejeperiodeStart, textViewRadius, textViewPostnummer, textViewLøn, textViewLejeperiodeSlut;
-    private ConstraintLayout udlejBtn;
+    private Button addEmployeeBtn;
     int id = 1;
     @SuppressLint("ResourceType")
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rent_out);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_rent_out, container, false);
         //Get intent and parse values
-        Intent intent = getIntent();
-        callingActivity = intent.getStringExtra("callingActivity");
-
-        lejeSlut = findViewById(R.id.lejeSlut);
-        lejeStart = findViewById(R.id.lejeStart);
+        //Intent intent = getIntent();
+        callingActivity = "navigation";//intent.getStringExtra("callingActivity");
 
         //Setup loading bar and hide
-        loadingbar = findViewById(R.id.loadingbar);
+     /*   loadingbar = view.findViewById(R.id.loadingbar);
         loadingbar.bringToFront();
-        loadingbar.setVisibility(View.INVISIBLE);
+        loadingbar.setVisibility(View.INVISIBLE);*/
+        addEmployeeBtn = view.findViewById(R.id.addEmployee);
+        LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
 
 
-        textViewRadius = findViewById(R.id.radiusTextView);
-        textViewPostnummer = findViewById(R.id.postnummerTextView);
-        textViewLøn = findViewById(R.id.lønTextView);
-        textViewLejeperiodeSlut = findViewById(R.id.lejeSlutTextView);
-        textViewErhverv = findViewById(R.id.erhvervTextView);
-        textViewLejeperiodeStart = findViewById(R.id.lejeStartTextView);
-        mContext = getApplicationContext();
-        LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
-        opretMedarbejderButton = findViewById(R.id.opretMedarbejder);
-        udlejBtn = findViewById(R.id.UdlejBtn);
-
-
-        CriteriaDemo demo = new CriteriaDemo();
-        demo.start();
-        opretMedarbejderButton.setOnClickListener((view) ->{
-            Intent opretAnsat = new Intent(this, CreateEmployee.class); //TODO change to CreateEmplyee.class
+        addEmployeeBtn.setOnClickListener((vieww) ->{
+            Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class); //TODO change to CreateEmplyee.class
             Bundle bndlanimation =
                     ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
             startActivity(opretAnsat, bndlanimation);
 
         });
-
-        lejeStart.setOnClickListener((view) ->{
-            Date date = new Date();
-            year = date.getYear() + 1900;
-            month = date.getMonth();
-            day = date.getDate();
-            System.out.println("year: " + year + " Month: " + month + "day: " + day);
-            showDialog(999);
-        });
-
-        lejeSlut.setOnClickListener((view) ->{
-            Date date = new Date();
-            year = date.getYear() + 1900;
-            month = date.getMonth();
-            day = date.getDate();
-            showDialog(998);
-        });
-
-
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRefUdlejid = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
         DatabaseReference myRefUdlejninger = database.getReference("Udlejninger");
         Gson gson = new Gson();
 
-
-        udlejBtn.setOnClickListener((view) -> {
-            if(employeeSelected != 0
-                    && textViewLejeperiodeSlut.getText().toString().contains("/")
-                    && textViewLejeperiodeStart.getText().toString().contains("/")){
-                DatabaseReference myRefId = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/" + employeeSelected);
-                myRefId.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        //Parse JSON
-                        JsonParser parser = new JsonParser();
-                        JsonElement element = parser.parse(snapshot.getValue().toString());
-                        JsonObject obj = element.getAsJsonObject();
-
-                        String tempName = obj.get("name").toString().replaceAll("\"", "");
-                        String tempJob = obj.get("job").toString().replaceAll("\"", "");
-                        String tempPic = obj.get("pic").toString().replaceAll("\"", "");
-                        String tempRank = obj.get("rank").toString().replaceAll("\"", "");
-                        String tempPay = obj.get("pay").toString().replaceAll("\"", "");
-
-                        CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), tempName, tempJob, tempPic, textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString(), tempRank, tempPay);
-                        String rentOutJSON = gson.toJson(newRentOut);
-                        myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
-                        String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
-                        myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        System.out.println("Error!");
-                    }
-                });
-            }
-        });
-
         //Load workers from database
         DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
         //If employee has been created
-        /*
         if(callingActivity.equals("createEmployeeFinish")){
             System.out.println("Correct activity!");
             loadingbar.setVisibility(View.VISIBLE);
@@ -199,7 +128,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                 }
             };
             myRefMedarbejder.addValueEventListener(postListener);
-        }*/
+        }
 
         //Load employees and create cardviews and add to scroller
         myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -216,7 +145,10 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             }
         });
 
+        return view;
+
     }
+
 
     public ViewGroup.LayoutParams getLinearLayout(){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -225,24 +157,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         );
         params.setMargins(0,15,75,0);
         return  params;
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        // TODO Auto-generated method stub
-        if (id == 999) {
-            DatePickerDialog datepicker =new DatePickerDialog(this, myDateListener, year, month, day);
-            return datepicker;
-        }
-        if (id == 998)
-            return new DatePickerDialog(this, myDateListener2, year, month, day);
-        return null;
     }
 
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -254,7 +168,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             textViewLejeperiodeStart.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
             //If rental dates selected and employee is selected
             if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+                addEmployeeBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
             }
         }
     };
@@ -268,34 +182,11 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             textViewLejeperiodeSlut.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
             //If rental dates selected and employee is selected
             if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+                addEmployeeBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
             }
         }
     };
 
-    public Bitmap getBitmapFromURL(String src) {
-        try {
-            //System.out.println(src);
-            URL url = new URL(src);
-            /*HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();*/
-
-            ImageView temp = null;
-            Glide.with(this)
-                    .load(url)
-                    .into(temp);
-
-
-            Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), temp.getId());
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     @SuppressLint("StaticFieldLeak")
     public void createEmployeeView(DataSnapshot entry, LinearLayout myContainer){
@@ -314,13 +205,13 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
 
         // 2. JSON to Java object, read it from a Json String.
-        CardView cv = new CardView(getApplicationContext());
+       CardView cv = new CardView(getContext());
         cv.setId(Integer.parseInt(obj.get("ID").toString()));
         LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
         size.setMargins(0, 5, 0, 5);
         cv.setLayoutParams(size);
         cv.setRadius(15);
-        ConstraintLayout cl = new ConstraintLayout(getApplicationContext());
+        @SuppressLint("RestrictedApi") ConstraintLayout cl = new ConstraintLayout(getContext());
         cv.addView(cl);
         cv.setBackgroundResource(R.drawable.layout_background_round_corners);
         cv.setOnClickListener((view) ->
@@ -328,33 +219,19 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             //Opdaterer TextViews med information fra brugeren
             //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
             //TODO Kan med fordel extractes til en metode.
-            Log.e("Test" , "Du trykkede på CardView " + cv.getId());
-            textViewErhverv.setText(obj.get("job").toString().replaceAll("\"", ""));
-            textViewLøn.setText(obj.get("pay").toString()+" kr/t");
-            textViewPostnummer.setText(obj.get("zipcode").toString());
-            textViewRadius.setText(obj.get("dist").toString()+" km");
             for(int i = 0; i <  myContainer.getChildCount(); i++){
                 myContainer.getChildAt(i).setBackgroundResource(R.drawable.layout_background_round_corners);
             }
 
             view.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
 
-            //If rental dates selected
-            if(textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-            }
-            employeeSelected = tempID;
-
         });
         //Add pic
-        ImageView IVProfilePic = new ImageView(getApplicationContext());
-        //@SuppressLint("ResourceType") LinearLayout IVProfilePic = (LinearLayout) findViewById(R.drawable.circle);
+        @SuppressLint("RestrictedApi") ImageView IVProfilePic = new ImageView(getApplicationContext());
+
 
 
         IVProfilePic.setId(id++);
-        //IVProfilePic.setImageResource(R.drawable.circle);
-        //IVProfilePic.setBackground(R.drawable.roundimg);
-        //
 
         if(obj.get("pic").toString().replaceAll("\"", "").equals("flexicu")){
 
@@ -381,7 +258,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             IVProfilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
 
-            //Bitmap s = getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
 
             //System.out.println(src);
             URL url = null;
@@ -390,11 +266,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            /*HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();*/
 
             //We want to download images for the list of workers
             URL finalUrl = url;
@@ -426,7 +297,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                     super.onPostExecute(s);
                     s = RoundedImageView.getCroppedBitmap(s, 200);
                     IVProfilePic.setImageBitmap(s);
-                    if(loadingbar.getVisibility() == View.VISIBLE) {
+                 /*   if(loadingbar.getVisibility() == View.VISIBLE) {
                         //Set fade animation and hide after animation end
                         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                         anim.setDuration(1500);
@@ -439,13 +310,14 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                                 loadingbar.setVisibility(View.INVISIBLE);
                             }
                         });
-                    }
+                    }*/
+
                 }
             }.execute();
 
 
 
-            if(loadingbar.getVisibility() == View.VISIBLE) {
+           /* if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(1500);
@@ -458,13 +330,13 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                         loadingbar.setVisibility(View.INVISIBLE);
                     }
                 });
-            }
+            }*/
         }
 
         IVProfilePic.setAdjustViewBounds(true);
         cl.addView(IVProfilePic);
         //Add Name and Job
-        TextView TVName = new TextView(getApplicationContext());
+        @SuppressLint("RestrictedApi") TextView TVName = new TextView(getApplicationContext());
         TVName.setId(id++);
         TVName.setText(obj.get("name").toString().replaceAll("\"", "")+"\n"+obj.get("job").toString().replaceAll("\"", ""));
         TVName.setTextSize(15);
@@ -489,13 +361,5 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         myContainer.addView(cv);
         //CrudEmployee staff = gson.fromJson(entry, );
         //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
-    }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-        Intent intent = new Intent(this, Navigation.class);
-        intent.putExtra("callingActivity", "navigation");
-        finish();
     }
 }

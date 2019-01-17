@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:windowSoftInputMode="stateHidden"
         android:name=".LogicLayer.GlobalVariables"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,6 +24,14 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateHidden"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".GUI.TabbedRentIn"
+            android:label="@string/title_activity_tabbed_rent_in"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".GUI.TabbedRentOut"
+            android:label="@string/title_activity_tabbed_rent_out"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".GUI.CreateUser_password"></activity>
         <activity android:name=".GUI.CreateUser_photo" />
         <activity android:name=".GUI.CreateUser_infomation" />

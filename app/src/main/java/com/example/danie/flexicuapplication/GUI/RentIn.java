@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,6 +43,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
     int counter = 0;
     LinearLayout scroller;
     ImageView filterMenu;
+    Button goToMyRentIn;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -55,6 +58,13 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
         List<CrudEmployee> employees = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+        goToMyRentIn = findViewById(R.id.mineIndlejningerBT);
+        goToMyRentIn.setOnClickListener((view) -> {
+            Intent myRentOut = new Intent(this, MyRentIns.class);
+            Bundle bndlanimation =
+                    ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+            startActivity(myRentOut,bndlanimation);
+        });
 
 
             myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
