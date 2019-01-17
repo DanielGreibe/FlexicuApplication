@@ -100,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="35dp"
+                    android:paddingLeft="25dp"
                     android:text="200 kr/t" />
             </LinearLayout>
 
@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="35dp"
+                    android:paddingLeft="25dp"
                     android:text="3400" />
 
             </LinearLayout>
@@ -147,7 +147,7 @@
                 android:paddingBottom="5dp">
 
                 <TextView
-                    android:id="@+id/textViewDistance"
+                    android:id="@+id/textViewHeaderDistance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -160,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="35dp"
+                    android:paddingLeft="25dp"
                     android:text="30 km" />
             </LinearLayout>
 
@@ -173,7 +173,7 @@
                 android:paddingBottom="5dp">
 
                 <TextView
-                    android:id="@+id/textViewStatus"
+                    android:id="@+id/textViewHeaderStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -186,7 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="35dp"
+                    android:paddingLeft="25dp"
                     android:text="Udlejet" />
 
             </LinearLayout>
