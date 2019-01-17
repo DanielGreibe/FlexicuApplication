@@ -3,14 +3,13 @@ package com.example.danie.flexicuapplication.GUI;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaPay;
-import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.R;
 
@@ -23,6 +22,7 @@ public class FiltersRentIn extends AppCompatActivity
         private EditText lowerPay;
         private EditText upperPay;
         private SeekBar seekBarDist;
+        private TextView seekbarValue;
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
@@ -32,19 +32,40 @@ public class FiltersRentIn extends AppCompatActivity
 
 
         btn = findViewById(R.id.searchBtn);
+        seekbarValue=findViewById(R.id.progressValue);
         lowerPay = findViewById(R.id.payLower);
         upperPay = findViewById(R.id.payUpper);
+        lowerPay.setText("0");
+        upperPay.setText("999");
         seekBarDist = findViewById(R.id.distSlider);
-        seekBarDist.setProgress(0);
-        seekBarDist.incrementProgressBy(10);
+        seekBarDist.setProgress(100);
+        seekbarValue.setText(seekBarDist.getProgress() + " km");
         seekBarDist.setMax(100);
 
+        seekBarDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekbarValue.setText(String.valueOf(progress)+" km");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+        });
 
          btn.setOnClickListener((view)->{
                 Intent intent = new Intent(this, RentIn.class);
                 //intent.putExtra("dist", seekBarDist.getProgress());
-                intent.putExtra("pay", lowerPay.getText().toString());
-                if (lowerPay.getText().toString().equals(""))
+                intent.putExtra("payLower", lowerPay.getText().toString());
+                intent.putExtra("payUpper", upperPay.getText().toString());
+                if (lowerPay.getText().toString().equals("") && upperPay.getText().toString().equals(""))
                 {
                     Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                 }else {

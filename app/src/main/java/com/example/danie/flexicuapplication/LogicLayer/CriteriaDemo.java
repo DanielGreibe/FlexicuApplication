@@ -11,7 +11,7 @@ public class CriteriaDemo {
         persons.add(new CrudEmployee.EmployeBuilder("fleix").pay(500).builder());
         persons.add(new CrudEmployee.EmployeBuilder("john").pay(45).builder());
 
-        CriteriaInterface payy = new CriteriaPay(400);
+        CriteriaInterface payy = new CriteriaPayLower(400);
 
         //Search by First and last name (And criteria)
         for(CrudEmployee person: persons)

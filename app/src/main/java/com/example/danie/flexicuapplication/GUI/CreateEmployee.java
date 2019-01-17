@@ -23,7 +23,7 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee);
-        editTextName = findViewById(R.id.editTextName);
+        editTextName = findViewById(R.id.PasswordEditText);
         editTextName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
         buttonNextPage = findViewById(R.id.buttonNextPage);

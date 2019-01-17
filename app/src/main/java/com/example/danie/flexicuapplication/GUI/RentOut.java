@@ -19,14 +19,19 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaDemo;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentOut;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
+import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,10 +48,12 @@ import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class RentOut extends AppCompatActivity implements View.OnClickListener {
     //Date picker variables
@@ -99,6 +106,8 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         LinearLayout myContainer = findViewById(R.id.scrollLayoutUdlej);
         opretMedarbejderButton = findViewById(R.id.opretMedarbejder);
         udlejBtn = findViewById(R.id.UdlejBtn);
+
+
         CriteriaDemo demo = new CriteriaDemo();
         demo.start();
         opretMedarbejderButton.setOnClickListener((view) ->{
@@ -134,12 +143,38 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         Gson gson = new Gson();
 
 
-        udlejBtn.setOnClickListener((view) ->{
-            CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString());
-            String rentOutJSON = gson.toJson(newRentOut);
-            myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
-            String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
-            myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
+        udlejBtn.setOnClickListener((view) -> {
+            if(employeeSelected != 0
+                    && textViewLejeperiodeSlut.getText().toString().contains("/")
+                    && textViewLejeperiodeStart.getText().toString().contains("/")){
+                DatabaseReference myRefId = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/" + employeeSelected);
+                myRefId.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        //Parse JSON
+                        JsonParser parser = new JsonParser();
+                        JsonElement element = parser.parse(snapshot.getValue().toString());
+                        JsonObject obj = element.getAsJsonObject();
+
+                        String tempName = obj.get("name").toString().replaceAll("\"", "");
+                        String tempJob = obj.get("job").toString().replaceAll("\"", "");
+                        String tempPic = obj.get("pic").toString().replaceAll("\"", "");
+                        String tempRank = obj.get("rank").toString().replaceAll("\"", "");
+                        String tempPay = obj.get("pay").toString().replaceAll("\"", "");
+
+                        CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), tempName, tempJob, tempPic, textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString(), tempRank, tempPay);
+                        String rentOutJSON = gson.toJson(newRentOut);
+                        myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
+                        String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
+                        myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("Error!");
+                    }
+                });
+            }
         });
 
         //Load workers from database
@@ -241,12 +276,19 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         try {
             //System.out.println(src);
             URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url
+            /*HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
             connection.setDoInput(true);
             connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            InputStream input = connection.getInputStream();*/
+
+            ImageView temp = null;
+            Glide.with(this)
+                    .load(url)
+                    .into(temp);
+
+
+            Bitmap myBitmap = BitmapFactory.decodeResource(getResources(), temp.getId());
             return myBitmap;
         } catch (IOException e) {
             e.printStackTrace();
@@ -314,19 +356,66 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         //
 
         if(obj.get("pic").toString().replaceAll("\"", "").equals("flexicu")){
-            loadingbar.setVisibility(View.INVISIBLE);
-            IVProfilePic.setImageResource(R.drawable.oliver);
+
+            if(loadingbar.getVisibility() == View.VISIBLE) {
+                //Set fade animation and hide after animation end
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(1500);
+                anim.setRepeatCount(0);
+                anim.willChangeBounds();
+                loadingbar.startAnimation(anim);
+                loadingbar.postOnAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingbar.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
+            //Get round image
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
+            bitmap = RoundedImageView.getCroppedBitmap(bitmap, 200);
+            IVProfilePic.setImageBitmap(bitmap);
         }else{
             //Set temporary picture while real pictures are downloading
             IVProfilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
+
+            //Bitmap s = getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
+
+            //System.out.println(src);
+            URL url = null;
+            try {
+                url = new URL(obj.get("pic").toString().replace("\"", ""));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            /*HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();*/
+
+            //We want to download images for the list of workers
+            URL finalUrl = url;
             new AsyncTask<Void, Void, Bitmap>(){
                 //Get pictures in background
                 @Override
                 protected Bitmap doInBackground(Void... voids) {
-                    //IVProfilePic.setImageBitmap(getBitmapFromURL(obj.get("pic").toString()));
-                    //System.out.println(obj.get("pic").toString().replace("\"", ""));
-                    return getBitmapFromURL(obj.get("pic").toString().replace("\"", ""));
+                    try {
+                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
+                        Bitmap myBitmap = Glide
+                                .with(IVProfilePic)
+                                .asBitmap()
+                                .load(finalUrl)
+                                .submit()
+                                .get();
+                        return myBitmap;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
                 }
 
                 //On return update images in list
@@ -334,11 +423,41 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                 @Override
                 protected void onPostExecute(Bitmap s) {
                     super.onPostExecute(s);
+                    s = RoundedImageView.getCroppedBitmap(s, 200);
                     IVProfilePic.setImageBitmap(s);
-                    loadingbar.setVisibility(View.INVISIBLE);
-
+                    if(loadingbar.getVisibility() == View.VISIBLE) {
+                        //Set fade animation and hide after animation end
+                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                        anim.setDuration(1500);
+                        anim.setRepeatCount(0);
+                        anim.willChangeBounds();
+                        loadingbar.startAnimation(anim);
+                        loadingbar.postOnAnimation(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingbar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }
                 }
             }.execute();
+
+
+
+            if(loadingbar.getVisibility() == View.VISIBLE) {
+                //Set fade animation and hide after animation end
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(1500);
+                anim.setRepeatCount(0);
+                anim.willChangeBounds();
+                loadingbar.startAnimation(anim);
+                loadingbar.postOnAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingbar.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }
         }
 
         IVProfilePic.setAdjustViewBounds(true);
@@ -354,7 +473,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         ConstraintSet CS = new ConstraintSet();
         CS.clone(cl);
         //Pic
-        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,0);
+        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,15);
         CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
         CS.connect(IVProfilePic.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
 
@@ -362,6 +481,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT,8);
         CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
         CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
+        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.LEFT, 250);
 
         CS.applyTo(cl);
 

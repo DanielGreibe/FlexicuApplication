@@ -3,6 +3,8 @@ package com.example.danie.flexicuapplication.GUI;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
+import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,14 +41,12 @@ TextView textViewLoginLater, saveloginTV;
 EditText editTextUsername;
 EditText editTextPassword;
 Button buttonLogin;
+Button opretBruger;
 ConstraintLayout LoginLayout;
 SharedPreferences settings;
 SharedPreferences.Editor editor;
 ImageButton saveLog;
-
-    //Network variables
-private RequestQueue myRequestQueue;
-private StringRequest myStringRequest;
+ProgressBar proBar;
 
 private FirebaseAuth mAuth;
 @SuppressLint("StaticFieldLeak")
@@ -54,6 +56,7 @@ protected void onCreate(Bundle savedInstanceState)
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    opretBruger = findViewById(R.id.buttonCreateUser);
     textViewLoginLater = findViewById(R.id.textViewLoginLater);
     editTextUsername = findViewById(R.id.editTextUsername);
     editTextPassword = findViewById(R.id.editTextPassword);
@@ -63,6 +66,11 @@ protected void onCreate(Bundle savedInstanceState)
     saveloginTV = findViewById(R.id.saveloginTV);
     saveLog.setOnClickListener(this);
     saveloginTV.setOnClickListener(this);
+    buttonLogin.setOnClickListener(this);
+    textViewLoginLater.setOnClickListener(this);
+    opretBruger.setOnClickListener(this);
+    proBar = findViewById(R.id.progressBar);
+    proBar.setVisibility(View.INVISIBLE);
 
     settings = getSharedPreferences("prefs",0);
     editor = settings.edit();
@@ -83,11 +91,6 @@ protected void onCreate(Bundle savedInstanceState)
     // Initialize Firebase Auth
     mAuth = FirebaseAuth.getInstance();
 
-    buttonLogin.setOnClickListener(this);
-    textViewLoginLater.setOnClickListener(this);
-
-    sendGetRequestForCVRData("http://cvrapi.dk/api?search=%22amsiq%22&country=dk&format=xml");
-
 }
 
     @Override
@@ -103,6 +106,7 @@ protected void onCreate(Bundle savedInstanceState)
             startActivity(PreIndlej);
             }
         else if ( v == buttonLogin) {
+            proBar.setVisibility(View.VISIBLE);
             if (!editTextUsername.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
                 mAuth.signInWithEmailAndPassword(editTextUsername.getText().toString(), editTextPassword.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -118,6 +122,7 @@ protected void onCreate(Bundle savedInstanceState)
                         } else {
                             // If sign in fails, display a message to the user.
                             textViewLoginLater.setText("Login unsuccessful!");
+                            proBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });
@@ -128,6 +133,9 @@ protected void onCreate(Bundle savedInstanceState)
             } else {
                 saveLog.setImageResource(R.drawable.ui_radio_button_icon);
             }
+        } else if(v == opretBruger){
+            Intent Navigation = new Intent(this, CreateUser_cvr.class);
+            startActivity(Navigation);
         }
     }
 
@@ -136,25 +144,6 @@ protected void onCreate(Bundle savedInstanceState)
         Intent Navigation = new Intent(this, Navigation.class);
         startActivity(Navigation);
         finish();
-    }
-
-    private void sendGetRequestForCVRData(String url) {
-        myRequestQueue = Volley.newRequestQueue(this);
-        //Method, URL, successListener, errorListener
-        //If call is not successful select from offline word-list
-        myStringRequest = new StringRequest(
-                Request.Method.GET,
-                url,
-                response -> {
-                    System.out.println("RESPONSE IS: " + response);
-                    System.out.println("ok");
-                },
-                error -> {
-
-                }
-        ); //End of 'new StringRequest' arguments
-
-        myRequestQueue.add(myStringRequest);
     }
 
 
