@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import com.baoyachi.stepview.HorizontalStepView;
@@ -106,6 +107,14 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                 .setStepsViewIndicatorCompleteIcon(ContextCompat.getDrawable(this, R.drawable.blue_check))
                 .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(this, R.drawable.default_custom))
                 .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(this, R.drawable.trans_focus));
+
+        HorizontalScrollView scroller = findViewById(R.id.horizontalScrollView2);
+        scroller.post(new Runnable() {
+            @Override
+            public void run() {
+                scroller.scrollTo(500, 0);
+            }
+        });
 
 
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
