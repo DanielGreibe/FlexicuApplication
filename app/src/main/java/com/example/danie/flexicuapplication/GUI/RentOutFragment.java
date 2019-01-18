@@ -84,6 +84,7 @@ public class RentOutFragment extends Fragment
         Bundle extra = new Bundle();
         extra.getString("callingActivity", "default");
 
+
         //Setup loading bar and hide
         loadingbar = view.findViewById(R.id.loadingbarTextView);
         loadingbar.bringToFront();
