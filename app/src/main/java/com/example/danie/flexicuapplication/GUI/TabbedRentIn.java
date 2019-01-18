@@ -46,6 +46,12 @@ public class TabbedRentIn extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle !=  null){
+            System.out.println(bundle.getStringArrayList("filterValues"));
+        }
+
     }
 
 

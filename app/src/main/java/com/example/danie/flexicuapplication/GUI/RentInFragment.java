@@ -54,11 +54,13 @@ public class RentInFragment extends Fragment {
         });
 
 
+        Bundle bundle = getActivity().getIntent().getExtras();
+        if(bundle != null){
+            bundle.getStringArrayList("filterValues");
+            System.out.println(bundle.getStringArrayList("filterValues")+"-----------------------------------");
 
+        }
 
-        Bundle bundle = new Bundle();
-        bundle.getStringArrayList("filterValues");
-        System.out.println(bundle.getStringArrayList("filterValues"));
         List<CrudEmployee> employees = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
@@ -85,7 +87,7 @@ public class RentInFragment extends Fragment {
                     employees.add(people);
 
 
-                   if(!bundle.getStringArrayList("filterValues").equals("") ){
+                   if(bundle != null ){
                         ArrayList<String> filterValues =  bundle.getStringArrayList("filterValues");
                         CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
                         CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
