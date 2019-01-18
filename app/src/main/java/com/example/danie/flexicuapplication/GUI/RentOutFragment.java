@@ -276,7 +276,7 @@ public class RentOutFragment extends Fragment
         if (obj.get("pic").toString().replaceAll("\"", "").equals("flexicu"))
             {
 
-           /*if(loadingbar.getVisibility() == View.VISIBLE) {
+           if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(1500);
@@ -347,7 +347,7 @@ public class RentOutFragment extends Fragment
                     super.onPostExecute(s);
                     s = RoundedImageView.getCroppedBitmap(s, 200);
                     IVProfilePic.setImageBitmap(s);
-                 /*   if(loadingbar.getVisibility() == View.VISIBLE) {
+                    if(loadingbar.getVisibility() == View.VISIBLE) {
                         //Set fade animation and hide after animation end
                         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                         anim.setDuration(1500);
@@ -367,7 +367,7 @@ public class RentOutFragment extends Fragment
 
 
 
-           /* if(loadingbar.getVisibility() == View.VISIBLE) {
+            if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(1500);
@@ -380,7 +380,7 @@ public class RentOutFragment extends Fragment
                         loadingbar.setVisibility(View.INVISIBLE);
                     }
                 });
-            }*/
+            }
         }
 
         IVProfilePic.setAdjustViewBounds(true);
@@ -494,7 +494,7 @@ public class RentOutFragment extends Fragment
                     super.onPostExecute(s);
                     s = RoundedImageView.getCroppedBitmap(s, 200);
                     profilePic.setImageBitmap(s);
-                 /*   if(loadingbar.getVisibility() == View.VISIBLE) {
+                    if(loadingbar.getVisibility() == View.VISIBLE) {
                         //Set fade animation and hide after animation end
                         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                         anim.setDuration(1500);
@@ -507,14 +507,14 @@ public class RentOutFragment extends Fragment
                                 loadingbar.setVisibility(View.INVISIBLE);
                             }
                         });
-                    }*/
+                    }
 
                 }
             }.execute();
 
 
 
-           /* if(loadingbar.getVisibility() == View.VISIBLE) {
+            if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(1500);
@@ -527,7 +527,7 @@ public class RentOutFragment extends Fragment
                         loadingbar.setVisibility(View.INVISIBLE);
                     }
                 });
-            }*/
+            }
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
         linearLayoutCollapsed.setOnClickListener((test) ->
         {

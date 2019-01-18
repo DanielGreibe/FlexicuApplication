@@ -21,8 +21,6 @@ public class CrudRentOut {
     String rentEnd;
     String rank;
     String pay;
-    boolean onMarket;
-    boolean taken;
 
     public CrudRentOut(String id, String name, String job, String pic, String rentStart, String rentEnd, String rank, String pay){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -34,8 +32,6 @@ public class CrudRentOut {
         this.rentEnd = rentEnd;
         this.rank = rank;
         this.pay = pay;
-        this.onMarket = true;
-        this.taken = false;
 
 
         boolean[] unique = {false};
