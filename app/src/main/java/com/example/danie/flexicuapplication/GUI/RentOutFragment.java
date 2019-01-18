@@ -394,6 +394,7 @@ public class RentOutFragment extends Fragment
         //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
         }
 
+    @SuppressLint("StaticFieldLeak")
     public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)
         {
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
@@ -410,6 +411,7 @@ public class RentOutFragment extends Fragment
         ImageButton imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
+        ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
 
         //Hent data og gør det til et JsonObject
         JsonParser parser = new JsonParser();
@@ -422,15 +424,91 @@ public class RentOutFragment extends Fragment
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-        if ( Employee.get("available").toString().equals("true"))
+        /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
             }
         else
             {
             textViewStatus.setText("Udlejet");
+            }*/
+            //Set temporary picture while real pictures are downloading
+            profilePic.setImageResource(R.drawable.download);
+            //We want to download images for the list of workers
+
+
+            //System.out.println(src);
+            URL url = null;
+            try {
+                url = new URL(Employee.get("pic").toString().replace("\"", ""));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
             }
 
+            //We want to download images for the list of workers
+            URL finalUrl = url;
+            new AsyncTask<Void, Void, Bitmap>(){
+                //Get pictures in background
+                @Override
+                protected Bitmap doInBackground(Void... voids) {
+                    try {
+                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
+                        Bitmap myBitmap = Glide
+                                .with(profilePic)
+                                .asBitmap()
+                                .load(finalUrl)
+                                .submit()
+                                .get();
+                        return myBitmap;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                //On return update images in list
+                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                @Override
+                protected void onPostExecute(Bitmap s) {
+                    super.onPostExecute(s);
+                    s = RoundedImageView.getCroppedBitmap(s, 200);
+                    profilePic.setImageBitmap(s);
+                 /*   if(loadingbar.getVisibility() == View.VISIBLE) {
+                        //Set fade animation and hide after animation end
+                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                        anim.setDuration(1500);
+                        anim.setRepeatCount(0);
+                        anim.willChangeBounds();
+                        loadingbar.startAnimation(anim);
+                        loadingbar.postOnAnimation(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingbar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }*/
+
+                }
+            }.execute();
+
+
+
+           /* if(loadingbar.getVisibility() == View.VISIBLE) {
+                //Set fade animation and hide after animation end
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(1500);
+                anim.setRepeatCount(0);
+                anim.willChangeBounds();
+                loadingbar.startAnimation(anim);
+                loadingbar.postOnAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingbar.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }*/
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
         linearLayoutCollapsed.setOnClickListener((test) ->
         {
@@ -448,12 +526,12 @@ public class RentOutFragment extends Fragment
         }
     private void expand(LinearLayout linearLayoutExpanded, ImageButton imageButtonArrow)
         {
-        if (imageButtonArrow.getRotation() == -90)
+        if (linearLayoutExpanded.getVisibility() == View.GONE)
             {
             linearLayoutExpanded.setVisibility(View.VISIBLE);
             imageButtonArrow.setRotation(0);
             }
-        else if (imageButtonArrow.getRotation() == 0)
+        else if (linearLayoutExpanded.getVisibility() == View.VISIBLE)
             {
             linearLayoutExpanded.setVisibility(View.GONE);
             imageButtonArrow.setRotation(-90);

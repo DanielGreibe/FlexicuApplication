@@ -28,9 +28,9 @@
                 android:id="@+id/imageViewImage"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 app:srcCompat="@android:drawable/ic_menu_zoom" />
 
             <LinearLayout
@@ -67,7 +67,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="10dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.5"
                 android:background="@android:color/transparent"
                 android:rotation="-90"
                 app:srcCompat="@android:drawable/arrow_down_float" />
@@ -82,7 +82,7 @@
             android:orientation="vertical"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -104,7 +104,7 @@
                         android:layout_weight="1"
                         android:paddingLeft="20dp"
                         android:text="Løn"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="#0000e0" />
 
                     <TextView
                         android:id="@+id/textViewLøn"
@@ -130,7 +130,7 @@
                         android:layout_weight="1"
                         android:paddingLeft="20dp"
                         android:text="Postnummer"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="#0000e0" />
 
                     <TextView
                         android:id="@+id/textViewZipcode"
@@ -164,7 +164,7 @@
                         android:layout_weight="1"
                         android:paddingLeft="20dp"
                         android:text="Distance"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="#0000e0" />
 
                     <TextView
                         android:id="@+id/textViewDistance"
@@ -190,7 +190,7 @@
                         android:layout_weight="1"
                         android:paddingLeft="20dp"
                         android:text="Status"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="#0000e0" />
 
                     <TextView
                         android:id="@+id/textViewStatus"
@@ -218,12 +218,12 @@
                     <ImageButton
                         android:id="@+id/imageButton2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:background="@null"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="33dp"
                         android:paddingTop="5dp"
                         android:scaleType="fitStart"
-                        app:srcCompat="@android:drawable/btn_star_big_on" />
+                        app:srcCompat="@drawable/flexibluestaricon" />
 
                     <TextView
                         android:id="@+id/textViewRating"
@@ -247,7 +247,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginBottom="5dp"
-                        android:background="@drawable/button_round_corners"
+                        android:background="@drawable/button_udlej"
                         android:text="Udlej" />
                 </LinearLayout>
             </LinearLayout>

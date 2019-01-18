@@ -16,6 +16,7 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -55,10 +56,6 @@ public class MyRentOutsFragment extends Fragment {
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
         ScrollView myScrollView = view.findViewById(R.id.scrollviewUdlej);
         TextView title = view.findViewById(R.id.textView4);
-        title.setElevation(20);
-
-        myScrollView.setElevation(20);
-        myContainer.setElevation(20);
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
@@ -68,7 +65,7 @@ public class MyRentOutsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
-                    createEmployeeView(entry, myContainer);
+                    createNewEmployee(entry, myContainer);
                 }
             }
             @Override
@@ -90,109 +87,86 @@ public class MyRentOutsFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void createEmployeeView(DataSnapshot entry, LinearLayout myContainer){
+    public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)
+    {
+        //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
+        View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
+        View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
 
-        //Parse JSON
+        //Lav FindViewById på Viewsne som er blevet inflated
+        TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
+        TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
+        TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
+        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
+        LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
+        LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
+        ImageButton imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
+        TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
+        TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
+        ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
+
+        //Hent data og gør det til et JsonObject
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(entry.getValue().toString());
-        JsonObject obj = element.getAsJsonObject();
+        JsonObject Employee = element.getAsJsonObject();
 
-        int tempID = Integer.parseInt(String.valueOf(obj.get("ID")));
-
-
-        // 2. JSON to Java object, read it from a Json String.
-        CardView cv = new CardView(getContext());
-        cv.setId(Integer.parseInt(obj.get("ID").toString()));
-        LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,225);
-        size.setMargins(0, 5, 0, 5);
-        cv.setLayoutParams(size);
-        cv.setRadius(15);
-        @SuppressLint("RestrictedApi") ConstraintLayout cl = new ConstraintLayout(getContext());
-        cv.addView(cl);
-        cv.setBackgroundResource(R.drawable.layout_background_round_corners);
-        cv.setOnClickListener((view) ->
-        {
-            //Opdaterer TextViews med information fra brugeren
-            //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
-            //TODO Kan med fordel extractes til en metode.
-            for(int i = 0; i <  myContainer.getChildCount(); i++){
-                myContainer.getChildAt(i).setBackgroundResource(R.drawable.layout_background_round_corners);
+        //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
+        textViewPay.setText(Employee.get("pay").toString() + " kr/t");
+        textViewZipcode.setText(Employee.get("zipcode").toString());
+        textViewDistance.setText(Employee.get("dist").toString() + " km");
+        textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
+        textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
+        /*if ( Employee.get("available").toString().equals("true"))
+            {
+            textViewStatus.setText("Ledig");
             }
-
-            view.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-
-        });
-        //Add pic
-        @SuppressLint("RestrictedApi") ImageView IVProfilePic = new ImageView(getApplicationContext());
-
-
-
-        IVProfilePic.setId(id++);
-
-        if(obj.get("pic").toString().replaceAll("\"", "").equals("flexicu")){
-
-            /*if(loadingbar.getVisibility() == View.VISIBLE) {
-                //Set fade animation and hide after animation end
-                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(1500);
-                anim.setRepeatCount(0);
-                anim.willChangeBounds();
-                loadingbar.startAnimation(anim);
-                loadingbar.postOnAnimation(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadingbar.setVisibility(View.INVISIBLE);
-                    }
-                });
+        else
+            {
+            textViewStatus.setText("Udlejet");
             }*/
-            //Get round image
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
-            bitmap = RoundedImageView.getCroppedBitmap(bitmap, 200);
-            IVProfilePic.setImageBitmap(bitmap);
-        }else{
-            //Set temporary picture while real pictures are downloading
-            IVProfilePic.setImageResource(R.drawable.download);
-            //We want to download images for the list of workers
+        //Set temporary picture while real pictures are downloading
+        profilePic.setImageResource(R.drawable.download);
+        //We want to download images for the list of workers
 
 
-            //System.out.println(src);
-            URL url = null;
-            try {
-                url = new URL(obj.get("pic").toString().replace("\"", ""));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+        //System.out.println(src);
+        URL url = null;
+        try {
+            url = new URL(Employee.get("pic").toString().replace("\"", ""));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        //We want to download images for the list of workers
+        URL finalUrl = url;
+        new AsyncTask<Void, Void, Bitmap>(){
+            //Get pictures in background
+            @Override
+            protected Bitmap doInBackground(Void... voids) {
+                try {
+                    //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
+                    Bitmap myBitmap = Glide
+                            .with(profilePic)
+                            .asBitmap()
+                            .load(finalUrl)
+                            .submit()
+                            .get();
+                    return myBitmap;
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
             }
 
-            //We want to download images for the list of workers
-            URL finalUrl = url;
-            new AsyncTask<Void, Void, Bitmap>(){
-                //Get pictures in background
-                @Override
-                protected Bitmap doInBackground(Void... voids) {
-                    try {
-                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
-                        Bitmap myBitmap = Glide
-                                .with(IVProfilePic)
-                                .asBitmap()
-                                .load(finalUrl)
-                                .submit()
-                                .get();
-                        return myBitmap;
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-
-                //On return update images in list
-                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-                @Override
-                protected void onPostExecute(Bitmap s) {
-                    super.onPostExecute(s);
-                    s = RoundedImageView.getCroppedBitmap(s, 200);
-                    IVProfilePic.setImageBitmap(s);
+            //On return update images in list
+            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+            @Override
+            protected void onPostExecute(Bitmap s) {
+                super.onPostExecute(s);
+                s = RoundedImageView.getCroppedBitmap(s, 200);
+                profilePic.setImageBitmap(s);
                  /*   if(loadingbar.getVisibility() == View.VISIBLE) {
                         //Set fade animation and hide after animation end
                         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
@@ -208,8 +182,8 @@ public class MyRentOutsFragment extends Fragment {
                         });
                     }*/
 
-                }
-            }.execute();
+            }
+        }.execute();
 
 
 
@@ -227,35 +201,33 @@ public class MyRentOutsFragment extends Fragment {
                     }
                 });
             }*/
+        //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
+        linearLayoutCollapsed.setOnClickListener((test) ->
+        {
+
+            expand(linearLayoutExpanded, imageButtonArrow);
+        });
+        imageButtonArrow.setOnClickListener((test) ->
+        {
+            expand(linearLayoutExpanded, imageButtonArrow);
+        });
+
+        //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
+        myContainer.addView(ExpandableCardview);
+        myContainer.addView(Spacer);
+    }
+
+    private void expand(LinearLayout linearLayoutExpanded, ImageButton imageButtonArrow)
+    {
+        if (linearLayoutExpanded.getVisibility() == View.GONE)
+        {
+            linearLayoutExpanded.setVisibility(View.VISIBLE);
+            imageButtonArrow.setRotation(0);
         }
-
-        IVProfilePic.setAdjustViewBounds(true);
-        cl.addView(IVProfilePic);
-        //Add Name and Job
-        @SuppressLint("RestrictedApi") TextView TVName = new TextView(getApplicationContext());
-        TVName.setId(id++);
-        TVName.setText(obj.get("name").toString().replaceAll("\"", "")+"\n"+obj.get("job").toString().replaceAll("\"", ""));
-        TVName.setTextSize(15);
-
-        cl.addView(TVName);
-
-        ConstraintSet CS = new ConstraintSet();
-        CS.clone(cl);
-        //Pic
-        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT,15);
-        CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
-        CS.connect(IVProfilePic.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
-
-        //Name and Job
-        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT,8);
-        CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP,0);
-        CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,0);
-        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.LEFT, 250);
-
-        CS.applyTo(cl);
-
-        myContainer.addView(cv);
-        //CrudEmployee staff = gson.fromJson(entry, );
-        //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
+        else if (linearLayoutExpanded.getVisibility() == View.VISIBLE)
+        {
+            linearLayoutExpanded.setVisibility(View.GONE);
+            imageButtonArrow.setRotation(-90);
+        }
     }
 }
