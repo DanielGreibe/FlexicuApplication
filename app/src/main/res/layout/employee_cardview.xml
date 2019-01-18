@@ -60,7 +60,7 @@
             </LinearLayout>
 
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/imageButtonExpand"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
@@ -69,8 +69,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="0.5"
                 android:background="@android:color/transparent"
-                android:rotation="-90"
-                app:srcCompat="@android:drawable/arrow_down_float" />
+                app:srcCompat="@drawable/arrow_black" />
 
         </LinearLayout>
 

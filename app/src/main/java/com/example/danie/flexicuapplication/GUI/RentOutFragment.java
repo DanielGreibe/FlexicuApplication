@@ -427,7 +427,7 @@ public class RentOutFragment extends Fragment
         TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
         LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
         LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
-        ImageButton imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
+        ImageView imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
@@ -543,17 +543,17 @@ public class RentOutFragment extends Fragment
         myContainer.addView(ExpandableCardview);
         myContainer.addView(Spacer);
         }
-    private void expand(LinearLayout linearLayoutExpanded, ImageButton imageButtonArrow)
+    private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow)
         {
         if (linearLayoutExpanded.getVisibility() == View.GONE)
             {
             linearLayoutExpanded.setVisibility(View.VISIBLE);
-            imageButtonArrow.setRotation(0);
+            imageButtonArrow.setRotation(90);
             }
         else if (linearLayoutExpanded.getVisibility() == View.VISIBLE)
             {
             linearLayoutExpanded.setVisibility(View.GONE);
-            imageButtonArrow.setRotation(-90);
+            imageButtonArrow.setRotation(0);
             }
         }
     }
