@@ -21,7 +21,7 @@ public class CrudEmployee
     private String pic;
     private final int ID;
     private final int zipcode;
-    private boolean available;
+    private String available;
 
 
     private CrudEmployee(EmployeBuilder builder)
@@ -49,7 +49,7 @@ public class CrudEmployee
         String pic;
         int ID;
         int zipcode;
-        boolean available;
+        String available;
 
         public EmployeBuilder(String name)
             {
@@ -95,7 +95,7 @@ public class CrudEmployee
                 }
             }
 
-        public EmployeBuilder available(boolean available)
+        public EmployeBuilder available(String available)
             {
             this.available = available;
             return this;
@@ -183,7 +183,7 @@ public class CrudEmployee
             this.pic = pic;
             }
 
-        public void setavailable(boolean available) {this.available = available;}
+        public void setavailable(String available) {this.available = available;}
         }
 
     //Getter
@@ -227,7 +227,7 @@ public class CrudEmployee
         pic = URL;
         }
 
-    public boolean getAvailable()
+    public String getAvailable()
         {
         return available;
         }
