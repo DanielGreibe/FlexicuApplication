@@ -142,15 +142,17 @@ public class RentOutFragment extends Fragment
                 for (DataSnapshot entry : snapshot.getChildren())
                     {
                     // createEmployeeView(entry, myContainer);
-                    createEmployeeNew(entry, myContainer);
+                    createNewEmployee(entry, myContainer);
                     }
                 }
 
-            private void createEmployeeNew(DataSnapshot entry, LinearLayout myContainer)
+            private void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)
                 {
-                //Lav FindViewById på Viewsne som er blevet inflated
+                //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
                 View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
-                //View Spacer = getLayoutInflater().inflate(R.drawable.empty_tall_divider2, null, false);
+                View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
+
+                //Lav FindViewById på Viewsne som er blevet inflated
                 TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
                 TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
                 TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewHeaderDistance);
@@ -158,6 +160,8 @@ public class RentOutFragment extends Fragment
                 LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
                 LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
                 ImageButton imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
+                TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
+                TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
 
                 //Hent data og put det på TextViewsne
                 JsonParser parser = new JsonParser();
@@ -167,6 +171,8 @@ public class RentOutFragment extends Fragment
                 textViewPay.setText(Employee.get("pay").toString());
                 textViewZipcode.setText(Employee.get("zipcode").toString());
                 textViewDistance.setText(Employee.get("dist").toString());
+                textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
+                textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
                 //textViewStatus.setText(Employee.get("available").toString());
 
                 //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
@@ -179,9 +185,9 @@ public class RentOutFragment extends Fragment
                 extract(linearLayoutExpanded, imageButtonArrow);
                 });
 
-                //Tilføjer det inflatede view til ScrollViewet
+                //Tilføjer det Cardviewet og Spaceren til det Linære Layout myContainer.
                 myContainer.addView(ExpandableCardview);
-                //myContainer.addView(Spacer);
+                myContainer.addView(Spacer);
                 }
 
             private void extract(LinearLayout linearLayoutExpanded, ImageButton imageButtonArrow)
