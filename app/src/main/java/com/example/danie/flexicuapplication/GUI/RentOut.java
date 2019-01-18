@@ -78,8 +78,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
     int id = 1;
     @SuppressLint("ResourceType")
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_out);
 
@@ -181,7 +180,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
         //If employee has been created
-        /*
+
         if(callingActivity.equals("createEmployeeFinish")){
             System.out.println("Correct activity!");
             loadingbar.setVisibility(View.VISIBLE);
@@ -199,7 +198,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                 }
             };
             myRefMedarbejder.addValueEventListener(postListener);
-        }*/
+        }
 
         //Load employees and create cardviews and add to scroller
         myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
