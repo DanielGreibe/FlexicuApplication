@@ -94,7 +94,7 @@ dependencies {
     implementation 'com.kofigyan.stateprogressbar:stateprogressbar:1.0.0'
     implementation 'com.anton46:stepsview:0.0.2'
     implementation 'com.github.baoyachi:StepView:1.9'
-    repositories {maven { url "https://jitpack.io" }  }
+    repositories { maven { url "https://jitpack.io" } }
 
     //Switch
     implementation 'com.github.angads25:toggle:1.1.0'

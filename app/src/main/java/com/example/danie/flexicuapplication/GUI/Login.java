@@ -36,6 +36,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 import io.fabric.sdk.android.Fabric;
 
 
@@ -62,6 +64,8 @@ protected void onCreate(Bundle savedInstanceState)
 {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
+
+
 
     opretBruger = findViewById(R.id.buttonCreateUser);
     textViewLoginLater = findViewById(R.id.textViewLoginLater);

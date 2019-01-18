@@ -3,6 +3,7 @@ package com.example.danie.flexicuapplication.GUI;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -133,7 +134,7 @@ public class RentInFragment extends Fragment {
         TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
         LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
         LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
-        ImageButton imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
+        ImageView imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
 
@@ -172,7 +173,7 @@ public class RentInFragment extends Fragment {
         myContainer.addView(ExpandableCardview);
         myContainer.addView(Spacer);
     }
-    private void expand(LinearLayout linearLayoutExpanded, ImageButton imageButtonArrow)
+    private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow)
     {
         if (imageButtonArrow.getRotation() == -90)
         {
