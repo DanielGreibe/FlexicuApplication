@@ -69,14 +69,14 @@ public class FiltersRentIn extends AppCompatActivity
                 filterList.add(lowerPay.getText().toString());
                 filterList.add(upperPay.getText().toString());
                 filterList.add(String.valueOf(seekBarDist.getProgress()));
-                intent.putStringArrayListExtra("filterValues", filterList);
+             Bundle bundle = new Bundle();
+             bundle.putStringArrayList("filterValues", filterList);
                 if (lowerPay.getText().toString().equals("") && upperPay.getText().toString().equals(""))
                 {
                     Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                 }else {
-                    Bundle bndlanimation =
-                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
-                    startActivity(intent, bndlanimation);
+
+                    startActivity(intent);
                     finish();
                 }
 

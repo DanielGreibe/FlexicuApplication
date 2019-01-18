@@ -212,16 +212,6 @@ public class CrudEmployee
         return dist;
         }
 
-    public boolean getOpen()
-        {
-        return open;
-        }
-
-    public boolean isOpen()
-        {
-        return open;
-        }
-
     public String getPic()
         {
         return pic;
