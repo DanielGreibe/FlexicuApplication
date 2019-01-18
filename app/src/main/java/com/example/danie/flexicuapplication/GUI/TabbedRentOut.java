@@ -112,4 +112,11 @@ public class TabbedRentOut extends AppCompatActivity {
             return 2;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        finish();
+    }
 }
