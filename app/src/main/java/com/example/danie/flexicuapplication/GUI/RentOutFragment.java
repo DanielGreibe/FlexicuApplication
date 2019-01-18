@@ -422,14 +422,14 @@ public class RentOutFragment extends Fragment
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-        if ( Employee.get("available").toString().equals("true"))
+/*        if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
             }
         else
             {
             textViewStatus.setText("Udlejet");
-            }
+            }*/
 
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
         linearLayoutCollapsed.setOnClickListener((test) ->

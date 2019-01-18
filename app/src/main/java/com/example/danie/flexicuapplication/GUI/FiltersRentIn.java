@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import com.example.danie.flexicuapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class FiltersRentIn extends AppCompatActivity
     {
@@ -61,19 +64,19 @@ public class FiltersRentIn extends AppCompatActivity
         });
 
          btn.setOnClickListener((view)->{
-                Intent intent = new Intent(this, RentIn.class);
+                Intent intent = new Intent(this, TabbedRentIn.class);
                 //intent.putExtra("dist", seekBarDist.getProgress());
                 filterList.add(lowerPay.getText().toString());
                 filterList.add(upperPay.getText().toString());
                 filterList.add(String.valueOf(seekBarDist.getProgress()));
                 intent.putStringArrayListExtra("filterValues", filterList);
-                //intent.putExtra("payLower", lowerPay.getText().toString());
-              //  intent.putExtra("payUpper", upperPay.getText().toString());
                 if (lowerPay.getText().toString().equals("") && upperPay.getText().toString().equals(""))
                 {
                     Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                 }else {
-                    startActivity(intent);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
+                    startActivity(intent, bndlanimation);
                     finish();
                 }
 
