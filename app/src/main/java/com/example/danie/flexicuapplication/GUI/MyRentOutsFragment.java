@@ -222,12 +222,12 @@ public class MyRentOutsFragment extends Fragment {
         if (linearLayoutExpanded.getVisibility() == View.GONE)
         {
             linearLayoutExpanded.setVisibility(View.VISIBLE);
-            imageButtonArrow.setRotation(0);
+            imageButtonArrow.setRotation(90);
         }
         else if (linearLayoutExpanded.getVisibility() == View.VISIBLE)
         {
             linearLayoutExpanded.setVisibility(View.GONE);
-            imageButtonArrow.setRotation(-90);
+            imageButtonArrow.setRotation(0);
         }
     }
 }
