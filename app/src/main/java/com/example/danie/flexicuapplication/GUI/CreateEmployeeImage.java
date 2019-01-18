@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -111,6 +112,14 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
 
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
+
+        HorizontalScrollView scroller = findViewById(R.id.horizontalScrollView2);
+        scroller.post(new Runnable() {
+            @Override
+            public void run() {
+                scroller.scrollTo(500, 0);
+            }
+        });
 
         preview.setVisibility(View.INVISIBLE);
         crossPreview.setVisibility(View.INVISIBLE);
