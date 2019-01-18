@@ -119,7 +119,7 @@ public class RentOutFragment extends Fragment
                     for (DataSnapshot entry : dataSnapshot.getChildren())
                         {
                         // createEmployeeView(entry, myContainer);
-
+                        createNewEmployee(entry, myContainer);
                         }
                     }
 
@@ -146,63 +146,7 @@ public class RentOutFragment extends Fragment
                     }
                 }
 
-            private void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)
-                {
-                //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
-                View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
-                View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
 
-                //Lav FindViewById på Viewsne som er blevet inflated
-                TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
-                TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
-                TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewHeaderDistance);
-                TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
-                LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
-                LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
-                ImageButton imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
-                TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
-                TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
-
-                //Hent data og put det på TextViewsne
-                JsonParser parser = new JsonParser();
-                JsonElement element = parser.parse(entry.getValue().toString());
-                JsonObject Employee = element.getAsJsonObject();
-
-                textViewPay.setText(Employee.get("pay").toString());
-                textViewZipcode.setText(Employee.get("zipcode").toString());
-                textViewDistance.setText(Employee.get("dist").toString());
-                textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
-                textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-                //textViewStatus.setText(Employee.get("available").toString());
-
-                //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
-                linearLayoutCollapsed.setOnClickListener((test) ->
-                {
-                extract(linearLayoutExpanded, imageButtonArrow);
-                });
-                imageButtonArrow.setOnClickListener((test) ->
-                {
-                extract(linearLayoutExpanded, imageButtonArrow);
-                });
-
-                //Tilføjer det Cardviewet og Spaceren til det Linære Layout myContainer.
-                myContainer.addView(ExpandableCardview);
-                myContainer.addView(Spacer);
-                }
-
-            private void extract(LinearLayout linearLayoutExpanded, ImageButton imageButtonArrow)
-                {
-                if (imageButtonArrow.getRotation() == -90)
-                    {
-                    linearLayoutExpanded.setVisibility(View.VISIBLE);
-                    imageButtonArrow.setRotation(0);
-                    }
-                else if (imageButtonArrow.getRotation() == 0)
-                    {
-                    linearLayoutExpanded.setVisibility(View.GONE);
-                    imageButtonArrow.setRotation(-90);
-                    }
-                }
 
             @Override
             public void onCancelled(DatabaseError databaseError)
@@ -448,5 +392,71 @@ public class RentOutFragment extends Fragment
         myContainer.addView(cv);
         //CrudEmployee staff = gson.fromJson(entry, );
         //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
+        }
+
+    public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)
+        {
+        //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
+        View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
+        View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
+
+        //Lav FindViewById på Viewsne som er blevet inflated
+        TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
+        TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
+        TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
+        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
+        LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
+        LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
+        ImageButton imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
+        TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
+        TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
+
+        //Hent data og gør det til et JsonObject
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(entry.getValue().toString());
+        JsonObject Employee = element.getAsJsonObject();
+
+        //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
+        textViewPay.setText(Employee.get("pay").toString() + " kr/t");
+        textViewZipcode.setText(Employee.get("zipcode").toString());
+        textViewDistance.setText(Employee.get("dist").toString() + " km");
+        textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
+        textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
+        if ( Employee.get("available").toString().equals("true"))
+            {
+            textViewStatus.setText("Ledig");
+            }
+        else
+            {
+            textViewStatus.setText("Udlejet");
+            }
+
+        //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
+        linearLayoutCollapsed.setOnClickListener((test) ->
+        {
+
+        expand(linearLayoutExpanded, imageButtonArrow);
+        });
+        imageButtonArrow.setOnClickListener((test) ->
+        {
+        expand(linearLayoutExpanded, imageButtonArrow);
+        });
+
+        //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
+        myContainer.addView(ExpandableCardview);
+        myContainer.addView(Spacer);
+        }
+    private void expand(LinearLayout linearLayoutExpanded, ImageButton imageButtonArrow)
+        {
+        if (imageButtonArrow.getRotation() == -90)
+            {
+            linearLayoutExpanded.setVisibility(View.VISIBLE);
+            imageButtonArrow.setRotation(0);
+            }
+        else if (imageButtonArrow.getRotation() == 0)
+            {
+            linearLayoutExpanded.setVisibility(View.GONE);
+            imageButtonArrow.setRotation(-90);
+            }
         }
     }
