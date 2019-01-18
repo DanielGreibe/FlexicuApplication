@@ -3,10 +3,12 @@ package com.example.danie.flexicuapplication.GUI;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,9 +17,11 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -65,27 +69,25 @@ public class RentOutFragment extends Fragment
 
     private Context mContext;
     private ConstraintLayout opretMedarbejderButton;
-    private ConstraintLayout lejeStart, lejeSlut, loadingbar;
+    private ConstraintLayout lejeStart, lejeSlut;
     private ConstraintLayout constCardLayout;
-    TextView textViewErhverv, textViewLejeperiodeStart, textViewRadius, textViewPostnummer, textViewLøn, textViewLejeperiodeSlut;
+    TextView textViewErhverv,loadingbar, textViewLejeperiodeStart, textViewRadius, textViewPostnummer, textViewLøn, textViewLejeperiodeSlut;
     private Button addEmployeeBtn;
     int id = 1;
 
     @SuppressLint("ResourceType")
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-        {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rent_out, container, false);
         //Get intent and parse values
-        //Intent intent = getIntent();
-        callingActivity = "navigation";//intent.getStringExtra("callingActivity");
+        Bundle extra = new Bundle();
+        extra.getString("callingActivity", "default");
 
         //Setup loading bar and hide
-     /*   loadingbar = view.findViewById(R.id.loadingbar);
+        loadingbar = view.findViewById(R.id.loadingbarTextView);
         loadingbar.bringToFront();
-        loadingbar.setVisibility(View.INVISIBLE);*/
+        loadingbar.setVisibility(View.INVISIBLE);
         addEmployeeBtn = view.findViewById(R.id.addEmployee);
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
 
@@ -111,8 +113,7 @@ public class RentOutFragment extends Fragment
             {
             System.out.println("Correct activity!");
             loadingbar.setVisibility(View.VISIBLE);
-            ValueEventListener postListener = new ValueEventListener()
-                {
+            ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot)
                     {
@@ -124,8 +125,7 @@ public class RentOutFragment extends Fragment
                     }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError)
-                    {
+                public void onCancelled(DatabaseError databaseError){
                     System.out.println("Error!");
                     }
                 };
@@ -154,6 +154,26 @@ public class RentOutFragment extends Fragment
                 System.out.println("Error!");
                 }
             });
+
+
+        if(callingActivity.equals("createEmployeeFinish")){
+            loadingbar.setVisibility(View.VISIBLE);
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot entry : dataSnapshot.getChildren()){
+                        createEmployeeView(entry, myContainer);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    System.out.println("Error!");
+                }
+            };
+            myRefMedarbejder.addValueEventListener(postListener);
+        }
+
 
         return view;
 
@@ -250,6 +270,7 @@ public class RentOutFragment extends Fragment
         @SuppressLint("RestrictedApi") ImageView IVProfilePic = new ImageView(getApplicationContext());
 
 
+
         IVProfilePic.setId(id++);
 
         if (obj.get("pic").toString().replaceAll("\"", "").equals("flexicu"))
@@ -269,7 +290,6 @@ public class RentOutFragment extends Fragment
                     }
                 });
             }
-            */
             //Get round image
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
             bitmap = RoundedImageView.getCroppedBitmap(bitmap, 200);
@@ -284,13 +304,12 @@ public class RentOutFragment extends Fragment
 
             //System.out.println(src);
             URL url = null;
-            try
-                {
+            try {
                 url = new URL(obj.get("pic").toString().replace("\"", ""));
                 } catch (MalformedURLException e)
                 {
                 e.printStackTrace();
-                }
+            }
 
             //We want to download images for the list of workers
             URL finalUrl = url;
@@ -318,7 +337,7 @@ public class RentOutFragment extends Fragment
                         e.printStackTrace();
                         }
                     return null;
-                    }
+                }
 
                 //On return update images in list
                 @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
@@ -341,10 +360,10 @@ public class RentOutFragment extends Fragment
                                 loadingbar.setVisibility(View.INVISIBLE);
                             }
                         });
-                    }*/
-
                     }
-                }.execute();
+
+                }
+            }.execute();
 
 
 
@@ -362,7 +381,7 @@ public class RentOutFragment extends Fragment
                     }
                 });
             }*/
-            }
+        }
 
         IVProfilePic.setAdjustViewBounds(true);
         cl.addView(IVProfilePic);
@@ -394,6 +413,7 @@ public class RentOutFragment extends Fragment
         //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
         }
 
+    @SuppressLint("StaticFieldLeak")
     public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)
         {
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
@@ -410,6 +430,7 @@ public class RentOutFragment extends Fragment
         ImageButton imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
+        ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
 
         //Hent data og gør det til et JsonObject
         JsonParser parser = new JsonParser();
@@ -422,7 +443,7 @@ public class RentOutFragment extends Fragment
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-/*        if ( Employee.get("available").toString().equals("true"))
+        /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
             }
@@ -430,7 +451,83 @@ public class RentOutFragment extends Fragment
             {
             textViewStatus.setText("Udlejet");
             }*/
+            //Set temporary picture while real pictures are downloading
+            profilePic.setImageResource(R.drawable.download);
+            //We want to download images for the list of workers
 
+
+            //System.out.println(src);
+            URL url = null;
+            try {
+                url = new URL(Employee.get("pic").toString().replace("\"", ""));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            //We want to download images for the list of workers
+            URL finalUrl = url;
+            new AsyncTask<Void, Void, Bitmap>(){
+                //Get pictures in background
+                @Override
+                protected Bitmap doInBackground(Void... voids) {
+                    try {
+                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
+                        Bitmap myBitmap = Glide
+                                .with(profilePic)
+                                .asBitmap()
+                                .load(finalUrl)
+                                .submit()
+                                .get();
+                        return myBitmap;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                //On return update images in list
+                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                @Override
+                protected void onPostExecute(Bitmap s) {
+                    super.onPostExecute(s);
+                    s = RoundedImageView.getCroppedBitmap(s, 200);
+                    profilePic.setImageBitmap(s);
+                 /*   if(loadingbar.getVisibility() == View.VISIBLE) {
+                        //Set fade animation and hide after animation end
+                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                        anim.setDuration(1500);
+                        anim.setRepeatCount(0);
+                        anim.willChangeBounds();
+                        loadingbar.startAnimation(anim);
+                        loadingbar.postOnAnimation(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingbar.setVisibility(View.INVISIBLE);
+                            }
+                        });
+                    }*/
+
+                }
+            }.execute();
+
+
+
+           /* if(loadingbar.getVisibility() == View.VISIBLE) {
+                //Set fade animation and hide after animation end
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(1500);
+                anim.setRepeatCount(0);
+                anim.willChangeBounds();
+                loadingbar.startAnimation(anim);
+                loadingbar.postOnAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingbar.setVisibility(View.INVISIBLE);
+                    }
+                });
+            }*/
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
         linearLayoutCollapsed.setOnClickListener((test) ->
         {
@@ -448,12 +545,12 @@ public class RentOutFragment extends Fragment
         }
     private void expand(LinearLayout linearLayoutExpanded, ImageButton imageButtonArrow)
         {
-        if (imageButtonArrow.getRotation() == -90)
+        if (linearLayoutExpanded.getVisibility() == View.GONE)
             {
             linearLayoutExpanded.setVisibility(View.VISIBLE);
             imageButtonArrow.setRotation(0);
             }
-        else if (imageButtonArrow.getRotation() == 0)
+        else if (linearLayoutExpanded.getVisibility() == View.VISIBLE)
             {
             linearLayoutExpanded.setVisibility(View.GONE);
             imageButtonArrow.setRotation(-90);

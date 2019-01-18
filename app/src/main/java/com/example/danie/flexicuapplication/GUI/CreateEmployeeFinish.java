@@ -152,7 +152,9 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             }
 
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Udlej.putExtra("callingActivity", "createEmployeeFinish");
+            //Udlej.putExtra("callingActivity", "createEmployeeFinish");
+            Bundle extra = new Bundle();
+            extra.putString("callingActivity", "createEmployeeFinish");
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             startActivity(Udlej);
             finish();

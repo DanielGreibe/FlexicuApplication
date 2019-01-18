@@ -11,20 +11,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="0dp"
+            android:elevation="2000dp">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/FlexGrey">
+
+                <Button
+                    android:id="@+id/addEmployee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="60dp"
+                    android:background="@drawable/layout_background_round_corner_blue_black_edge"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="opret medarbejder"
+                    android:textSize="11dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
         <ScrollView
             android:id="@+id/scrollviewUdlej"
-            android:layout_width="363dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/addEmployee"
+            android:layout_marginStart="9dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbarThumbVertical="@drawable/layout_background_round_corners_blue"
+            app:layout_constraintBottom_toTopOf="@+id/cardView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <LinearLayout
                 android:id="@+id/scrollViewLayout2"
@@ -33,6 +64,18 @@
                 android:orientation="vertical" />
         </ScrollView>
 
+        <TextView
+            android:id="@+id/loadingbarTextView"
+            android:layout_width="173dp"
+            android:layout_height="23dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="Medarbejder uploades..."
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/scrollviewUdlej"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/divider2"
+            app:layout_constraintStart_toStartOf="parent" />
         <Button
             android:id="@+id/addEmployee"
             android:layout_width="163dp"
@@ -47,5 +90,26 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="8dp"
+            android:elevation="40dp">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/FlexGrey"
+                android:gravity="center"
+                android:text="Udlej en \n medarbejder"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.v7.widget.CardView>
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
