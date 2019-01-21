@@ -62,6 +62,7 @@ public class RentInFragment extends Fragment {
             Bundle bndlanimation =
                     ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
             startActivity(filtermenu, bndlanimation);
+            onDestroyView();
 
         });
 
