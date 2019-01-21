@@ -62,7 +62,7 @@ public class RentOutFragment extends Fragment
     //Visual logic
     int employeeSelected = 0;
     String callingActivity = "default";
-    ArrayList<Integer> existingViews = new ArrayList<>();
+    ArrayList<String> existingViews = new ArrayList<>();
 
     TextView loadingbar, textViewLejeperiodeStart, textViewLejeperiodeSlut;
     private Button addEmployeeBtn;
@@ -95,7 +95,7 @@ public class RentOutFragment extends Fragment
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Load workers from database
-        DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere");
+        DatabaseReference myRefMedarbejder = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere");
 
         //If employee has been created
         if (callingActivity.equals("createEmployeeFinish")) {
@@ -206,7 +206,7 @@ public class RentOutFragment extends Fragment
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
 
-        int tempID = Integer.parseInt(String.valueOf(Employee.get("ID")));
+        String tempID = Employee.get("ID").toString().replaceAll("\"","");
         if(existingViews.contains(tempID)){
             return;
         }
@@ -346,7 +346,7 @@ public class RentOutFragment extends Fragment
         //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
         myContainer.addView(ExpandableCardview);
         myContainer.addView(Spacer);
-        existingViews.add(Integer.parseInt(Employee.get("ID").toString().replaceAll("\"","")));
+        existingViews.add(Employee.get("ID").toString().replaceAll("\"",""));
         }
 
     private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow)

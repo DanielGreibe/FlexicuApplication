@@ -150,7 +150,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                 employee.setPic("flexicu"); //TODO ADD STANDARD IMG LINK
                 // Write a message to the database
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference(( getFirebaseUser().getUid()+"/Medarbejdere"));
+                DatabaseReference myRef = database.getReference(("Users/"+ getFirebaseUser().getUid()+"/Medarbejdere"));
                 Gson gson = new Gson();
                 String employeeJSON = gson.toJson(employee);
                 System.out.println(employeeJSON);
@@ -195,7 +195,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                     employee.setPic(task.getResult().toString());
                     // Write a message to the database
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference(( getFirebaseUser().getUid()+"/Medarbejdere"));
+                    DatabaseReference myRef = database.getReference(( "Users/"+getFirebaseUser().getUid()+"/Medarbejdere"));
                     Gson gson = new Gson();
                     String employeeJSON = gson.toJson(employee);
                     System.out.println(employeeJSON);

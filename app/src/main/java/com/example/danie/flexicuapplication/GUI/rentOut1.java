@@ -97,7 +97,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         //Set database refrences
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefUdlejid = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
+        DatabaseReference myRefUdlejid = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
         DatabaseReference myRefUdlejninger = database.getReference("Udlejninger");
 
         //Get intent

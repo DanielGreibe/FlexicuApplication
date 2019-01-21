@@ -135,7 +135,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
 
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefUdlejid = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
+        DatabaseReference myRefUdlejid = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
         DatabaseReference myRefUdlejninger = database.getReference("Udlejninger");
         Gson gson = new Gson();
 
@@ -144,7 +144,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
             if(employeeSelected != 0
                     && textViewLejeperiodeSlut.getText().toString().contains("/")
                     && textViewLejeperiodeStart.getText().toString().contains("/")){
-                DatabaseReference myRefId = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/" + employeeSelected);
+                DatabaseReference myRefId = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/" + employeeSelected);
                 myRefId.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
@@ -162,7 +162,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                         CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), tempName, tempJob, tempPic, textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString(), tempRank, tempPay, "2850", 25);
                         String rentOutJSON = gson.toJson(newRentOut);
                         myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
-                        String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
+                        String rentOutIdJSON = gson.toJson("Users/"+ GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
                         myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
                     }
 
@@ -175,7 +175,7 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         });
 
         //Load workers from database
-        DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+        DatabaseReference myRefMedarbejder = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
 
         //If employee has been created
 

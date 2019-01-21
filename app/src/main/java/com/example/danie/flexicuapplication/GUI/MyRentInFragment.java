@@ -60,7 +60,7 @@ public class MyRentInFragment extends Fragment {
         TextView title = view.findViewById(R.id.textView4);
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefUdlejninger = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
+        DatabaseReference myRefUdlejninger = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
         //Load employees and create cardviews and add to scroller
         myRefUdlejninger.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
@@ -145,15 +145,15 @@ public class MyRentInFragment extends Fragment {
         //System.out.println(src);
         URL url = null;
         try {
-//            url = new URL(Employee.get("pic").toString().replace("\"", ""));
-            url = new URL("https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/50766559_10216852442560037_7143500932259512320_n.jpg?_nc_cat=101&_nc_ht=scontent-arn2-1.xx&oh=5c9a281ea2e69a4ffe3042eeffe85adf&oe=5CBFB77F");
+            url = new URL(Employee.get("pic").toString().replace("\"", ""));
+//            url = new URL("https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/50766559_10216852442560037_7143500932259512320_n.jpg?_nc_cat=101&_nc_ht=scontent-arn2-1.xx&oh=5c9a281ea2e69a4ffe3042eeffe85adf&oe=5CBFB77F");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
 
-//        if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
-        if(false){
+        if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
+//        if(false){
             int minPixels = 0;
             Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
             if(photo.getWidth() < photo.getHeight()){
