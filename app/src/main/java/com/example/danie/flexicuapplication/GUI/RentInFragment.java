@@ -30,6 +30,7 @@ import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayLower;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayUpper;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
+import com.example.danie.flexicuapplication.LogicLayer.CrudRentIns;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
@@ -38,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -69,6 +71,7 @@ public class RentInFragment extends Fragment {
             onDestroyView();
 
         });
+
 
         Bundle bundle = getActivity().getIntent().getExtras();
         DatabaseReference myRef2 = database.getReference("/Udlejninger");
@@ -126,8 +129,8 @@ public class RentInFragment extends Fragment {
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
-        Button b = ExpandableCardview.findViewById(R.id.buttonUdlej);
-        b.setText("Indlej");
+        Button indlejButton = ExpandableCardview.findViewById(R.id.buttonUdlej);
+        indlejButton.setText("Indlej");
 
         //Hent data og gør det til et JsonObject
 
@@ -198,6 +201,18 @@ public class RentInFragment extends Fragment {
         //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
         myContainer.addView(ExpandableCardview);
         myContainer.addView(Spacer);
+
+        indlejButton.setOnClickListener(view -> {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
+            CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
+                    textViewPay.getText().toString(), textViewProfession.getText().toString(),
+                    "test start", "test slut", "test ejer",
+                    textViewZipcode.getText().toString(), "test rank");
+            Gson gson = new Gson();
+            String employeeJSON = gson.toJson(temp);
+            myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
+        });
     }
 
     private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow) {
