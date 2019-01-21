@@ -56,7 +56,6 @@ public class RentInFragment extends Fragment {
     List<CrudEmployee> employees = new ArrayList<>();
     int counter = 0, count = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    boolean tempChecme = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +86,7 @@ public class RentInFragment extends Fragment {
                     JsonElement element = parser.parse(entry.getValue().toString());
                     JsonObject Employee = element.getAsJsonObject();
                     if(!Employee.get("id").toString().contains(GlobalVariables.getFirebaseUser().getUid())) {
-                        employees.add(JsonToPersonConverter(entry));
+                        employees.add(JsonToPersonConverter(entry, entry.getKey()));
                     }
                 }
                 if (bundle != null) {
@@ -145,6 +144,11 @@ public class RentInFragment extends Fragment {
         textViewDistance.setText(String.valueOf(entry.getDist()) + " km");
         textViewName.setText(entry.getName().replace("\"", ""));
         textViewProfession.setText(entry.getJob().replace("\"", ""));
+        String startdate = entry.getStartDate();
+        String enddate = entry.getEndDate();
+        String rank = String.valueOf(entry.getRank());
+        String dr = entry.getKey();
+
 
         /*if ( Employee.get("available").toString().equals("true"))
             {
@@ -209,15 +213,30 @@ public class RentInFragment extends Fragment {
         myContainer.addView(Spacer);
 
         indlejButton.setOnClickListener(view -> {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            /*FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
             CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
                     textViewPay.getText().toString(), textViewProfession.getText().toString(),
-                    "test start", "test slut", "test ejer",
-                    textViewZipcode.getText().toString(), "test rank");
+                    startdate, enddate, "test ejer",
+                    textViewZipcode.getText().toString(), rank, finalUrl.toString());
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
-            myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
+            myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);*/
+
+            String key = dr;
+
+            //String owner =
+            //System.out.println(owner);
+
+
+            /*
+            DatabaseReference toDelete = FirebaseDatabase.getInstance().getReference("Udlejninger").child(key);
+            DatabaseReference toDelete2 = FirebaseDatabase.getInstance().getReference("Users/"+ GlobalVariables.getFirebaseUser().getUid() +"/Udlejninger").child(key);
+            toDelete.removeValue();
+            toDelete2.removeValue();*/
+
+
+
         });
     }
 
@@ -231,7 +250,7 @@ public class RentInFragment extends Fragment {
         }
     }
 
-    public CrudEmployee JsonToPersonConverter(DataSnapshot entry) {
+    public CrudEmployee JsonToPersonConverter(DataSnapshot entry, String dr){
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject obj = element.getAsJsonObject();
@@ -242,6 +261,10 @@ public class RentInFragment extends Fragment {
                 .ID(obj.get("id").toString().replaceAll("\"",""))
                 .pic(obj.get("pic").toString())
                 .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"","")))
+                .startDate(obj.get("rentStart").toString())
+                .endDate(obj.get("rentEnd").toString())
+                .key(dr)
+                .owner(obj.get("owner").toString().replaceAll("\"",""))
                 //.dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
 //                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
                 .builder();

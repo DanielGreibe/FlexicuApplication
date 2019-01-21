@@ -2,6 +2,7 @@ package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -56,14 +57,18 @@ public class MyRentOutsFragment extends Fragment {
 
     int id = 1;
     ArrayList<String> existingViews = new ArrayList<>();
+    String callingActivity = null;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_rent_outs, container, false);
+
+        //Get intent and parse values
+        Intent intent = getActivity().getIntent();
+        callingActivity = intent.getStringExtra("callingActivity");
+
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
         ScrollView myScrollView = view.findViewById(R.id.scrollviewUdlej);
         TextView title = view.findViewById(R.id.textView4);
@@ -103,7 +108,8 @@ public class MyRentOutsFragment extends Fragment {
             }
         });
 
-        myRefUdlejninger.addValueEventListener(new ValueEventListener() {
+
+        ValueEventListener newData = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot entry : dataSnapshot.getChildren()){
@@ -130,9 +136,18 @@ public class MyRentOutsFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
                 System.out.println("Error!");
             }
-        });
-        return view;
-    }
+        };
+
+        //If calling activity is rent out employee, add Value even listener
+        try{
+            if(callingActivity.equals("udlejActivity")){
+                myRefUdlejninger.addValueEventListener(newData);
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+            return view;
+        }
 
     @SuppressLint("StaticFieldLeak")
     public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)

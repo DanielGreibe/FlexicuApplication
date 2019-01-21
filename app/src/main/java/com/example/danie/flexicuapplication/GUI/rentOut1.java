@@ -3,6 +3,7 @@ package com.example.danie.flexicuapplication.GUI;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -80,6 +81,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
     String rank;
     String pay;
     String postnummer;
+    String owner;
     @SuppressLint({"SetTextI18n", "StaticFieldLeak"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         job = Employee.get("job").toString().replaceAll("\"", "");
         rank = Employee.get("rank").toString().replaceAll("\"", "");
         pay = Employee.get("pay").toString().replaceAll("\"", "");
+        owner = Employee.get("owner").toString().replaceAll("\"","");
 
 
         annoneceTextView.setText("Opret annonce for\n"+ navn);
@@ -188,14 +191,18 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         bekræftButton.setOnClickListener((view) -> {
             if(lejeStartTextView.getText().toString().contains("/") && lejeSlutTextView.getText().toString().contains("/")){
-                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand);
+                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner);
                     Gson gson = new Gson();
                     String rentOutJSON = gson.toJson(newRentOut);
                     myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
                     String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + ID);
                     myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
             }
+            Intent intent = new Intent(this, TabbedRentOut.class);
+            intent.putExtra("callingActivity", "udlejActivity");
+            startActivity(intent);
             finish();
+
             });
 
 

@@ -158,8 +158,9 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
                         String tempPic = obj.get("pic").toString().replaceAll("\"", "");
                         String tempRank = obj.get("rank").toString().replaceAll("\"", "");
                         String tempPay = obj.get("pay").toString().replaceAll("\"", "");
+                        String tempOwner = obj.get("owner").toString().replaceAll("\"", "");
 
-                        CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), tempName, tempJob, tempPic, textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString(), tempRank, tempPay, "2850", 25);
+                        CrudRentOut newRentOut = new CrudRentOut(Integer.toString(employeeSelected), tempName, tempJob, tempPic, textViewLejeperiodeStart.getText().toString(), textViewLejeperiodeSlut.getText().toString(), tempRank, tempPay, "2850", 25, tempOwner);
                         String rentOutJSON = gson.toJson(newRentOut);
                         myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
                         String rentOutIdJSON = gson.toJson("Users/"+ GlobalVariables.getFirebaseUser().getUid() + employeeSelected);
