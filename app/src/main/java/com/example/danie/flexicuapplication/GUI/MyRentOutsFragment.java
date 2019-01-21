@@ -13,12 +13,17 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -31,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -39,6 +45,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.example.danie.flexicuapplication.LogicLayer.GlobalVariables.getFirebaseUser;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
@@ -103,6 +111,7 @@ public class MyRentOutsFragment extends Fragment {
         ImageView imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
+        Button buttonRating = ExpandableCardview.findViewById(R.id.buttonUdlej);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
 
         //Hent data og gør det til et JsonObject
@@ -116,6 +125,7 @@ public class MyRentOutsFragment extends Fragment {
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
+        buttonRating.setText("Rate udlejer");
         /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
@@ -126,12 +136,9 @@ public class MyRentOutsFragment extends Fragment {
             }*/
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
+
+
         //We want to download images for the list of workers
-
-
-
-
-
         //System.out.println(src);
         URL url = null;
         try {
@@ -222,12 +229,50 @@ public class MyRentOutsFragment extends Fragment {
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
         linearLayoutCollapsed.setOnClickListener((test) ->
         {
-
             expand(linearLayoutExpanded, imageButtonArrow);
         });
         imageButtonArrow.setOnClickListener((test) ->
         {
             expand(linearLayoutExpanded, imageButtonArrow);
+        });
+        buttonRating.setOnClickListener((test) ->
+        {
+            View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
+            Button buttonRate = popupView.findViewById(R.id.buttonRate);
+        RatingBar ratingBar = popupView.findViewById(R.id.ratingBar);
+
+
+
+            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            boolean focusable = true;
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+
+            popupWindow.showAtLocation(textViewPay, Gravity.CENTER, 0, 0);
+
+        buttonRate.setOnClickListener((Rating) ->
+        {
+        Float rating = ratingBar.getRating();
+        Log.e("rating" , "" + rating);
+
+        //The value that that was entered in the ratingbar in the popupwindow
+        Float f = Employee.get("rank").getAsFloat();
+
+        //Takes the datasnapshot from the user and puts it into a string.
+        String currentUser = entry.toString();
+
+        //Splits the values of the employee based on ,
+        String[] userData = currentUser.split(",");
+
+        //Returns the value of rank of the user in the database.
+        String currentRating = userData[9].split(":")[1];
+
+        //Closes the popup window
+        popupWindow.dismiss();
+        });
+
+
         });
 
         //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
