@@ -243,7 +243,7 @@ public class RentInFragment extends Fragment {
     }
 
     public boolean checkmy(CrudEmployee entry) {
-        DatabaseReference myRef3 = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Udlejninger");
+        DatabaseReference myRef3 = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere");
         myRef3.addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
