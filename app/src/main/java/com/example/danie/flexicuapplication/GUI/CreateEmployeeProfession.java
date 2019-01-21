@@ -118,5 +118,4 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             finish();
         }
-
     }

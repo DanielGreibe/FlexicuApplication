@@ -80,7 +80,7 @@ public class RentInFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
-                    if (!checkmy(JsonToPersonConverter(entry))) {
+                    if (checkmy(JsonToPersonConverter(entry))) {
                         employees.add(JsonToPersonConverter(entry));
                     }
                 }
