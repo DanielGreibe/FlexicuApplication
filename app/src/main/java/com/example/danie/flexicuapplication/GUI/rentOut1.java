@@ -3,6 +3,7 @@ package com.example.danie.flexicuapplication.GUI;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -195,7 +196,11 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
                     String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + ID);
                     myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
             }
+            Intent intent = new Intent(this, TabbedRentOut.class);
+            intent.putExtra("callingActivity", "udlejActivity");
+            startActivity(intent);
             finish();
+
             });
 
 
