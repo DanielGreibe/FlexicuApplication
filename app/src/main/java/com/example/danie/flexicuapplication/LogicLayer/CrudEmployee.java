@@ -24,6 +24,7 @@ public class CrudEmployee
     private String available;
     private final String startDate;
     private final String endDate;
+    private final String owner;
 
 
     private CrudEmployee(EmployeBuilder builder)
@@ -40,6 +41,7 @@ public class CrudEmployee
         this.available = builder.available;
         this.startDate = builder.startDate;
         this.endDate = builder.endDate;
+        this.owner = builder.owner;
         }
 
     public static class EmployeBuilder
@@ -56,7 +58,7 @@ public class CrudEmployee
         String endDate;
         String startDate;
         String available;
-
+        String owner;
         public EmployeBuilder(String name)
             {
             this.name = name;
@@ -106,7 +108,10 @@ public class CrudEmployee
             this.available = available;
             return this;
             }
-
+        public EmployeBuilder owner(String owner){
+            this.owner = owner;
+            return this;
+        }
         public EmployeBuilder job(String job)
             {
             this.job = job;
@@ -239,6 +244,9 @@ public class CrudEmployee
     public String getID()
         {
         return ID;
+        }
+        public String getOwner(){
+        return owner;
         }
 
     public void setPic(String URL)
