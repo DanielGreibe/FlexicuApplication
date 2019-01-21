@@ -58,14 +58,31 @@ public class MyRentOutsFragment extends Fragment {
         TextView title = view.findViewById(R.id.textView4);
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+        DatabaseReference myRefUdlejninger = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
         //Load employees and create cardviews and add to scroller
-        myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRefUdlejninger.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
+            //Hent liste over udlejede medarbejdere
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
-                    createNewEmployee(entry, myContainer);
+                    String temp = entry.toString().replaceAll("\"", "");
+                    temp = temp.substring(temp.length()-6, temp.length()-2);
+                    System.out.println("DATA ID IS: " + temp);
+                    DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
+
+                    //Hent udlejet medarbejder data
+                    myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @SuppressLint("StaticFieldLeak")
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                                createNewEmployee(snapshot, myContainer);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("Error!");
+                        }
+                    });
                 }
             }
             @Override
@@ -73,6 +90,36 @@ public class MyRentOutsFragment extends Fragment {
                 System.out.println("Error!");
             }
         });
+
+        myRefUdlejninger.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot entry : dataSnapshot.getChildren()){
+                    String temp = entry.toString().replaceAll("\"", "");
+                    temp = temp.substring(temp.length()-6, temp.length()-2);
+                    System.out.println("DATA ID IS: " + temp);
+                    DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
+
+                    //Hent udlejet medarbejder data
+                    myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @SuppressLint("StaticFieldLeak")
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            createNewEmployee(snapshot, myContainer);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("Error!");
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error!");
+            }
+        });
+
 
 
 
