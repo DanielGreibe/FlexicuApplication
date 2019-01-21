@@ -142,6 +142,7 @@ public class RentInFragment extends Fragment {
         textViewDistance.setText(String.valueOf(entry.getDist()) + " km");
         textViewName.setText(entry.getName().replace("\"", ""));
         textViewProfession.setText(entry.getJob().replace("\"", ""));
+
         /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
@@ -242,35 +243,6 @@ public class RentInFragment extends Fragment {
 //                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
                 .builder();
         return people;
-    }
-
-    public boolean checkmy(CrudEmployee entry) {
-        DatabaseReference myRef3 = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere");
-        myRef3.addListenerForSingleValueEvent(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot entry2 : snapshot.getChildren()) {
-                    tempChecme = false;
-                    JsonParser parser = new JsonParser();
-                    JsonElement element = parser.parse(entry2.getValue().toString());
-                    JsonObject obj = element.getAsJsonObject();
-                    if (entry.getID().equals(obj.get("ID").toString())) {
-                        System.out.println(Integer.parseInt(obj.get("ID").toString()) + "-----------------------");
-                        tempChecme = true;
-                    }
-                }
-
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return tempChecme;
     }
 }
 
