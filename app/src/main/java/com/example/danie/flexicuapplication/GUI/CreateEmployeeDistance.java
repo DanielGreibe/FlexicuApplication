@@ -83,6 +83,10 @@ public class CreateEmployeeDistance extends AppCompatActivity implements View.On
                 {
                 Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                 }
+            else if (Integer.parseInt(editTextDistance.getText().toString()) < 5 || Integer.parseInt(editTextDistance.getText().toString() ) > 150)
+                {
+                Toast.makeText(this, "Distancen skal være mellem 5 og 150 km", Toast.LENGTH_SHORT).show();
+                }
             else
                 {
                 int distance = Integer.parseInt(editTextDistance.getText().toString());

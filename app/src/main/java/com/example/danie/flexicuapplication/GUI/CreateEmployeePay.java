@@ -80,7 +80,7 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
         {
         if (v == buttonNextPage)
             {
-            if (editTextPay.getText().equals(""))
+            if (editTextPay.getText().toString().equals(""))
                 {
                 Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                 }

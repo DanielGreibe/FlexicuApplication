@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anton46.stepsview.StepsView;
 import com.baoyachi.stepview.HorizontalStepView;
@@ -88,6 +89,10 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
         {
         if (v == nextPage)
             {
+            if (editTextZipcode.getText().toString().length() != 4)
+                {
+                Toast.makeText(this, "Postnummeret skal være 4 cifre", Toast.LENGTH_SHORT).show();
+                }
             zipcode = Integer.parseInt(editTextZipcode.getText().toString());
             ((GlobalVariables) this.getApplication()).setTempEmployeeZipcode(zipcode);
             Intent createEmployeeDescription = new Intent(this, CreateEmployeeDescription.class);
