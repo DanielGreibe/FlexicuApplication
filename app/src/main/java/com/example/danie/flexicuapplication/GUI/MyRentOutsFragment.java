@@ -66,6 +66,7 @@ public class MyRentOutsFragment extends Fragment {
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
         ScrollView myScrollView = view.findViewById(R.id.scrollviewUdlej);
         TextView title = view.findViewById(R.id.textView4);
+        onAttach(getContext());
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRefUdlejninger = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
