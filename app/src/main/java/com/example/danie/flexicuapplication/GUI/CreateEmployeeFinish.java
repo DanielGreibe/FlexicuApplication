@@ -143,7 +143,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         if ( v == buttonNextPage )
         {
             Intent Udlej = new Intent(this, TabbedRentOut.class);
-            //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
             CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).available("Home").builder();
 
             //Upload image if standard image is selected or if custom image is selected!
