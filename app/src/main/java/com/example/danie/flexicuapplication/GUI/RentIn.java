@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication.GUI;
+/*package com.example.danie.flexicuapplication.GUI;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -235,4 +235,4 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
 
 
 }
-
+*/

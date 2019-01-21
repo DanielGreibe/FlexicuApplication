@@ -80,7 +80,10 @@ public class RentInFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
-                    if (checkmy(JsonToPersonConverter(entry))) {
+                    JsonParser parser = new JsonParser();
+                    JsonElement element = parser.parse(entry.getValue().toString());
+                    JsonObject Employee = element.getAsJsonObject();
+                    if(!Employee.get("id").toString().contains(GlobalVariables.getFirebaseUser().getUid())) {
                         employees.add(JsonToPersonConverter(entry));
                     }
                 }
@@ -90,7 +93,6 @@ public class RentInFragment extends Fragment {
                     CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
                     CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
                     CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
-                    System.out.println(payBounds.meetCriteria(employees).size() + "---------------------------------");
                     payBounds.meetCriteria(employees).forEach((a) -> {
                         createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
 
@@ -233,7 +235,7 @@ public class RentInFragment extends Fragment {
         CrudEmployee people = new CrudEmployee.EmployeBuilder(
                 obj.get("name").toString().replace("\"", ""))
                 .job(obj.get("job").toString().replace("\"", ""))
-                .ID(Integer.parseInt(obj.get("id").toString().replaceAll("\"","")))
+                .ID(obj.get("id").toString().replaceAll("\"",""))
                 .pic(obj.get("pic").toString())
                 .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"","")))
                 //.dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
@@ -249,13 +251,16 @@ public class RentInFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry2 : snapshot.getChildren()) {
+                    tempChecme = false;
                     JsonParser parser = new JsonParser();
                     JsonElement element = parser.parse(entry2.getValue().toString());
                     JsonObject obj = element.getAsJsonObject();
-                    if (entry.getID() == Integer.parseInt(obj.get("ID").toString())) {
+                    if (entry.getID().equals(obj.get("ID").toString())) {
+                        System.out.println(Integer.parseInt(obj.get("ID").toString()) + "-----------------------");
                         tempChecme = true;
                     }
                 }
+
             }
 
 
@@ -264,6 +269,7 @@ public class RentInFragment extends Fragment {
 
             }
         });
+
         return tempChecme;
     }
 }

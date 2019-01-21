@@ -19,7 +19,7 @@ public class CrudEmployee
     private final int dist;
     boolean open;
     private String pic;
-    private final int ID;
+    private final String ID;
     private final int zipcode;
     private String available;
 
@@ -47,7 +47,7 @@ public class CrudEmployee
         int dist;
         boolean open;
         String pic;
-        int ID;
+        String ID;
         int zipcode;
         String available;
 
@@ -89,7 +89,7 @@ public class CrudEmployee
                     });
 
 
-                this.ID = random;
+                this.ID = Integer.toString(random);
                 unique[0] = true;
 
                 }
@@ -131,7 +131,7 @@ public class CrudEmployee
             return this;
             }
 
-        public EmployeBuilder ID(int ID)
+        public EmployeBuilder ID(String ID)
             {
             this.ID = ID;
             return this;
@@ -217,7 +217,7 @@ public class CrudEmployee
         return pic;
         }
 
-    public int getID()
+    public String getID()
         {
         return ID;
         }
