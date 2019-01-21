@@ -188,7 +188,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         bekræftButton.setOnClickListener((view) -> {
             if(lejeStartTextView.getText().toString().contains("/") && lejeSlutTextView.getText().toString().contains("/")){
-                    CrudRentOut newRentOut = new CrudRentOut(ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand);
+                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand);
                     Gson gson = new Gson();
                     String rentOutJSON = gson.toJson(newRentOut);
                     myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
