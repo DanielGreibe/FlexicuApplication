@@ -119,17 +119,6 @@ public class MyRentOutsFragment extends Fragment {
                 System.out.println("Error!");
             }
         });
-
-
-
-
-
-
-
-
-
-
-
         return view;
     }
 
