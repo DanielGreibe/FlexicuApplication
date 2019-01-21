@@ -107,8 +107,6 @@ public class RentOut extends AppCompatActivity implements View.OnClickListener {
         udlejBtn = findViewById(R.id.UdlejBtn);
 
 
-        CriteriaDemo demo = new CriteriaDemo();
-        demo.start();
         opretMedarbejderButton.setOnClickListener((view) ->{
             Intent opretAnsat = new Intent(this, CreateEmployee.class); //TODO change to CreateEmplyee.class
             Bundle bndlanimation =

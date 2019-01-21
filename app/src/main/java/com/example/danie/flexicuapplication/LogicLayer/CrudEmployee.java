@@ -232,6 +232,8 @@ public class CrudEmployee
         return available;
         }
 
+        public int getZipcode(){return zipcode;}
+
 
     //Setter
 

@@ -16,7 +16,7 @@ public class CriteriaPayUpper implements CriteriaInterface {
         List<CrudEmployee> payOver = new ArrayList<CrudEmployee>();
 
         for (CrudEmployee employee : employees) {
-            if (employee.getPay() < searchCriteria) {
+            if (employee.getPay() <= searchCriteria) {
                 payOver.add(employee);
             }
         }
