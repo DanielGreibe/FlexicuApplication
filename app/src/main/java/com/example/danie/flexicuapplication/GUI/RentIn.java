@@ -91,8 +91,11 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
                             CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
                             CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
                             CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
-                            CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
-                            payBounds.meetCriteria(employees).forEach((a) -> createNew(payBounds.meetCriteria(employees).get(counter++)));
+                            CriteriaInterface payBounds = new AndCriteria(payLower, payUpper);
+                            payBounds.meetCriteria(employees).forEach((a) -> {
+                                createNew(payBounds.meetCriteria(employees).get(counter++));
+                                System.out.println(payBounds.meetCriteria(employees).size()+"---------------------------------");
+                            });
 
                     }else {
                         employees.forEach((a)->createNew(employees.get(counter++)));

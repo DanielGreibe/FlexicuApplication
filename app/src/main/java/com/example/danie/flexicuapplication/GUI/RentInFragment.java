@@ -50,6 +50,8 @@ import java.util.concurrent.ExecutionException;
 public class RentInFragment extends Fragment {
     ImageView filter;
     LinearLayout mContainer;
+    List<CrudEmployee> employees = new ArrayList<>();
+    int counter = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rent_in, container, false);
@@ -60,60 +62,36 @@ public class RentInFragment extends Fragment {
             Bundle bndlanimation =
                     ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
             startActivity(filtermenu, bndlanimation);
+
         });
 
-
         Bundle bundle = getActivity().getIntent().getExtras();
-        if(bundle != null){
-            bundle.getStringArrayList("filterValues");
-            System.out.println(bundle.getStringArrayList("filterValues")+"-----------------------------------");
-
-        }
-
-        List<CrudEmployee> employees = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
-
-
-
         myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
-
-                    //Parse JSON
-                    JsonParser parser = new JsonParser();
-                    JsonElement element = parser.parse(entry.getValue().toString());
-                    JsonObject obj = element.getAsJsonObject();
-                    CrudEmployee people = new CrudEmployee.EmployeBuilder(
-                            obj.get("name").toString().replace("\"",""))
-                            .job(obj.get("job").toString().replace("\"",""))
-                            .ID(Integer.parseInt(obj.get("ID").toString()))
-                            .pic(obj.get("pic").toString())
-                            .pay(Double.parseDouble(obj.get("pay").toString()))
-                            .builder();
-                    employees.add(people);
-
-
-                   if(bundle != null ){
-                        ArrayList<String> filterValues =  bundle.getStringArrayList("filterValues");
+                    employees.add(JsonToPersonConverter(entry));
+                    }
+                    if (bundle != null) {
+                        ArrayList<String> filterValues = bundle.getStringArrayList("filterValues");
                         CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
                         CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
                         CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
                         CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
-                        payBounds.meetCriteria(employees).forEach((a) -> createNewEmployee(entry, mContainer));
-                        System.out.println("---------------------"+employees.size());
+                        System.out.println(payBounds.meetCriteria(employees).size()+"---------------------------------");
+                        payBounds.meetCriteria(employees).forEach((a) -> {
+                            createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
 
-                    }else {
-                       createNewEmployee(entry, mContainer);
+                        });
+
+                    } else {
+                        employees.forEach((a) -> createNewEmployee(employees.get(counter++), mContainer));
                     }
-
                 }
 
-
-
-            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -121,16 +99,13 @@ public class RentInFragment extends Fragment {
             }
         });
 
-
-
-
         return v;
     }
 
 
 
     @SuppressLint("StaticFieldLeak")
-    public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)
+    public void createNewEmployee(CrudEmployee entry, LinearLayout myContainer)
     {
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
@@ -149,16 +124,13 @@ public class RentInFragment extends Fragment {
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
 
         //Hent data og gør det til et JsonObject
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(entry.getValue().toString());
-        JsonObject Employee = element.getAsJsonObject();
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
-        textViewPay.setText(Employee.get("pay").toString() + " kr/t");
-        textViewZipcode.setText(Employee.get("zipcode").toString());
-        textViewDistance.setText(Employee.get("dist").toString() + " km");
-        textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
-        textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
+        textViewPay.setText(String.valueOf(entry.getPay()) + " kr/t");
+        textViewZipcode.setText(String.valueOf(entry.getZipcode()));
+        textViewDistance.setText(String.valueOf(entry.getDist()) + " km");
+        textViewName.setText(entry.getName().replace("\"" , ""));
+        textViewProfession.setText(entry.getJob().replace("\"" , ""));
         /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
@@ -175,7 +147,7 @@ public class RentInFragment extends Fragment {
         //System.out.println(src);
         URL url = null;
         try {
-            url = new URL(Employee.get("pic").toString().replace("\"", ""));
+            url = new URL(entry.getPic().replace("\"", ""));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -233,5 +205,22 @@ public class RentInFragment extends Fragment {
             linearLayoutExpanded.setVisibility(View.GONE);
             imageButtonArrow.setRotation(0);
         }
+    }
+
+    public CrudEmployee JsonToPersonConverter(DataSnapshot entry){
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(entry.getValue().toString());
+        JsonObject obj = element.getAsJsonObject();
+
+        CrudEmployee people = new CrudEmployee.EmployeBuilder(
+                obj.get("name").toString().replace("\"",""))
+                .job(obj.get("job").toString().replace("\"",""))
+                .ID(Integer.parseInt(obj.get("ID").toString()))
+                .pic(obj.get("pic").toString())
+                .pay(Double.parseDouble(obj.get("pay").toString()))
+                .dist(Integer.parseInt(obj.get("dist").toString()))
+                .zipcode(Integer.parseInt(obj.get("zipcode").toString()))
+                .builder();
+        return people;
     }
 }

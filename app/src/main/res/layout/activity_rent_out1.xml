@@ -8,19 +8,20 @@
 
     <Button
         android:id="@+id/bekræft"
-        android:layout_width="match_contraints"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="10dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:background="@drawable/layout_background_round_corner_blue_black_edge"
         android:text="Bekræft"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="635dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/profileImageView"
@@ -83,9 +84,12 @@
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="152dp"
         android:ems="10"
         android:inputType="date"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="172dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

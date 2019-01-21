@@ -17,7 +17,7 @@ public class CriteriaPayLower implements CriteriaInterface {
         List<CrudEmployee> payLower = new ArrayList<CrudEmployee>();
 
             for(CrudEmployee employee: employees) {
-                if(employee.getPay() > searchCriteria){
+                if(employee.getPay() >= searchCriteria){
                     payLower.add(employee);
                 }
             }
