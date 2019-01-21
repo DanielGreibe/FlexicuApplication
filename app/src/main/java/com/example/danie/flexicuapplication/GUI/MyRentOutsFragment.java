@@ -129,6 +129,9 @@ public class MyRentOutsFragment extends Fragment {
         //We want to download images for the list of workers
 
 
+
+
+
         //System.out.println(src);
         URL url = null;
         try {
@@ -137,36 +140,51 @@ public class MyRentOutsFragment extends Fragment {
             e.printStackTrace();
         }
 
-        //We want to download images for the list of workers
-        URL finalUrl = url;
-        new AsyncTask<Void, Void, Bitmap>(){
-            //Get pictures in background
-            @Override
-            protected Bitmap doInBackground(Void... voids) {
-                try {
-                    //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
-                    Bitmap myBitmap = Glide
-                            .with(profilePic)
-                            .asBitmap()
-                            .load(finalUrl)
-                            .submit()
-                            .get();
-                    return myBitmap;
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
 
-            //On return update images in list
-            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-            @Override
-            protected void onPostExecute(Bitmap s) {
-                super.onPostExecute(s);
-                s = RoundedImageView.getCroppedBitmap(s, 200);
-                profilePic.setImageBitmap(s);
+        if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
+            int minPixels = 0;
+            Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
+            if(photo.getWidth() < photo.getHeight()){
+                minPixels = photo.getWidth();
+            }
+            else {
+                minPixels = photo.getHeight();
+                Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth() - minPixels) / 2), ((photo.getHeight() - minPixels) / 2), minPixels, minPixels);
+                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 400);
+                profilePic.setImageBitmap(squareImg);
+            }
+        } else {
+
+            //We want to download images for the list of workers
+            URL finalUrl = url;
+            new AsyncTask<Void, Void, Bitmap>() {
+                //Get pictures in background
+                @Override
+                protected Bitmap doInBackground(Void... voids) {
+                    try {
+                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
+                        Bitmap myBitmap = Glide
+                                .with(profilePic)
+                                .asBitmap()
+                                .load(finalUrl)
+                                .submit()
+                                .get();
+                        return myBitmap;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                //On return update images in list
+                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                @Override
+                protected void onPostExecute(Bitmap s) {
+                    super.onPostExecute(s);
+                    s = RoundedImageView.getCroppedBitmap(s, 200);
+                    profilePic.setImageBitmap(s);
                  /*   if(loadingbar.getVisibility() == View.VISIBLE) {
                         //Set fade animation and hide after animation end
                         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
@@ -182,9 +200,9 @@ public class MyRentOutsFragment extends Fragment {
                         });
                     }*/
 
-            }
-        }.execute();
-
+                }
+            }.execute();
+        }
 
 
            /* if(loadingbar.getVisibility() == View.VISIBLE) {

@@ -12,13 +12,11 @@ import android.widget.TextView;
 import com.example.danie.flexicuapplication.R;
 
 public class MyRentInFragment extends Fragment {
-    TextView test;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_rent_in, container, false);
-        test = v.findViewById(R.id.TV);
-        test.setText("FUTTE");
+
+
 
 
         return v;
