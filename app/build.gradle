@@ -99,5 +99,9 @@ dependencies {
     //Switch
     implementation 'com.github.angads25:toggle:1.1.0'
 
+    //Maps
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
 
+    //Slider
+    implementation 'com.ramotion.fluidslider:fluid-slider:0.3.0'
 }

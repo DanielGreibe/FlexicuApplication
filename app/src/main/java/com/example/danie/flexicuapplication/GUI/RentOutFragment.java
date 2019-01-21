@@ -96,7 +96,7 @@ public class RentOutFragment extends Fragment
 
 
         addEmployeeBtn.setOnClickListener((vieww) -> {
-        Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class); //TODO change to CreateEmplyee.class
+        Intent opretAnsat = new Intent(getApplicationContext(), rentOut1.class); //TODO change to CreateEmplyee.class
         Bundle bndlanimation =
                 ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
         startActivity(opretAnsat, bndlanimation);
