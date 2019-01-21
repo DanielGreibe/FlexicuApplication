@@ -210,7 +210,8 @@ public class RentInFragment extends Fragment {
         myContainer.addView(Spacer);
 
         indlejButton.setOnClickListener(view -> {
-            /*FirebaseDatabase database = FirebaseDatabase.getInstance();
+            // Tilføj pågældende udlejning til ejen indlejning
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
             CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
                     textViewPay.getText().toString(), textViewProfession.getText().toString(),
@@ -218,19 +219,15 @@ public class RentInFragment extends Fragment {
                     textViewZipcode.getText().toString(), rank, finalUrl.toString());
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
-            myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);*/
+            myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
 
+            //Fjern udlejninger fra databasen
             String key = dr;
-
-            //String owner =
-            //System.out.println(owner);
-
-
-            /*
+            String owner = entry.getOwner();
             DatabaseReference toDelete = FirebaseDatabase.getInstance().getReference("Udlejninger").child(key);
-            DatabaseReference toDelete2 = FirebaseDatabase.getInstance().getReference("Users/"+ GlobalVariables.getFirebaseUser().getUid() +"/Udlejninger").child(key);
+            DatabaseReference toDelete2 = FirebaseDatabase.getInstance().getReference("Users/"+ owner +"/Udlejninger").child(key);
             toDelete.removeValue();
-            toDelete2.removeValue();*/
+            toDelete2.removeValue();
 
 
 
