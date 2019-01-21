@@ -23,6 +23,9 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.ramotion.fluidslider.FluidSlider;
 
 import java.io.IOException;
@@ -40,7 +43,11 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
     TextView lejeStartTextView = null;
     ImageView lejeStartImageView = null;
     ImageView lejeSlutImageView = null;
+    TextView annoneceTextView = null;
+    TextView beskrivelse1TextView = null;
+    int afstand;
     private int year, month, day;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +57,36 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         lejeSlutTextView = findViewById(R.id.lejeSlutTextView);
         lejeStartImageView = findViewById(R.id.lejeStartImageView);
         lejeSlutImageView = findViewById(R.id.lejeSlutImageView);
+        annoneceTextView = findViewById(R.id.annonceTextView);
+        beskrivelse1TextView = findViewById(R.id.beskrivelseEtTextView);
+
+        //Get intent
+        String entryString = getIntent().getStringExtra("entryString");
+
+
+        //Hent data og gør det til et JsonObject
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(entryString);
+        JsonObject Employee = element.getAsJsonObject();
+
+        String navn = Employee.get("name").toString().replaceAll("\"", "");
+        String postnummer = Employee.get("zipcode").toString().replaceAll("\"", "");
+        afstand = Integer.parseInt(Employee.get("dist").toString().replaceAll("\"", ""));
+
+        annoneceTextView.setText("Opret annonce for\n"+ navn);
+        if(navn.contains(" ")){
+            String tempNavn = navn.substring(0, navn.indexOf(" "));
+            beskrivelse1TextView.setText("Annoncen for " + tempNavn+" vil blive udbydt i nedenstående område. Du kan ændre området ved at trække i slideren nedenfor");
+        }else{
+            beskrivelse1TextView.setText("Annoncen for " + navn + " vil blive udbydt i nedenstående område. Du kan ændre området ved at trække i slideren nedenfor");
+        }
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         final Geocoder geocoder = new Geocoder(this);
-        final String zip = "90210";
         try {
-            List<Address> addresses = geocoder.getFromLocationName("2850, Denmark", 1);
+            List<Address> addresses = geocoder.getFromLocationName(postnummer+", Denmark", 1);
             if (addresses != null && !addresses.isEmpty()) {
                 address = addresses.get(0);
                 // Use the address as needed
@@ -75,7 +104,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         //Set slider settings
         int min = 5;
         int max = 150;
-        slider.setPosition(1);
+        slider.setPosition(afstand/max);
         slider.setColorBar(Color.rgb(0, 153, 203));
         slider.setColorBubble(Color.WHITE);
         slider.setStartText(Integer.toString(min) + " km");
@@ -122,7 +151,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         // Add a circle in Sydney
         circle = map.addCircle(new CircleOptions()
                 .center(position)
-                .radius((double)10000)
+                .radius((double)afstand*1000)
                 .strokeColor(Color.rgb(0, 153, 203))
                 .strokeWidth(4)
                 .fillColor(Color.argb(100, 123,123,123)));

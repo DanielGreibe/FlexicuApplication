@@ -96,7 +96,7 @@ public class RentOutFragment extends Fragment
 
 
         addEmployeeBtn.setOnClickListener((vieww) -> {
-        Intent opretAnsat = new Intent(getApplicationContext(), rentOut1.class); //TODO change to CreateEmplyee.class
+        Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class); //TODO change to CreateEmplyee.class
         Bundle bndlanimation =
                 ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
         startActivity(opretAnsat, bndlanimation);
@@ -436,6 +436,7 @@ public class RentOutFragment extends Fragment
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
+        Button udlejBtn = ExpandableCardview.findViewById(R.id.buttonUdlej);
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
@@ -448,6 +449,12 @@ public class RentOutFragment extends Fragment
             profilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
 
+        //Set calendar onClick listeners
+        udlejBtn.setOnClickListener((view) ->{
+            Intent intent = new Intent(this.getContext(), rentOut1.class);
+            intent.putExtra("entryString", entry.getValue().toString());
+            startActivity(intent);
+        });
 
             //System.out.println(src);
             URL url = null;

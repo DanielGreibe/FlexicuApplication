@@ -118,7 +118,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/beskrivelseEtTextView" />
 
     <com.ramotion.fluidslider.FluidSlider
         android:id="@+id/slider"
@@ -136,7 +136,7 @@
         app:size="small" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/beskrivelseEtTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
