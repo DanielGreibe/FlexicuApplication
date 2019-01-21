@@ -218,13 +218,15 @@ public class RentInFragment extends Fragment {
                     textViewZipcode.getText().toString(), rank, finalUrl.toString());
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
-            myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
+            myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);*/
 
             String key = dr;
 
-            com.google.firebase.auth.FirebaseUser owner;
+            //String owner =
+            //System.out.println(owner);
 
 
+            /*
             DatabaseReference toDelete = FirebaseDatabase.getInstance().getReference("Udlejninger").child(key);
             DatabaseReference toDelete2 = FirebaseDatabase.getInstance().getReference("Users/"+ GlobalVariables.getFirebaseUser().getUid() +"/Udlejninger").child(key);
             toDelete.removeValue();
@@ -259,7 +261,7 @@ public class RentInFragment extends Fragment {
                 .startDate(obj.get("rentStart").toString())
                 .endDate(obj.get("rentEnd").toString())
                 .key(dr)
-                //.owner(obj.get(""))
+                .owner(obj.get("owner").toString().replaceAll("\"",""))
                 //.dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
 //                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
                 .builder();

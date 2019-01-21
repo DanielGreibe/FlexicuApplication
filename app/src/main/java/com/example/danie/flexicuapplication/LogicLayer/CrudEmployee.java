@@ -248,13 +248,13 @@ public class CrudEmployee
         {
         return pic;
         }
+        public String getOwner(){
+            return owner;
+        }
 
-    public String getID()
+        public String getID()
         {
         return ID;
-        }
-        public String getOwner(){
-        return owner;
         }
 
     public void setPic(String URL)
