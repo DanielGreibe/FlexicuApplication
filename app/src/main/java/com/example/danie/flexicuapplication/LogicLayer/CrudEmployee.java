@@ -22,6 +22,8 @@ public class CrudEmployee
     private final String ID;
     private final int zipcode;
     private String available;
+    private final String startDate;
+    private final String endDate;
 
 
     private CrudEmployee(EmployeBuilder builder)
@@ -36,6 +38,8 @@ public class CrudEmployee
         this.ID = builder.ID;
         this.zipcode = builder.zipcode;
         this.available = builder.available;
+        this.startDate = builder.startDate;
+        this.endDate = builder.endDate;
         }
 
     public static class EmployeBuilder
@@ -49,6 +53,8 @@ public class CrudEmployee
         String pic;
         String ID;
         int zipcode;
+        String endDate;
+        String startDate;
         String available;
 
         public EmployeBuilder(String name)
@@ -141,6 +147,16 @@ public class CrudEmployee
             {
             this.zipcode = zipcode;
             return this;
+            }
+
+            public EmployeBuilder startDate(String startDate){
+            this.startDate = startDate;
+            return this;
+            }
+
+            public EmployeBuilder endDate(String endDate){
+                this.endDate = endDate;
+                return this;
             }
 
         public CrudEmployee builder()
