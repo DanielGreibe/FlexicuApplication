@@ -125,7 +125,7 @@ public class MyRentInFragment extends Fragment {
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
-        textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
+        //textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
         /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
@@ -145,7 +145,7 @@ public class MyRentInFragment extends Fragment {
         //System.out.println(src);
         URL url = null;
         try {
-            url = new URL(Employee.get("pic").toString().replace("\"", ""));
+//            url = new URL(Employee.get("pic").toString().replace("\"", ""));
             url = new URL("https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/50766559_10216852442560037_7143500932259512320_n.jpg?_nc_cat=101&_nc_ht=scontent-arn2-1.xx&oh=5c9a281ea2e69a4ffe3042eeffe85adf&oe=5CBFB77F");
         } catch (MalformedURLException e) {
             e.printStackTrace();
