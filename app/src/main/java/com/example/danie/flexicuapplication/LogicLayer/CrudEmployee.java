@@ -19,9 +19,11 @@ public class CrudEmployee
     private final int dist;
     boolean open;
     private String pic;
-    private final int ID;
+    private final String ID;
     private final int zipcode;
     private String available;
+    private final String startDate;
+    private final String endDate;
 
 
     private CrudEmployee(EmployeBuilder builder)
@@ -36,6 +38,8 @@ public class CrudEmployee
         this.ID = builder.ID;
         this.zipcode = builder.zipcode;
         this.available = builder.available;
+        this.startDate = builder.startDate;
+        this.endDate = builder.endDate;
         }
 
     public static class EmployeBuilder
@@ -47,8 +51,10 @@ public class CrudEmployee
         int dist;
         boolean open;
         String pic;
-        int ID;
+        String ID;
         int zipcode;
+        String endDate;
+        String startDate;
         String available;
 
         public EmployeBuilder(String name)
@@ -89,7 +95,7 @@ public class CrudEmployee
                     });
 
 
-                this.ID = random;
+                this.ID = Integer.toString(random);
                 unique[0] = true;
 
                 }
@@ -131,7 +137,7 @@ public class CrudEmployee
             return this;
             }
 
-        public EmployeBuilder ID(int ID)
+        public EmployeBuilder ID(String ID)
             {
             this.ID = ID;
             return this;
@@ -141,6 +147,18 @@ public class CrudEmployee
             {
             this.zipcode = zipcode;
             return this;
+            }
+
+
+
+            public EmployeBuilder startDate(String startDate){
+            this.startDate = startDate;
+            return this;
+            }
+
+            public EmployeBuilder endDate(String endDate){
+                this.endDate = endDate;
+                return this;
             }
 
         public CrudEmployee builder()
@@ -186,6 +204,7 @@ public class CrudEmployee
         public void setavailable(String available) {this.available = available;}
         }
 
+
     //Getter
     public String getName()
         {
@@ -217,7 +236,7 @@ public class CrudEmployee
         return pic;
         }
 
-    public int getID()
+    public String getID()
         {
         return ID;
         }
@@ -233,7 +252,13 @@ public class CrudEmployee
         }
 
         public int getZipcode(){return zipcode;}
+        public String getEndDate() {
+            return endDate;
+        }
 
+        public String getStartDate() {
+            return startDate;
+        }
 
     //Setter
 

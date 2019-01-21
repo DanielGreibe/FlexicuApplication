@@ -43,6 +43,7 @@ import com.google.gson.JsonParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -53,6 +54,7 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 public class MyRentOutsFragment extends Fragment {
 
     int id = 1;
+    ArrayList<String> existingViews = new ArrayList<>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -66,14 +68,31 @@ public class MyRentOutsFragment extends Fragment {
         TextView title = view.findViewById(R.id.textView4);
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+        DatabaseReference myRefUdlejninger = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
         //Load employees and create cardviews and add to scroller
-        myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRefUdlejninger.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
+            //Hent liste over udlejede medarbejdere
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
-                    createNewEmployee(entry, myContainer);
+                    String temp = entry.toString().replaceAll("\"", "");
+                    temp = temp.substring(temp.length()-6, temp.length()-2);
+                    System.out.println("DATA ID IS: " + temp);
+                    DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
+
+                    //Hent udlejet medarbejder data
+                    myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @SuppressLint("StaticFieldLeak")
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                                createNewEmployee(snapshot, myContainer);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("Error!");
+                        }
+                    });
                 }
             }
             @Override
@@ -82,15 +101,34 @@ public class MyRentOutsFragment extends Fragment {
             }
         });
 
+        myRefUdlejninger.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot entry : dataSnapshot.getChildren()){
+                    String temp = entry.toString().replaceAll("\"", "");
+                    temp = temp.substring(temp.length()-6, temp.length()-2);
+                    System.out.println("DATA ID IS: " + temp);
+                    DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
 
-
-
-
-
-
-
-
-
+                    //Hent udlejet medarbejder data
+                    myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @SuppressLint("StaticFieldLeak")
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            createNewEmployee(snapshot, myContainer);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            System.out.println("Error!");
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error!");
+            }
+        });
         return view;
     }
 
@@ -118,6 +156,12 @@ public class MyRentOutsFragment extends Fragment {
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
+
+        if(existingViews.contains(Employee.get("ID").toString().replaceAll("\"", ""))){
+            return;
+        }else{
+            existingViews.add(Employee.get("ID").toString().replaceAll("\"", ""));
+        }
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");

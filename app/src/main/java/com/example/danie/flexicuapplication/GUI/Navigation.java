@@ -37,13 +37,12 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v)
         {
-
             if ( v == buttonIndlej)
                 {
                     //Opens the Indlej page
                     Intent Indlej = new Intent(this, TabbedRentIn.class);
                     Bundle bndlanimation =
-                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_right,R.anim.anim_slide_out_right).toBundle();
                     startActivity(Indlej, bndlanimation);
                 }
             else if (v == buttonUdlej)

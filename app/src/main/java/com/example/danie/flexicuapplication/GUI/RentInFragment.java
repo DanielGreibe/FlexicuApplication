@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayLower;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayUpper;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
+import com.example.danie.flexicuapplication.LogicLayer.CrudRentIns;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
@@ -37,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -51,47 +54,54 @@ public class RentInFragment extends Fragment {
     ImageView filter;
     LinearLayout mContainer;
     List<CrudEmployee> employees = new ArrayList<>();
-    int counter = 0;
+    int counter = 0, count = 0;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    boolean tempChecme = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rent_in, container, false);
         filter = v.findViewById(R.id.filterMenu);
         mContainer = v.findViewById(R.id.linearLayoutRentin);
-        filter.setOnClickListener((View)->{
+        filter.setOnClickListener((View) -> {
             Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
             Bundle bndlanimation =
-                    ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                    ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
             startActivity(filtermenu, bndlanimation);
             onDestroyView();
 
         });
 
+
         Bundle bundle = getActivity().getIntent().getExtras();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+        DatabaseReference myRef2 = database.getReference("/Udlejninger");
         myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
-                    employees.add(JsonToPersonConverter(entry));
-                    }
-                    if (bundle != null) {
-                        ArrayList<String> filterValues = bundle.getStringArrayList("filterValues");
-                        CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
-                        CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
-                        CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
-                        CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
-                        System.out.println(payBounds.meetCriteria(employees).size()+"---------------------------------");
-                        payBounds.meetCriteria(employees).forEach((a) -> {
-                            createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
-
-                        });
-
-                    } else {
-                        employees.forEach((a) -> createNewEmployee(employees.get(counter++), mContainer));
+                    JsonParser parser = new JsonParser();
+                    JsonElement element = parser.parse(entry.getValue().toString());
+                    JsonObject Employee = element.getAsJsonObject();
+                    if(!Employee.get("id").toString().contains(GlobalVariables.getFirebaseUser().getUid())) {
+                        employees.add(JsonToPersonConverter(entry));
                     }
                 }
+                if (bundle != null) {
+                    ArrayList<String> filterValues = bundle.getStringArrayList("filterValues");
+                    CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
+                    CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
+                    CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
+                    CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
+                    payBounds.meetCriteria(employees).forEach((a) -> {
+                        createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
+
+                    });
+
+                } else {
+                    employees.forEach((a) -> createNewEmployee(employees.get(counter++), mContainer));
+                }
+            }
 
 
             @Override
@@ -104,10 +114,8 @@ public class RentInFragment extends Fragment {
     }
 
 
-
     @SuppressLint("StaticFieldLeak")
-    public void createNewEmployee(CrudEmployee entry, LinearLayout myContainer)
-    {
+    public void createNewEmployee(CrudEmployee entry, LinearLayout myContainer) {
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
         View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
@@ -123,6 +131,8 @@ public class RentInFragment extends Fragment {
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
+        Button indlejButton = ExpandableCardview.findViewById(R.id.buttonUdlej);
+        indlejButton.setText("Indlej");
 
         //Hent data og gør det til et JsonObject
 
@@ -130,8 +140,9 @@ public class RentInFragment extends Fragment {
         textViewPay.setText(String.valueOf(entry.getPay()) + " kr/t");
         textViewZipcode.setText(String.valueOf(entry.getZipcode()));
         textViewDistance.setText(String.valueOf(entry.getDist()) + " km");
-        textViewName.setText(entry.getName().replace("\"" , ""));
-        textViewProfession.setText(entry.getJob().replace("\"" , ""));
+        textViewName.setText(entry.getName().replace("\"", ""));
+        textViewProfession.setText(entry.getJob().replace("\"", ""));
+
         /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
@@ -155,7 +166,7 @@ public class RentInFragment extends Fragment {
 
         //We want to download images for the list of workers
         URL finalUrl = url;
-        new AsyncTask<Void, Void, Bitmap>(){
+        new AsyncTask<Void, Void, Bitmap>() {
             //Get pictures in background
             @Override
             protected Bitmap doInBackground(Void... voids) {
@@ -187,41 +198,52 @@ public class RentInFragment extends Fragment {
         });
         imageButtonArrow.setOnClickListener((test) ->
         {
-            expand(linearLayoutExpanded,  imageButtonArrow);
+            expand(linearLayoutExpanded, imageButtonArrow);
         });
 
         //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
         myContainer.addView(ExpandableCardview);
         myContainer.addView(Spacer);
+
+        indlejButton.setOnClickListener(view -> {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
+            CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
+                    textViewPay.getText().toString(), textViewProfession.getText().toString(),
+                    "test start", "test slut", "test ejer",
+                    textViewZipcode.getText().toString(), "test rank");
+            Gson gson = new Gson();
+            String employeeJSON = gson.toJson(temp);
+            myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
+        });
     }
-    private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow)
-    {
-        if (linearLayoutExpanded.getVisibility() == View.GONE)
-        {
+
+    private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow) {
+        if (linearLayoutExpanded.getVisibility() == View.GONE) {
             linearLayoutExpanded.setVisibility(View.VISIBLE);
             imageButtonArrow.setRotation(90);
-        }
-        else if (linearLayoutExpanded.getVisibility() == View.VISIBLE)
-        {
+        } else if (linearLayoutExpanded.getVisibility() == View.VISIBLE) {
             linearLayoutExpanded.setVisibility(View.GONE);
             imageButtonArrow.setRotation(0);
         }
     }
 
-    public CrudEmployee JsonToPersonConverter(DataSnapshot entry){
+    public CrudEmployee JsonToPersonConverter(DataSnapshot entry) {
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject obj = element.getAsJsonObject();
 
         CrudEmployee people = new CrudEmployee.EmployeBuilder(
-                obj.get("name").toString().replace("\"",""))
-                .job(obj.get("job").toString().replace("\"",""))
-                .ID(Integer.parseInt(obj.get("ID").toString()))
+                obj.get("name").toString().replace("\"", ""))
+                .job(obj.get("job").toString().replace("\"", ""))
+                .ID(obj.get("id").toString().replaceAll("\"",""))
                 .pic(obj.get("pic").toString())
-                .pay(Double.parseDouble(obj.get("pay").toString()))
-                .dist(Integer.parseInt(obj.get("dist").toString()))
-                .zipcode(Integer.parseInt(obj.get("zipcode").toString()))
+                .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"","")))
+                //.dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
+//                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
                 .builder();
         return people;
     }
 }
+
+

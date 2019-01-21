@@ -154,7 +154,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                 Gson gson = new Gson();
                 String employeeJSON = gson.toJson(employee);
                 System.out.println(employeeJSON);
-                myRef.child(Integer.toString(employee.getID())).setValue(employeeJSON);
+                myRef.child(employee.getID()).setValue(employeeJSON);
             }else {
                 uploadImg(employee.getID(), employee);
             }
@@ -168,7 +168,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void uploadImg(int ID, CrudEmployee employee) {
+    public void uploadImg(String ID, CrudEmployee employee) {
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference databaseRef = mStorageRef.child("Users/"+getFirebaseUser().getUid()+"/Medarbejdere/"+ID+".jpg");
@@ -199,7 +199,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                     Gson gson = new Gson();
                     String employeeJSON = gson.toJson(employee);
                     System.out.println(employeeJSON);
-                    myRef.child(Integer.toString(employee.getID())).setValue(employeeJSON);
+                    myRef.child(employee.getID()).setValue(employeeJSON);
                 }
             }
         });
