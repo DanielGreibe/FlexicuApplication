@@ -149,6 +149,8 @@ public class CrudEmployee
             return this;
             }
 
+
+
             public EmployeBuilder startDate(String startDate){
             this.startDate = startDate;
             return this;
@@ -202,6 +204,7 @@ public class CrudEmployee
         public void setavailable(String available) {this.available = available;}
         }
 
+
     //Getter
     public String getName()
         {
@@ -249,7 +252,13 @@ public class CrudEmployee
         }
 
         public int getZipcode(){return zipcode;}
+        public String getEndDate() {
+            return endDate;
+        }
 
+        public String getStartDate() {
+            return startDate;
+        }
 
     //Setter
 
