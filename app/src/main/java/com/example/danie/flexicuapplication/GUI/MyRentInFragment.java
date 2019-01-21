@@ -37,32 +37,50 @@ import com.google.gson.JsonParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
 public class MyRentInFragment extends Fragment {
+
     int id = 1;
+    ArrayList<String> existingViews = new ArrayList<>();
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_my_rent_outs, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_rent_in, container, false);
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
         ScrollView myScrollView = view.findViewById(R.id.scrollviewUdlej);
         TextView title = view.findViewById(R.id.textView4);
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
+        DatabaseReference myRefUdlejninger = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
         //Load employees and create cardviews and add to scroller
-        myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRefUdlejninger.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
+            //Hent liste over udlejede medarbejdere
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot entry : snapshot.getChildren()) {
+                    createNewEmployee(entry, myContainer);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error!");
+            }
+        });
+
+        myRefUdlejninger.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot entry : dataSnapshot.getChildren()){
                     createNewEmployee(entry, myContainer);
                 }
             }
@@ -98,10 +116,14 @@ public class MyRentInFragment extends Fragment {
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
 
+        if(existingViews.contains(Employee.get("ID").toString().replaceAll("\"", ""))){
+            return;
+        }else{
+            existingViews.add(Employee.get("ID").toString().replaceAll("\"", ""));
+        }
+
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
-        textViewZipcode.setText(Employee.get("zipcode").toString());
-        textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
         /*if ( Employee.get("available").toString().equals("true"))
@@ -115,6 +137,10 @@ public class MyRentInFragment extends Fragment {
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
         //We want to download images for the list of workers
+
+
+
+
 
         //System.out.println(src);
         URL url = null;

@@ -37,6 +37,7 @@ import com.google.gson.JsonParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
@@ -45,6 +46,7 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 public class MyRentOutsFragment extends Fragment {
 
     int id = 1;
+    ArrayList<String> existingViews = new ArrayList<>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -145,6 +147,12 @@ public class MyRentOutsFragment extends Fragment {
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
+
+        if(existingViews.contains(Employee.get("ID").toString().replaceAll("\"", ""))){
+            return;
+        }else{
+            existingViews.add(Employee.get("ID").toString().replaceAll("\"", ""));
+        }
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
