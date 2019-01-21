@@ -83,8 +83,6 @@ public class RentOutFragment extends Fragment
         loadingbar.setVisibility(View.INVISIBLE);
         addEmployeeBtn = view.findViewById(R.id.addEmployee);
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
-
-
         addEmployeeBtn.setOnClickListener((vieww) -> {
         Intent opretAnsat = new Intent(getApplicationContext(), rentOut1.class); //TODO change to CreateEmplyee.class
         Bundle bndlanimation =
