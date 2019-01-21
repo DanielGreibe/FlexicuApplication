@@ -137,7 +137,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
             }
         });
 
-        //Tag billede button
+        //Vælg billede button
         vaelgBilledeSelect.setOnClickListener((view) ->{
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
