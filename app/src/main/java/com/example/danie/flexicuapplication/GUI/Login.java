@@ -65,6 +65,9 @@ protected void onCreate(Bundle savedInstanceState)
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    /*Intent intent = new Intent(this, rentOut1.class);
+    startActivity(intent);*/
+
 
 
     opretBruger = findViewById(R.id.buttonCreateUser);

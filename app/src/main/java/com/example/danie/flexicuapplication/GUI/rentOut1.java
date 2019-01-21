@@ -72,6 +72,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
             // handle exception
         }
 
+        //Set slider settings
         int min = 5;
         int max = 150;
         slider.setPosition(1);
@@ -101,6 +102,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
             showDialog(999);
         });
 
+        //Set calendar onClick listeners
         lejeSlutImageView.setOnClickListener((view) ->{
             Date date = new Date();
             year = date.getYear() + 1900;
