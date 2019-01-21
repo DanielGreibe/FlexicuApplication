@@ -152,7 +152,8 @@ public class MyRentInFragment extends Fragment {
         }
 
 
-        if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
+//        if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
+        if(false){
             int minPixels = 0;
             Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
             if(photo.getWidth() < photo.getHeight()){
