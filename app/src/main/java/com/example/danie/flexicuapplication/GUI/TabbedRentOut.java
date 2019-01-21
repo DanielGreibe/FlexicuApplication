@@ -96,6 +96,7 @@ public class TabbedRentOut extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
+
                     RentOutFragment rentOutFragment = new RentOutFragment();
                     return rentOutFragment;
                 case 1:
@@ -105,6 +106,7 @@ public class TabbedRentOut extends AppCompatActivity {
                     return null;
             }
         }
+
 
         @Override
         public int getCount() {

@@ -61,6 +61,7 @@ public class RentInFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rent_in, container, false);
+        onActivityCreated(savedInstanceState);
         filter = v.findViewById(R.id.filterMenu);
         mContainer = v.findViewById(R.id.linearLayoutRentin);
         filter.setOnClickListener((View) -> {
@@ -69,7 +70,10 @@ public class RentInFragment extends Fragment {
                     ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
             startActivity(filtermenu, bndlanimation);
 
+
         });
+
+
 
 
         Bundle bundle = getActivity().getIntent().getExtras();

@@ -77,7 +77,7 @@ public class RentOutFragment extends Fragment
         if(getActivity().getIntent().getStringExtra("createEmployeeFinish") != null){
             callingActivity = getActivity().getIntent().getStringExtra("createEmployeeFinish");
         }
-
+        onActivityCreated(savedInstanceState);
         //Setup loading bar and hide
         loadingbar = view.findViewById(R.id.loadingbarTextView);
         loadingbar.bringToFront();
