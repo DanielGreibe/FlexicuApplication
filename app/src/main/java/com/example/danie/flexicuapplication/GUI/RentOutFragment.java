@@ -63,15 +63,7 @@ public class RentOutFragment extends Fragment
     String callingActivity = "default";
     ArrayList<Integer> existingViews = new ArrayList<>();
 
-    //Storage ref
-    private StorageReference mStorageRef;
-
-
-    private Context mContext;
-    private ConstraintLayout opretMedarbejderButton;
-    private ConstraintLayout lejeStart, lejeSlut;
-    private ConstraintLayout constCardLayout;
-    TextView textViewErhverv,loadingbar, textViewLejeperiodeStart, textViewRadius, textViewPostnummer, textViewLøn, textViewLejeperiodeSlut;
+    TextView loadingbar, textViewLejeperiodeStart, textViewLejeperiodeSlut;
     private Button addEmployeeBtn;
     int id = 1;
 
@@ -84,8 +76,6 @@ public class RentOutFragment extends Fragment
         if(getActivity().getIntent().getStringExtra("createEmployeeFinish") != null){
             callingActivity = getActivity().getIntent().getStringExtra("createEmployeeFinish");
         }
-        System.out.println("----------------------------------------" + callingActivity + "-------------------------------------------------------");
-
 
         //Setup loading bar and hide
         loadingbar = view.findViewById(R.id.loadingbarTextView);
@@ -96,7 +86,7 @@ public class RentOutFragment extends Fragment
 
 
         addEmployeeBtn.setOnClickListener((vieww) -> {
-        Intent opretAnsat = new Intent(getApplicationContext(), rentOut1.class); //TODO change to CreateEmplyee.class
+        Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class); //TODO change to CreateEmplyee.class
         Bundle bndlanimation =
                 ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
         startActivity(opretAnsat, bndlanimation);
@@ -104,9 +94,6 @@ public class RentOutFragment extends Fragment
         });
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefUdlejid = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Udlejninger");
-        DatabaseReference myRefUdlejninger = database.getReference("Udlejninger");
-        Gson gson = new Gson();
 
         //Load workers from database
         DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere");
@@ -177,16 +164,6 @@ public class RentOutFragment extends Fragment
         }
 
 
-    public ViewGroup.LayoutParams getLinearLayout()
-        {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                100
-        );
-        params.setMargins(0, 15, 75, 0);
-        return params;
-        }
-
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener()
         {
         @Override
@@ -222,193 +199,6 @@ public class RentOutFragment extends Fragment
         };
 
 
-    /*@SuppressLint("StaticFieldLeak")
-    public void createEmployeeView(DataSnapshot entry, LinearLayout myContainer) {
-
-        //Parse JSON
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(entry.getValue().toString());
-        JsonObject obj = element.getAsJsonObject();
-
-        int tempID = Integer.parseInt(String.valueOf(obj.get("ID")));
-        if (existingViews.contains(tempID))
-            {
-            return;
-            }
-
-        existingViews.add(Integer.parseInt(String.valueOf(obj.get("ID"))));
-
-
-        // 2. JSON to Java object, read it from a Json String.
-        CardView cv = new CardView(getContext());
-        cv.setId(Integer.parseInt(obj.get("ID").toString()));
-        LinearLayout.LayoutParams size = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 225);
-        size.setMargins(0, 5, 0, 5);
-        cv.setLayoutParams(size);
-        cv.setRadius(15);
-        @SuppressLint("RestrictedApi") ConstraintLayout cl = new ConstraintLayout(getContext());
-        cv.addView(cl);
-        cv.setBackgroundResource(R.drawable.layout_background_round_corners);
-        cv.setOnClickListener((view) ->
-        {
-        //Opdaterer TextViews med information fra brugeren
-        //TODO Opdater alle informationer og ikke kun Erhverv, ID skal ikke vises og var kun et testforsøg.
-        //TODO Kan med fordel extractes til en metode.
-        for (int i = 0; i < myContainer.getChildCount(); i++)
-            {
-            myContainer.getChildAt(i).setBackgroundResource(R.drawable.layout_background_round_corners);
-            }
-
-        view.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-
-        });
-        //Add pic
-        @SuppressLint("RestrictedApi") ImageView IVProfilePic = new ImageView(getApplicationContext());
-
-
-
-        IVProfilePic.setId(id++);
-
-        if (obj.get("pic").toString().replaceAll("\"", "").equals("flexicu"))
-            {
-
-           if(loadingbar.getVisibility() == View.VISIBLE) {
-                //Set fade animation and hide after animation end
-                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(1500);
-                anim.setRepeatCount(0);
-                anim.willChangeBounds();
-                loadingbar.startAnimation(anim);
-                loadingbar.postOnAnimation(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadingbar.setVisibility(View.INVISIBLE);
-                    }
-                });
-            }
-            //Get round image
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
-            bitmap = RoundedImageView.getCroppedBitmap(bitmap, 200);
-            IVProfilePic.setImageBitmap(bitmap);
-            }
-        else
-            {
-            //Set temporary picture while real pictures are downloading
-            IVProfilePic.setImageResource(R.drawable.download);
-            //We want to download images for the list of workers
-
-
-            //System.out.println(src);
-            URL url = null;
-            try {
-                url = new URL(obj.get("pic").toString().replace("\"", ""));
-                } catch (MalformedURLException e)
-                {
-                e.printStackTrace();
-            }
-
-            //We want to download images for the list of workers
-            URL finalUrl = url;
-            new AsyncTask<Void, Void, Bitmap>()
-                {
-                //Get pictures in background
-                @Override
-                protected Bitmap doInBackground(Void... voids)
-                    {
-                    try
-                        {
-                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
-                        Bitmap myBitmap = Glide
-                                .with(IVProfilePic)
-                                .asBitmap()
-                                .load(finalUrl)
-                                .submit()
-                                .get();
-                        return myBitmap;
-                        } catch (ExecutionException e)
-                        {
-                        e.printStackTrace();
-                        } catch (InterruptedException e)
-                        {
-                        e.printStackTrace();
-                        }
-                    return null;
-                }
-
-                //On return update images in list
-                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-                @Override
-                protected void onPostExecute(Bitmap s)
-                    {
-                    super.onPostExecute(s);
-                    s = RoundedImageView.getCroppedBitmap(s, 200);
-                    IVProfilePic.setImageBitmap(s);
-                    if(loadingbar.getVisibility() == View.VISIBLE) {
-                        //Set fade animation and hide after animation end
-                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                        anim.setDuration(1500);
-                        anim.setRepeatCount(0);
-                        anim.willChangeBounds();
-                        loadingbar.startAnimation(anim);
-                        loadingbar.postOnAnimation(new Runnable() {
-                            @Override
-                            public void run() {
-                                loadingbar.setVisibility(View.INVISIBLE);
-                            }
-                        });
-                    }
-
-                }
-            }.execute();
-
-
-
-            if(loadingbar.getVisibility() == View.VISIBLE) {
-                //Set fade animation and hide after animation end
-                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(1500);
-                anim.setRepeatCount(0);
-                anim.willChangeBounds();
-                loadingbar.startAnimation(anim);
-                loadingbar.postOnAnimation(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadingbar.setVisibility(View.INVISIBLE);
-                    }
-                });
-            }
-        }
-
-        IVProfilePic.setAdjustViewBounds(true);
-        cl.addView(IVProfilePic);
-        //Add Name and Job
-        @SuppressLint("RestrictedApi") TextView TVName = new TextView(getApplicationContext());
-        TVName.setId(id++);
-        TVName.setText(obj.get("name").toString().replaceAll("\"", "") + "\n" + obj.get("job").toString().replaceAll("\"", ""));
-        TVName.setTextSize(15);
-
-        cl.addView(TVName);
-
-        ConstraintSet CS = new ConstraintSet();
-        CS.clone(cl);
-        //Pic
-        CS.connect(IVProfilePic.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT, 15);
-        CS.connect(IVProfilePic.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
-        CS.connect(IVProfilePic.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0);
-
-        //Name and Job
-        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.RIGHT, 8);
-        CS.connect(TVName.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
-        CS.connect(TVName.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0);
-        CS.connect(TVName.getId(), ConstraintSet.LEFT, IVProfilePic.getId(), ConstraintSet.LEFT, 250);
-
-        CS.applyTo(cl);
-
-        myContainer.addView(cv);
-        //CrudEmployee staff = gson.fromJson(entry, );
-        //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
-    }*/
-
     @SuppressLint("StaticFieldLeak")
     public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer){
 
@@ -436,6 +226,7 @@ public class RentOutFragment extends Fragment
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
+        Button udlejBtn = ExpandableCardview.findViewById(R.id.buttonUdlej);
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
@@ -443,11 +234,17 @@ public class RentOutFragment extends Fragment
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-        textViewStatus.setText(Employee.get("available").toString().replaceAll("\"",""));
+//        textViewStatus.setText(Employee.get("available").toString().replaceAll("\"",""));
         //Set temporary picture while real pictures are downloading
             profilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
 
+        //Set calendar onClick listeners
+        udlejBtn.setOnClickListener((view) ->{
+            Intent intent = new Intent(this.getContext(), rentOut1.class);
+            intent.putExtra("entryString", entry.getValue().toString());
+            startActivity(intent);
+        });
 
             //System.out.println(src);
             URL url = null;
