@@ -10,6 +10,7 @@ import com.example.danie.flexicuapplication.R;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kofigyan.stateprogressbar.StateProgressBar;
 
 public class CreateUser_infomation extends AppCompatActivity {
 
@@ -29,6 +30,10 @@ public class CreateUser_infomation extends AppCompatActivity {
         Telefon = findViewById(R.id.TelefonEditText);
         Postnummer = findViewById(R.id.PostnummerEditText);
         nextButton = findViewById(R.id.buttonNextPage);
+
+        String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
+        StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
+        stateProgressBar.setStateDescriptionData(descriptionData);
 
         //Get intent and parse values
         Intent intent = getIntent();

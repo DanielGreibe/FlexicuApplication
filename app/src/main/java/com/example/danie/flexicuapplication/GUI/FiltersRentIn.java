@@ -1,5 +1,6 @@
 package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import com.example.danie.flexicuapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 public class FiltersRentIn extends AppCompatActivity
     {
         private Button btn;
@@ -28,7 +31,7 @@ public class FiltersRentIn extends AppCompatActivity
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_in_filters);
-            List<CrudEmployee> people = new ArrayList<CrudEmployee>();
+           ArrayList<String> filterList = new ArrayList<String>();
 
 
         btn = findViewById(R.id.searchBtn);
@@ -61,10 +64,14 @@ public class FiltersRentIn extends AppCompatActivity
         });
 
          btn.setOnClickListener((view)->{
-                Intent intent = new Intent(this, RentIn.class);
+                Intent intent = new Intent(this, TabbedRentIn.class);
                 //intent.putExtra("dist", seekBarDist.getProgress());
-                intent.putExtra("payLower", lowerPay.getText().toString());
-                intent.putExtra("payUpper", upperPay.getText().toString());
+                filterList.add(lowerPay.getText().toString());
+                filterList.add(upperPay.getText().toString());
+                filterList.add(String.valueOf(seekBarDist.getProgress()));
+                Bundle bundle  = new Bundle();
+                bundle.putStringArrayList("filterValues", filterList);
+                 intent.putStringArrayListExtra("filterValues", filterList);
                 if (lowerPay.getText().toString().equals("") && upperPay.getText().toString().equals(""))
                 {
                     Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
@@ -73,10 +80,14 @@ public class FiltersRentIn extends AppCompatActivity
                     finish();
                 }
 
-
             });
         }
 
 
-
+        @Override
+        public void onBackPressed() {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+            finish();
+        }
     }

@@ -22,4 +22,6 @@ public class CriteriaProfession implements CriteriaInterface {
         return profession;
     }
 
+
+
 }

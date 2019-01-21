@@ -59,7 +59,7 @@ public class MyRentIns extends AppCompatActivity {
         mainLayout = findViewById(R.id.MineIndlejninger_mainLayout);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
+        DatabaseReference myRef = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
 
         /*CrudRentIns en = new CrudRentIns("Ternet Ninja", "Kriger", "1/2 - 2019", "1/4 - 2019", "Aske", "Ika", 4.9);
         CrudRentIns to = new CrudRentIns("Daniel Gribe", "Java", "1/4 - 2019", "15/7 - 2019", "Mathias", "Lyngby", 4.0);

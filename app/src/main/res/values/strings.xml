@@ -21,4 +21,17 @@
     <string name="spring_over"> <u> Spring over </u> </string>
     <string name="navn">Navn</string>
     <string name="title_activity_create_employee_distance">CreateEmployeeDistance</string>
+    <string name="title_activity_rent_out_tabbed">RentOutTabbed</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_tabbed_rent_out">TabbedRentOut</string>
+    <string name="tab_text_1">Udlej</string>
+    <string name="tab_text_2">Mine udlejninger</string>
+    <string name="title_activity_tabbbsss">tabbbsss</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_tabbed_rent_in">tabbedRentIn</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

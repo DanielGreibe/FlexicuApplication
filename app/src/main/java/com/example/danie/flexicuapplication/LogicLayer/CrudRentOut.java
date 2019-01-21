@@ -21,8 +21,10 @@ public class CrudRentOut {
     String rentEnd;
     String rank;
     String pay;
+    String zipcode;
+    int dist;
 
-    public CrudRentOut(String id, String name, String job, String pic, String rentStart, String rentEnd, String rank, String pay){
+    public CrudRentOut(String id, String name, String job, String pic, String rentStart, String rentEnd, String rank, String pay, String zipcode, int dist){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.id = id;
         this.name = name;
@@ -32,6 +34,9 @@ public class CrudRentOut {
         this.rentEnd = rentEnd;
         this.rank = rank;
         this.pay = pay;
+        this.zipcode = zipcode;
+        this.dist = dist;
+
 
         boolean[] unique = {false};
         while (!unique[0]) {

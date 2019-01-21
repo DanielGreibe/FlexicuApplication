@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import static com.example.danie.flexicuapplication.R.drawable.layout_background_round_corners_blue;
 import static com.example.danie.flexicuapplication.R.drawable.layout_background_round_corners_gray;
@@ -37,13 +38,13 @@ public class CreateUser_password extends AppCompatActivity {
         EditText passwordRepeat = findViewById(R.id.PasswordRepeatEditText);
         Button nextButton = findViewById(R.id.buttonNextPage);
         TextView repeatTextView = findViewById(R.id.repeatTextView);
-        TextView warning1 = findViewById(R.id.warningTextView1);
-        TextView warning2 = findViewById(R.id.warningTextView2);
+
+        String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
+        StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
+        stateProgressBar.setStateDescriptionData(descriptionData);
 
         repeatTextView.setVisibility(View.INVISIBLE);
         passwordRepeat.setVisibility(View.INVISIBLE);
-        warning1.setVisibility(View.INVISIBLE);
-        warning2.setVisibility(View.INVISIBLE);
 
         password.addTextChangedListener(new TextWatcher() {
             @Override
@@ -56,9 +57,8 @@ public class CreateUser_password extends AppCompatActivity {
                 if(password.getText().toString().length() >= 6) {
                     repeatTextView.setVisibility(View.VISIBLE);
                     passwordRepeat.setVisibility(View.VISIBLE);
-                    warning1.setVisibility(View.INVISIBLE);
+                    password.setError(null);
                 }else{
-                    warning1.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -78,7 +78,7 @@ public class CreateUser_password extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(passwordRepeat.getText().toString().equals(password.getText().toString())) {
                     nextButton.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-                    warning2.setVisibility(View.INVISIBLE);
+                    passwordRepeat.setError(null);
                     if(passwordRepeat.getText().toString().length() >= 6) {
                         truepassword = passwordRepeat.getText().toString();
                     }else{
@@ -86,7 +86,6 @@ public class CreateUser_password extends AppCompatActivity {
                         nextButton.setBackgroundResource(R.drawable.layout_background_round_corners_gray);
                     }
                 }else{
-                    warning2.setVisibility(View.VISIBLE);
                     nextButton.setBackgroundResource(R.drawable.layout_background_round_corners_gray);
                     truepassword = null;
                 }
@@ -100,7 +99,11 @@ public class CreateUser_password extends AppCompatActivity {
 
         //Next button
         nextButton.setOnClickListener((view) ->{
-            if(truepassword == null) return;
+            if(truepassword == null){
+                if(password.getText().length() < 6) password.setError("Mindst 6 tegn!");
+                if(!passwordRepeat.getText().toString().equals(password.getText().toString())) passwordRepeat.setError("Passwords er ikke ens!");
+                return;
+            }
 
             FirebaseAuth firebase = FirebaseAuth.getInstance();
             firebase.createUserWithEmailAndPassword(intent.getStringExtra("EMAIL"), truepassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -110,13 +113,15 @@ public class CreateUser_password extends AppCompatActivity {
                         //TODO tilføj data til firabaseDatabase / user
                     }else{
                         //TODO tilføj error message'
-                        warning1.setText("Fejl ved oprettelse i database!");
                     }
 
                 }
             });
+
             Intent login = new Intent(this ,Login.class);
+            login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(login);
+            finish();
         });
 
     }

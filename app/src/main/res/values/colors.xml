@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#427d3c</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#0099CB</color>
     <color name="green">#009933</color>
@@ -11,4 +11,6 @@
     <color name="FlexTurquoise">#ccffff</color>
     <string name="green">\@color/green</string>
     <color name="colorProgressBar">#ff6900</color>
+    <color name="gray">#D3D3D3</color>
+    <color name="darkgray">#A9A9A9</color>
 </resources>

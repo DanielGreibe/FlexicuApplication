@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.danie.flexicuapplication.R;
+import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import static com.example.danie.flexicuapplication.R.drawable.layout_background_round_corners_blue;
 import static com.example.danie.flexicuapplication.R.drawable.layout_background_round_corners_gray;
@@ -31,7 +32,13 @@ public class CreateUser_cvr extends AppCompatActivity {
 
         EditText cvrFelt = findViewById(R.id.PasswordEditText);
         Button næste = findViewById(R.id.buttonNextPage);
+
+        String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
+        StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
+        stateProgressBar.setStateDescriptionData(descriptionData);
+
         cvrFelt.setText("39762226");
+
 
         næste.setOnClickListener(new View.OnClickListener() {
             @Override

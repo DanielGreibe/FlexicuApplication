@@ -17,10 +17,12 @@ public class CrudRentIns {
     String rentEnd;
     String owner;
     String location;
-    double rank;
+    String pay;
+    String rank;
 
-    public CrudRentIns(String name, String job, String rentStart, String rentEnd, String owner, String location, double rank) {
+    public CrudRentIns(String name, String pay, String job, String rentStart, String rentEnd, String owner, String location, String rank) {
         this.name = name;
+        this.pay = pay;
         this.job = job;
         this.rentStart = rentStart;
         this.rentEnd = rentEnd;

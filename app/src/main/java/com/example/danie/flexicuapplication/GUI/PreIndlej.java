@@ -1,4 +1,4 @@
-package com.example.danie.flexicuapplication.GUI;
+/*package com.example.danie.flexicuapplication.GUI;
 
 import android.Manifest;
 import android.content.Intent;
@@ -122,6 +122,7 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
                                             Log.e("Test", location.getLongitude() + "");
                                             Log.e("Test", location.getLatitude() + "");
                                             */
+/*
                                             Geocoder geocoder = new Geocoder(PreIndlej.this, Locale.getDefault());
                                             try
                                                 {
@@ -135,6 +136,7 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
                                                 Log.e("Address2", "Longitude " + addresses2.get(0).getLongitude());
                                                 Log.e("Address1", addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() + ", " + addresses.get(0).getCountryName());
                                                 */
+/*
                                                 Log.e("Addresse", ((GlobalVariables) PreIndlej.this.getApplication()).getUserAddress().getPostalCode());
                                                 } catch (IOException e)
                                                 {
@@ -153,3 +155,4 @@ public class PreIndlej extends AppCompatActivity implements View.OnClickListener
         }
 
     }
+*/

@@ -19,9 +19,12 @@ public class CrudEmployee
     private final int dist;
     boolean open;
     private String pic;
-    private final int ID;
+    private final String ID;
     private final int zipcode;
-    private boolean available;
+    private String available;
+    private final String startDate;
+    private final String endDate;
+    private final String owner;
 
 
     private CrudEmployee(EmployeBuilder builder)
@@ -36,6 +39,9 @@ public class CrudEmployee
         this.ID = builder.ID;
         this.zipcode = builder.zipcode;
         this.available = builder.available;
+        this.startDate = builder.startDate;
+        this.endDate = builder.endDate;
+        this.owner = builder.owner;
         }
 
     public static class EmployeBuilder
@@ -47,10 +53,12 @@ public class CrudEmployee
         int dist;
         boolean open;
         String pic;
-        int ID;
+        String ID;
         int zipcode;
-        boolean available;
-
+        String endDate;
+        String startDate;
+        String available;
+        String owner;
         public EmployeBuilder(String name)
             {
             this.name = name;
@@ -89,18 +97,21 @@ public class CrudEmployee
                     });
 
 
-                this.ID = random;
+                this.ID = Integer.toString(random);
                 unique[0] = true;
 
                 }
             }
 
-        public EmployeBuilder available(boolean available)
+        public EmployeBuilder available(String available)
             {
             this.available = available;
             return this;
             }
-
+        public EmployeBuilder owner(String owner){
+            this.owner = owner;
+            return this;
+        }
         public EmployeBuilder job(String job)
             {
             this.job = job;
@@ -131,7 +142,7 @@ public class CrudEmployee
             return this;
             }
 
-        public EmployeBuilder ID(int ID)
+        public EmployeBuilder ID(String ID)
             {
             this.ID = ID;
             return this;
@@ -141,6 +152,18 @@ public class CrudEmployee
             {
             this.zipcode = zipcode;
             return this;
+            }
+
+
+
+            public EmployeBuilder startDate(String startDate){
+            this.startDate = startDate;
+            return this;
+            }
+
+            public EmployeBuilder endDate(String endDate){
+                this.endDate = endDate;
+                return this;
             }
 
         public CrudEmployee builder()
@@ -183,8 +206,9 @@ public class CrudEmployee
             this.pic = pic;
             }
 
-        public void setavailable(boolean available) {this.available = available;}
+        public void setavailable(String available) {this.available = available;}
         }
+
 
     //Getter
     public String getName()
@@ -212,24 +236,17 @@ public class CrudEmployee
         return dist;
         }
 
-    public boolean getOpen()
-        {
-        return open;
-        }
-
-    public boolean isOpen()
-        {
-        return open;
-        }
-
     public String getPic()
         {
         return pic;
         }
 
-    public int getID()
+    public String getID()
         {
         return ID;
+        }
+        public String getOwner(){
+        return owner;
         }
 
     public void setPic(String URL)
@@ -237,11 +254,19 @@ public class CrudEmployee
         pic = URL;
         }
 
-    public boolean getAvailable()
+    public String getAvailable()
         {
         return available;
         }
 
+        public int getZipcode(){return zipcode;}
+        public String getEndDate() {
+            return endDate;
+        }
+
+        public String getStartDate() {
+            return startDate;
+        }
 
     //Setter
 

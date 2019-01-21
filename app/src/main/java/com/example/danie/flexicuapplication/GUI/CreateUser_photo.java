@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
+import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -48,6 +49,10 @@ public class CreateUser_photo extends AppCompatActivity {
         preview = findViewById(R.id.imageViewPreview);
         vaelgBilledeSelect = findViewById(R.id.vaelgBillede);
         textViewTitle = findViewById(R.id.textViewTitle);
+
+        String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
+        StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
+        stateProgressBar.setStateDescriptionData(descriptionData);
 
         buttonNextPage = findViewById(R.id.buttonNextPage);
 

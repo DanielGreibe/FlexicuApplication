@@ -1,27 +1,26 @@
 package com.example.danie.flexicuapplication.GUI;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
+import com.baoyachi.stepview.HorizontalStepView;
+import com.baoyachi.stepview.bean.StepBean;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,8 +30,8 @@ import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.danie.flexicuapplication.LogicLayer.GlobalVariables.*;
 
@@ -73,9 +72,49 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         textViewPostcode = findViewById(R.id.textViewPostcode);
         textViewDescription = findViewById(R.id.textViewDescription);
         textViewPay = findViewById(R.id.textViewPay);
-        textViewDistance = findViewById(R.id.textViewDistance);
+        textViewDistance = findViewById(R.id.textViewHeaderDistance);
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
+
+        //SETUP PROGRESSBAR
+        HorizontalStepView stepView = findViewById(R.id.step_view);
+        List<StepBean> stepsBeanList = new ArrayList<>();
+        StepBean stepBean0 = new StepBean("Navn",1);
+        StepBean stepBean1 = new StepBean("Alder",1);
+        StepBean stepBean2 = new StepBean("Erhverv",1);
+        StepBean stepBean3 = new StepBean("Løn",1);
+        StepBean stepBean4 = new StepBean("Transport",1);
+        StepBean stepBean5 = new StepBean("Lokation",1);
+        StepBean stepBean6 = new StepBean("Beskrivelse",1);
+        StepBean stepBean7 = new StepBean("Billede",1);
+        StepBean stepBean8 = new StepBean("Bekræft",0);
+        stepsBeanList.add(stepBean0);
+        stepsBeanList.add(stepBean1);
+        stepsBeanList.add(stepBean2);
+        stepsBeanList.add(stepBean3);
+        stepsBeanList.add(stepBean4);
+        stepsBeanList.add(stepBean5);
+        stepsBeanList.add(stepBean6);
+        stepsBeanList.add(stepBean7);
+        stepsBeanList.add(stepBean8);
+        stepView
+                .setStepViewTexts(stepsBeanList)//总步骤
+                .setTextSize(8)//set textSize
+                .setStepsViewIndicatorCompletedLineColor(ContextCompat.getColor(this, R.color.FlexBlue))
+                .setStepsViewIndicatorUnCompletedLineColor(ContextCompat.getColor(this, R.color.white))
+                .setStepViewComplectedTextColor(ContextCompat.getColor(this, R.color.FlexBlue))
+                .setStepViewUnComplectedTextColor(ContextCompat.getColor(this, R.color.uncompleted_text_color))
+                .setStepsViewIndicatorCompleteIcon(ContextCompat.getDrawable(this, R.drawable.blue_check))
+                .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(this, R.drawable.default_custom))
+                .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(this, R.drawable.trans_focus));
+
+        HorizontalScrollView scroller = findViewById(R.id.horizontalScrollView2);
+        scroller.post(new Runnable() {
+            @Override
+            public void run() {
+                scroller.scrollTo(500, 0);
+            }
+        });
 
 
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
@@ -103,34 +142,33 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     {
         if ( v == buttonNextPage )
         {
-            Intent Udlej = new Intent(this, RentOut.class);
-            //TODO Tilføj et skærmbillede hvor dist, altså hvor langt medarbejderen vil køre indtastes
-            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(250).zipcode(zipcode).dist(distance).available(true).builder();
+            Intent Udlej = new Intent(this, TabbedRentOut.class);
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).available("Home").builder();
 
             //Upload image if standard image is selected or if custom image is selected!
             if(((GlobalVariables) this.getApplication()).getTempEmployeeImage().equals("flexicu")){
                 employee.setPic("flexicu"); //TODO ADD STANDARD IMG LINK
                 // Write a message to the database
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference(( getFirebaseUser().getUid()+"/Medarbejdere"));
+                DatabaseReference myRef = database.getReference(("Users/"+ getFirebaseUser().getUid()+"/Medarbejdere"));
                 Gson gson = new Gson();
                 String employeeJSON = gson.toJson(employee);
                 System.out.println(employeeJSON);
-                myRef.child(Integer.toString(employee.getID())).setValue(employeeJSON);
+                myRef.child(employee.getID()).setValue(employeeJSON);
             }else {
                 uploadImg(employee.getID(), employee);
             }
 
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Udlej.putExtra("callingActivity", "createEmployeeFinish");
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-            Intent intent = new Intent(this, RentOut.class);
+            String temp = "createEmployeeFinish";
+            Udlej.putExtra("createEmployeeFinish",temp);
             startActivity(Udlej);
             finish();
         }
     }
 
-    public void uploadImg(int ID, CrudEmployee employee) {
+    public void uploadImg(String ID, CrudEmployee employee) {
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference databaseRef = mStorageRef.child("Users/"+getFirebaseUser().getUid()+"/Medarbejdere/"+ID+".jpg");
@@ -157,11 +195,11 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                     employee.setPic(task.getResult().toString());
                     // Write a message to the database
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference(( getFirebaseUser().getUid()+"/Medarbejdere"));
+                    DatabaseReference myRef = database.getReference(( "Users/"+getFirebaseUser().getUid()+"/Medarbejdere"));
                     Gson gson = new Gson();
                     String employeeJSON = gson.toJson(employee);
                     System.out.println(employeeJSON);
-                    myRef.child(Integer.toString(employee.getID())).setValue(employeeJSON);
+                    myRef.child(employee.getID()).setValue(employeeJSON);
                 }
             }
         });

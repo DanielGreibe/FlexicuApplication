@@ -1,5 +1,6 @@
-package com.example.danie.flexicuapplication.GUI;
+/*package com.example.danie.flexicuapplication.GUI;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -11,11 +12,13 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.danie.flexicuapplication.LogicLayer.AndCriteria;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaDistance;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayLower;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayUpper;
@@ -41,6 +44,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
     int counter = 0;
     LinearLayout scroller;
     ImageView filterMenu;
+    Button goToMyRentIn;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -54,7 +58,14 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
             Bundle bundle = getIntent().getExtras();
         List<CrudEmployee> employees = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
+        DatabaseReference myRef2 = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejder");
+        goToMyRentIn = findViewById(R.id.mineIndlejningerBT);
+        goToMyRentIn.setOnClickListener((view) -> {
+            Intent myRentOut = new Intent(this, MyRentIns.class);
+            Bundle bndlanimation =
+                    ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+            startActivity(myRentOut,bndlanimation);
+        });
 
 
             myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -76,10 +87,15 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
 
                     }
                     if(bundle != null ){
-                            CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(bundle.getString("payLower")));
-                            CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(bundle.getString("payUpper")));
-                            CriteriaInterface payBounds = new AndCriteria(payLower, payUpper);
-                            payBounds.meetCriteria(employees).forEach((a) -> createNew(payBounds.meetCriteria(employees).get(counter++)));
+                       ArrayList<String> filterValues =  bundle.getStringArrayList("filterValues");
+                            CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
+                            CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
+                            CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
+                            CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
+                            payBounds.meetCriteria(employees).forEach((a) -> {
+                                createNew(payBounds.meetCriteria(employees).get(counter++));
+                                System.out.println(payBounds.meetCriteria(employees).size()+"---------------------------------");
+                            });
 
                     }else {
                         employees.forEach((a)->createNew(employees.get(counter++)));
@@ -219,4 +235,4 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
 
 
 }
-
+*/
