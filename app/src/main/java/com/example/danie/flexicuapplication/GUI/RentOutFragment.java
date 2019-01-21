@@ -81,8 +81,10 @@ public class RentOutFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rent_out, container, false);
         //Get intent and parse values
-        Bundle extra = new Bundle();
-        extra.getString("callingActivity", "default");
+        if(getActivity().getIntent().getStringExtra("createEmployeeFinish") != null){
+            callingActivity = getActivity().getIntent().getStringExtra("createEmployeeFinish");
+        }
+        System.out.println("----------------------------------------" + callingActivity + "-------------------------------------------------------");
 
 
         //Setup loading bar and hide
@@ -110,20 +112,15 @@ public class RentOutFragment extends Fragment
         DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere");
 
         //If employee has been created
-        if (callingActivity.equals("createEmployeeFinish"))
-            {
-            System.out.println("Correct activity!");
+        if (callingActivity.equals("createEmployeeFinish")) {
             loadingbar.setVisibility(View.VISIBLE);
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
-                    {
-                    for (DataSnapshot entry : dataSnapshot.getChildren())
-                        {
-                        // createEmployeeView(entry, myContainer);
-                        createNewEmployee(entry, myContainer);
-                        }
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot entry : dataSnapshot.getChildren()){
+                            createNewEmployee(entry, myContainer);
                     }
+                }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError){
@@ -163,7 +160,7 @@ public class RentOutFragment extends Fragment
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot entry : dataSnapshot.getChildren()){
-                        createEmployeeView(entry, myContainer);
+                        createNewEmployee(entry, myContainer);
                     }
                 }
 
@@ -174,7 +171,6 @@ public class RentOutFragment extends Fragment
             };
             myRefMedarbejder.addValueEventListener(postListener);
         }
-
 
         return view;
 
@@ -226,9 +222,8 @@ public class RentOutFragment extends Fragment
         };
 
 
-    @SuppressLint("StaticFieldLeak")
-    public void createEmployeeView(DataSnapshot entry, LinearLayout myContainer)
-        {
+    /*@SuppressLint("StaticFieldLeak")
+    public void createEmployeeView(DataSnapshot entry, LinearLayout myContainer) {
 
         //Parse JSON
         JsonParser parser = new JsonParser();
@@ -412,11 +407,20 @@ public class RentOutFragment extends Fragment
         myContainer.addView(cv);
         //CrudEmployee staff = gson.fromJson(entry, );
         //myContainer.addView(createNew(obj.get("name").toString(), obj.get("job").toString(), Double.parseDouble(obj.get("rank").toString()), Double.parseDouble(obj.get("pay").toString()), Integer.parseInt(obj.get("pic").toString())));
-        }
+    }*/
 
     @SuppressLint("StaticFieldLeak")
-    public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer)
-        {
+    public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer){
+
+        //Hent data og gør det til et JsonObject
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(entry.getValue().toString());
+        JsonObject Employee = element.getAsJsonObject();
+
+        int tempID = Integer.parseInt(String.valueOf(Employee.get("ID")));
+        if(existingViews.contains(tempID)){
+            return;
+        }
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
         View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
@@ -433,26 +437,14 @@ public class RentOutFragment extends Fragment
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
 
-        //Hent data og gør det til et JsonObject
-        JsonParser parser = new JsonParser();
-        JsonElement element = parser.parse(entry.getValue().toString());
-        JsonObject Employee = element.getAsJsonObject();
-
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
         textViewZipcode.setText(Employee.get("zipcode").toString());
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-        /*if ( Employee.get("available").toString().equals("true"))
-            {
-            textViewStatus.setText("Ledig");
-            }
-        else
-            {
-            textViewStatus.setText("Udlejet");
-            }*/
-            //Set temporary picture while real pictures are downloading
+        textViewStatus.setText(Employee.get("available").toString().replaceAll("\"",""));
+        //Set temporary picture while real pictures are downloading
             profilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
 
@@ -543,7 +535,9 @@ public class RentOutFragment extends Fragment
         //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
         myContainer.addView(ExpandableCardview);
         myContainer.addView(Spacer);
+        existingViews.add(Integer.parseInt(Employee.get("ID").toString().replaceAll("\"","")));
         }
+
     private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow)
         {
         if (linearLayoutExpanded.getVisibility() == View.GONE)
