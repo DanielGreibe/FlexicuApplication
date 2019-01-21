@@ -142,6 +142,10 @@ public class RentInFragment extends Fragment {
         textViewDistance.setText(String.valueOf(entry.getDist()) + " km");
         textViewName.setText(entry.getName().replace("\"", ""));
         textViewProfession.setText(entry.getJob().replace("\"", ""));
+        String startdate = entry.getStartDate();
+        String enddate = entry.getEndDate();
+        String rank = String.valueOf(entry.getRank());
+
 
         /*if ( Employee.get("available").toString().equals("true"))
             {
@@ -210,11 +214,14 @@ public class RentInFragment extends Fragment {
             DatabaseReference myRef = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
             CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
                     textViewPay.getText().toString(), textViewProfession.getText().toString(),
-                    "test start", "test slut", "test ejer",
-                    textViewZipcode.getText().toString(), "test rank");
+                    startdate, enddate, "test ejer",
+                    textViewZipcode.getText().toString(), rank, finalUrl.toString());
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
             myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
+
+            //DatabaseReference toDelete = FirebaseDatabase.getInstance().getReference("1784");
+
         });
     }
 
@@ -239,6 +246,9 @@ public class RentInFragment extends Fragment {
                 .ID(obj.get("id").toString().replaceAll("\"",""))
                 .pic(obj.get("pic").toString())
                 .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"","")))
+                .startDate(obj.get("rentStart").toString())
+                .endDate(obj.get("rentEnd").toString())
+                //.owner(obj.get(""))
                 //.dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
 //                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
                 .builder();
