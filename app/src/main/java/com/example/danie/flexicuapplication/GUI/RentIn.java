@@ -58,7 +58,7 @@ public class RentIn extends AppCompatActivity implements View.OnClickListener{
             Bundle bundle = getIntent().getExtras();
         List<CrudEmployee> employees = new ArrayList<>();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef2 = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejder");
+        DatabaseReference myRef2 = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejder");
         goToMyRentIn = findViewById(R.id.mineIndlejningerBT);
         goToMyRentIn.setOnClickListener((view) -> {
             Intent myRentOut = new Intent(this, MyRentIns.class);

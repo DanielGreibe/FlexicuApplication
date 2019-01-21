@@ -69,7 +69,7 @@ public class MyRentOutsFragment extends Fragment {
         onAttach(getContext());
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefUdlejninger = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
+        DatabaseReference myRefUdlejninger = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
         //Load employees and create cardviews and add to scroller
         myRefUdlejninger.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
@@ -80,7 +80,7 @@ public class MyRentOutsFragment extends Fragment {
                     String temp = entry.toString().replaceAll("\"", "");
                     temp = temp.substring(temp.length()-6, temp.length()-2);
                     System.out.println("DATA ID IS: " + temp);
-                    DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
+                    DatabaseReference myRefMedarbejder = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
 
                     //Hent udlejet medarbejder data
                     myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -109,7 +109,7 @@ public class MyRentOutsFragment extends Fragment {
                     String temp = entry.toString().replaceAll("\"", "");
                     temp = temp.substring(temp.length()-6, temp.length()-2);
                     System.out.println("DATA ID IS: " + temp);
-                    DatabaseReference myRefMedarbejder = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
+                    DatabaseReference myRefMedarbejder = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
 
                     //Hent udlejet medarbejder data
                     myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -170,7 +170,7 @@ public class MyRentOutsFragment extends Fragment {
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-        buttonRating.setText("Rate udlejer");
+        buttonRating.setText("Bedøm udlejer");
         /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");
@@ -284,7 +284,7 @@ public class MyRentOutsFragment extends Fragment {
         {
             View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
             Button buttonRate = popupView.findViewById(R.id.buttonRate);
-        RatingBar ratingBar = popupView.findViewById(R.id.ratingBar);
+            RatingBar ratingBar = popupView.findViewById(R.id.ratingBar);
 
 
 
@@ -296,26 +296,24 @@ public class MyRentOutsFragment extends Fragment {
 
             popupWindow.showAtLocation(textViewPay, Gravity.CENTER, 0, 0);
 
-        buttonRate.setOnClickListener((Rating) ->
-        {
-        Float rating = ratingBar.getRating();
-        Log.e("rating" , "" + rating);
+            buttonRate.setOnClickListener((Rating) -> {
+                Float rating = ratingBar.getRating();
 
-        //The value that that was entered in the ratingbar in the popupwindow
-        Float f = Employee.get("rank").getAsFloat();
+                //The value that that was entered in the ratingbar in the popupwindow
+                Float average = Employee.get("rank").getAsFloat();
 
-        //Takes the datasnapshot from the user and puts it into a string.
-        String currentUser = entry.toString();
+                //Takes the datasnapshot from the user and puts it into a string.
+                String currentUser = entry.toString();
 
-        //Splits the values of the employee based on ,
-        String[] userData = currentUser.split(",");
+                //Splits the values of the employee based on ,
+                String[] userData = currentUser.split(",");
 
-        //Returns the value of rank of the user in the database.
-        String currentRating = userData[9].split(":")[1];
+                //Returns the value of rank of the user in the database.
+                String currentRating = userData[9].split(":")[1];
 
-        //Closes the popup window
-        popupWindow.dismiss();
-        });
+                //Closes the popup window
+                popupWindow.dismiss();
+            });
 
 
         });

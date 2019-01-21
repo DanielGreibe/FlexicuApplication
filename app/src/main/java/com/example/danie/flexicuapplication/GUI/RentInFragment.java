@@ -206,7 +206,7 @@ public class RentInFragment extends Fragment {
 
         indlejButton.setOnClickListener(view -> {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference(GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
+            DatabaseReference myRef = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
             CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
                     textViewPay.getText().toString(), textViewProfession.getText().toString(),
                     "test start", "test slut", "test ejer",
