@@ -85,12 +85,13 @@ public class RentOutFragment extends Fragment
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
         addEmployeeBtn.setOnClickListener((vieww) -> {
         Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class); //TODO change to CreateEmplyee.class
+            opretAnsat.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         Bundle bndlanimation =
                 ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
         startActivity(opretAnsat, bndlanimation);
+        getActivity().finish();
 
         });
-        //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Load workers from database
@@ -190,7 +191,6 @@ public class RentOutFragment extends Fragment
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
         Button udlejBtn = ExpandableCardview.findViewById(R.id.buttonUdlej);
-
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
         textViewZipcode.setText(Employee.get("zipcode").toString());
@@ -216,6 +216,8 @@ public class RentOutFragment extends Fragment
             Intent intent = new Intent(this.getContext(), rentOut1.class);
             intent.putExtra("entryString", entry.getValue().toString());
             startActivity(intent);
+            getActivity().finish();
+
         });
 
             //System.out.println(src);
