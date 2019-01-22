@@ -161,7 +161,7 @@ public class MyRentOutsFragment extends Fragment {
         TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
         TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
         TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
-        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
+        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewStatus);
         LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
         LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
         ImageView imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
@@ -175,12 +175,6 @@ public class MyRentOutsFragment extends Fragment {
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
 
-        //Tjek status
-        if(!Employee.get("status").toString().replaceAll("\"", "").equals("udlejet")){
-            buttonRating.setEnabled(false);
-            buttonRating.setBackgroundColor(Color.GRAY);
-        }
-
         if(existingViews.contains(Employee.get("ID").toString().replaceAll("\"", ""))){
             return;
         }else{
@@ -191,9 +185,18 @@ public class MyRentOutsFragment extends Fragment {
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
         textViewZipcode.setText(Employee.get("zipcode").toString());
         textViewDistance.setText(Employee.get("dist").toString() + " km");
-        textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
-        textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
+        textViewName.setText(Employee.get("name").toString().replaceAll("\"" , ""));
+        textViewProfession.setText(Employee.get("job").toString().replaceAll("\"" , ""));
+        String employeeStatus = Employee.get("status").toString().replaceAll("\"", "");
+        textViewStatus.setText(employeeStatus);
+
         buttonRating.setText("Bedøm lejer");
+        if(employeeStatus.equals("udlejet")){
+            buttonRating.setEnabled(true);
+        }else{
+            buttonRating.setEnabled(false);
+            buttonRating.setBackgroundColor(Color.GRAY);
+        }
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
 
