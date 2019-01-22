@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -161,35 +162,61 @@ public class RentInFragment extends Fragment {
         //System.out.println(src);
         URL url = null;
         try {
-            url = new URL(urlString);
+            url = new URL(Employee.getPic());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        //We want to download images for the list of workers
-        URL finalUrl = url;
-        new AsyncTask<Void, Void, Bitmap>() {
-            //Get pictures in background
-            @Override
-            protected Bitmap doInBackground(Void... voids) {
-                try {
-                    //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
-                    Bitmap myBitmap = Glide
-                            .with(profilePic)
-                            .asBitmap()
-                            .load(finalUrl)
-                            .submit()
-                            .get();
-                    return myBitmap;
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
+        System.out.println("HERE3 " + Employee.getPic());
 
-        }.execute();
+
+
+        if(Employee.getPic().equals("flexicu")){
+            int minPixels = 0;
+            Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
+            if(photo.getWidth() < photo.getHeight()){
+                minPixels = photo.getWidth();
+            }
+            else {
+                minPixels = photo.getHeight();
+                Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth() - minPixels) / 2), ((photo.getHeight() - minPixels) / 2), minPixels, minPixels);
+                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 400);
+                profilePic.setImageBitmap(squareImg);
+            }
+        } else {
+            //We want to download images for the list of workers
+            URL finalUrl = url;
+            new AsyncTask<Void, Void, Bitmap>() {
+                //Get pictures in background
+                @Override
+                protected Bitmap doInBackground(Void... voids) {
+                    try {
+                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
+                        Bitmap myBitmap = Glide
+                                .with(profilePic)
+                                .asBitmap()
+                                .load(finalUrl)
+                                .submit()
+                                .get();
+                        return myBitmap;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                //On return update images in list
+                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                @Override
+                protected void onPostExecute(Bitmap s) {
+                    super.onPostExecute(s);
+                    s = RoundedImageView.getCroppedBitmap(s, 200);
+                    profilePic.setImageBitmap(s);
+                }
+            }.execute();
+        }
 
 
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
