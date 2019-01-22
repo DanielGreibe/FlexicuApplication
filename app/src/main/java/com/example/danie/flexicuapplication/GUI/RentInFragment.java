@@ -210,7 +210,7 @@ public class RentInFragment extends Fragment {
             CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
                     textViewPay.getText().toString(), textViewProfession.getText().toString(),
                     startdate, enddate, "test ejer",
-                    textViewZipcode.getText().toString(), rank, finalUrl.toString(), "Udlejet");
+                    textViewZipcode.getText().toString(), rank, finalUrl.toString(), "udlejet");
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
             myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
