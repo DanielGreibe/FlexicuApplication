@@ -13,6 +13,7 @@ import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
@@ -71,6 +72,7 @@ public class MyRentOutsFragment extends Fragment {
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
         ScrollView myScrollView = view.findViewById(R.id.scrollviewUdlej);
         TextView title = view.findViewById(R.id.textView4);
+        onAttach(getContext());
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRefUdlejninger = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
@@ -185,14 +187,7 @@ public class MyRentOutsFragment extends Fragment {
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
         buttonRating.setText("Bedøm udlejer");
-        /*if ( Employee.get("available").toString().equals("true"))
-            {
-            textViewStatus.setText("Ledig");
-            }
-        else
-            {
-            textViewStatus.setText("Udlejet");
-            }*/
+        buttonRating.setText("Bedøm lejer");
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
 

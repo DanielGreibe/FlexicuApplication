@@ -21,8 +21,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentOut;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
@@ -69,7 +71,8 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
     TextView beskrivelse1TextView = null;
     ImageView profilBilledeImageView = null;
     Button bekræftButton = null;
-
+    boolean startDate = false;
+    boolean endDate = false;
     //Employee variables
     String pictureURl = null;
     int afstand;
@@ -82,6 +85,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
     String pay;
     String postnummer;
     String owner;
+
     @SuppressLint({"SetTextI18n", "StaticFieldLeak"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +103,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         //Set database refrences
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefUdlejid = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
+        DatabaseReference myRefUdlejid = database.getReference("Users/" + GlobalVariables.getFirebaseUser().getUid() + "/Udlejninger");
         DatabaseReference myRefUdlejninger = database.getReference("Udlejninger");
 
         //Get intent
@@ -119,14 +123,15 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         job = Employee.get("job").toString().replaceAll("\"", "");
         rank = Employee.get("rank").toString().replaceAll("\"", "");
         pay = Employee.get("pay").toString().replaceAll("\"", "");
-        owner = Employee.get("owner").toString().replaceAll("\"","");
+        owner = Employee.get("owner").toString().replaceAll("\"", "");
+        bekræftButton.setEnabled(false);
+        bekræftButton.setBackgroundColor(Color.GRAY);
 
-
-        annoneceTextView.setText("Opret annonce for\n"+ navn);
-        if(navn.contains(" ")){
+        annoneceTextView.setText("Opret annonce for\n" + navn);
+        if (navn.contains(" ")) {
             String tempNavn = navn.substring(0, navn.indexOf(" "));
-            beskrivelse1TextView.setText("Annoncen for " + tempNavn+" vil blive udbydt i nedenstående område. Du kan ændre området ved at trække i slideren nedenfor");
-        }else{
+            beskrivelse1TextView.setText("Annoncen for " + tempNavn + " vil blive udbydt i nedenstående område. Du kan ændre området ved at trække i slideren nedenfor");
+        } else {
             beskrivelse1TextView.setText("Annoncen for " + navn + " vil blive udbydt i nedenstående område. Du kan ændre området ved at trække i slideren nedenfor");
         }
 
@@ -135,7 +140,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         final Geocoder geocoder = new Geocoder(this);
         try {
-            List<Address> addresses = geocoder.getFromLocationName(postnummer+", Denmark", 1);
+            List<Address> addresses = geocoder.getFromLocationName(postnummer + ", Denmark", 1);
             if (addresses != null && !addresses.isEmpty()) {
                 address = addresses.get(0);
                 // Use the address as needed
@@ -153,17 +158,17 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         //Set slider settings
         int min = 5;
         int max = 150;
-        slider.setPosition(afstand/max);
+        slider.setPosition(afstand / max);
         slider.setColorBar(Color.rgb(0, 153, 203));
         slider.setColorBubble(Color.WHITE);
         slider.setStartText(Integer.toString(min) + " km");
         slider.setEndText(Integer.toString(max) + " km");
-        slider.setBubbleText(Integer.toString((int) (((max-min)*slider.getPosition())+min)));
+        slider.setBubbleText(Integer.toString((int) (((max - min) * slider.getPosition()) + min)));
         slider.setPositionListener(new Function1<Float, Unit>() {
             @Override
             public Unit invoke(Float aFloat) {
-                int value = (int) (((max-min)*aFloat)+min);
-                circle.setRadius(value*1000);
+                int value = (int) (((max - min) * aFloat) + min);
+                circle.setRadius(value * 1000);
                 slider.setBubbleText(Integer.toString(value));
                 afstand = value;
                 return null;
@@ -172,7 +177,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
 
         //Set calendar onClick listeners
-        lejeStartImageView.setOnClickListener((view) ->{
+        lejeStartImageView.setOnClickListener((view) -> {
             Date date = new Date();
             startYear = date.getYear() + 1900;
             startMonth = date.getMonth();
@@ -181,7 +186,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         });
 
         //Set calendar onClick listeners
-        lejeSlutImageView.setOnClickListener((view) ->{
+        lejeSlutImageView.setOnClickListener((view) -> {
             Date date = new Date();
             endYear = date.getYear() + 1900;
             endMonth = date.getMonth();
@@ -190,30 +195,36 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         });
 
         bekræftButton.setOnClickListener((view) -> {
-            if(lejeStartTextView.getText().toString().contains("/") && lejeSlutTextView.getText().toString().contains("/")){
-                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner);
-                    Gson gson = new Gson();
-                    String rentOutJSON = gson.toJson(newRentOut);
-                    myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
-                    String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + ID);
-                    myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
+            if (lejeStartTextView.getText().toString().contains("/") && lejeSlutTextView.getText().toString().contains("/")) {
+                CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid() + ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "Sat til udleje");
+                Gson gson = new Gson();
+                String rentOutJSON = gson.toJson(newRentOut);
+                myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
+                String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + ID);
+                myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
             }
+
+            CrudEmployee employee = JsonToPersonConverter(entryString, "sat til udleje");
+            Gson gson = new Gson();
+            String jsonEmployee = gson.toJson(employee);
+            DatabaseReference updateEmployee = database.getReference("Users/" + GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/");
+            //Load employees and create cardviews and add to scroller
+            updateEmployee.child(employee.getID()).setValue(jsonEmployee);
+            System.out.println("HERE1 " + employee.toString());
             Intent intent = new Intent(this, TabbedRentOut.class);
             intent.putExtra("callingActivity", "udlejActivity");
             startActivity(intent);
             finish();
-
-            });
+        });
 
 
         //Load picture
-        if(pictureURl.equals("flexicu")){
+        if (pictureURl.equals("flexicu")) {
             int minPixels = 0;
             Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
-            if(photo.getWidth() < photo.getHeight()){
+            if (photo.getWidth() < photo.getHeight()) {
                 minPixels = photo.getWidth();
-            }
-            else {
+            } else {
                 minPixels = photo.getHeight();
                 Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth() - minPixels) / 2), ((photo.getHeight() - minPixels) / 2), minPixels, minPixels);
                 squareImg = RoundedImageView.getCroppedBitmap(squareImg, 400);
@@ -273,10 +284,10 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         // Add a circle in Sydney
         circle = map.addCircle(new CircleOptions()
                 .center(position)
-                .radius((double)afstand*1000)
+                .radius((double) afstand * 1000)
                 .strokeColor(Color.rgb(0, 153, 203))
                 .strokeWidth(4)
-                .fillColor(Color.argb(100, 123,123,123)));
+                .fillColor(Color.argb(100, 123, 123, 123)));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 9));
     }
 
@@ -284,7 +295,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
     protected Dialog onCreateDialog(int id) {
         // TODO Auto-generated method stub
         if (id == 999) {
-            DatePickerDialog datepicker =new DatePickerDialog(this, myDateListener, startYear, startMonth, startDay);
+            DatePickerDialog datepicker = new DatePickerDialog(this, myDateListener, startYear, startMonth, startDay);
             return datepicker;
         }
         if (id == 998)
@@ -298,10 +309,16 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
             // arg1 = year
             // arg2 = month
             // arg3 = day
-            lejeStartTextView.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
+            lejeStartTextView.setText(Integer.toString(arg3) + "/" + Integer.toString(arg2 + 1) + "/" + Integer.toString(arg1));
+            startDate = true;
+            if (endDate && startDate) {
+                validateDate();
+            }
+
             //If rental dates selected and employee is selected
             /*if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
                 udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+
             }*/
         }
     };
@@ -312,11 +329,49 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
             // arg1 = year
             // arg2 = month
             // arg3 = day
-            lejeSlutTextView.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
+            lejeSlutTextView.setText(Integer.toString(arg3) + "/" + Integer.toString(arg2 + 1) + "/" + Integer.toString(arg1));
+            endDate = true;
+            if (endDate && startDate) {
+                validateDate();
+            }
             //If rental dates selected and employee is selected
             /*if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
                 udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
             }*/
         }
     };
+
+    public void validateDate() {
+        String[] startDate = lejeStartTextView.getText().toString().split("/");
+        String[] endDate = lejeSlutTextView.getText().toString().split("/");
+        if (Integer.parseInt(startDate[0] + startDate[1] + startDate[2]) > Integer.parseInt(endDate[0] + endDate[1] + endDate[2])) {
+            lejeStartTextView.setTextColor(Color.RED);
+            lejeSlutTextView.setTextColor(Color.RED);
+        }else{
+            bekræftButton.setEnabled(true);
+            bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_blue_black_edge);
+
+        }
+
+    }
+
+    public CrudEmployee JsonToPersonConverter(String entry, String status) {
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(entry);
+        JsonObject obj = element.getAsJsonObject();
+
+        CrudEmployee people = new CrudEmployee.EmployeBuilder(
+                obj.get("name").toString().replace("\"", ""))
+                .job(obj.get("job").toString().replace("\"", ""))
+                .ID(obj.get("ID").toString().replaceAll("\"", ""))
+                .pic(obj.get("pic").toString().replaceAll("\"", ""))
+                .owner(obj.get("owner").toString().replaceAll("\"", ""))
+                .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"", "")))
+                .status(status)
+                .owner(obj.get("owner").toString().replaceAll("\"", ""))
+                .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"", "")))
+                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"", "")))
+                .builder();
+        return people;
+    }
 }

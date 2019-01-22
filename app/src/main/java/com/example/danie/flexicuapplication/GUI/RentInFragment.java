@@ -54,12 +54,13 @@ public class RentInFragment extends Fragment {
     ImageView filter;
     LinearLayout mContainer;
     List<CrudEmployee> employees = new ArrayList<>();
-    int counter = 0, count = 0;
+    int counter = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rent_in, container, false);
+        onActivityCreated(savedInstanceState);
         filter = v.findViewById(R.id.filterMenu);
         mContainer = v.findViewById(R.id.linearLayoutRentin);
         filter.setOnClickListener((View) -> {
@@ -67,9 +68,11 @@ public class RentInFragment extends Fragment {
             Bundle bndlanimation =
                     ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
             startActivity(filtermenu, bndlanimation);
-            onDestroyView();
+
 
         });
+
+
 
 
         Bundle bundle = getActivity().getIntent().getExtras();
@@ -146,15 +149,6 @@ public class RentInFragment extends Fragment {
         String rank = String.valueOf(entry.getRank());
         String dr = entry.getKey();
 
-
-        /*if ( Employee.get("available").toString().equals("true"))
-            {
-            textViewStatus.setText("Ledig");
-            }
-        else
-            {
-            textViewStatus.setText("Udlejet");
-            }*/
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
         //We want to download images for the list of workers
@@ -216,7 +210,7 @@ public class RentInFragment extends Fragment {
             CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
                     textViewPay.getText().toString(), textViewProfession.getText().toString(),
                     startdate, enddate, "test ejer",
-                    textViewZipcode.getText().toString(), rank, finalUrl.toString());
+                    textViewZipcode.getText().toString(), rank, finalUrl.toString(), "Udlejet");
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
             myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
@@ -253,14 +247,15 @@ public class RentInFragment extends Fragment {
                 obj.get("name").toString().replace("\"", ""))
                 .job(obj.get("job").toString().replace("\"", ""))
                 .ID(obj.get("id").toString().replaceAll("\"",""))
-                .pic(obj.get("pic").toString())
+                .pic(obj.get("pic").toString().replace("\"", ""))
                 .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"","")))
                 .startDate(obj.get("rentStart").toString())
                 .endDate(obj.get("rentEnd").toString())
                 .key(dr)
+                .status(obj.get("status").toString().replaceAll("\"", ""))
                 .owner(obj.get("owner").toString().replaceAll("\"",""))
-                //.dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
-//                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
+                .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
+                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
                 .builder();
         return people;
     }

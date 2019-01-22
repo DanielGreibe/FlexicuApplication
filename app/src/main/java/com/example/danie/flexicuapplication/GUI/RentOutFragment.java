@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
@@ -55,9 +57,6 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class RentOutFragment extends Fragment
     {
-    //Date picker variables
-    private Calendar calendar;
-    private int year, month, day;
 
     //Visual logic
     int employeeSelected = 0;
@@ -77,7 +76,7 @@ public class RentOutFragment extends Fragment
         if(getActivity().getIntent().getStringExtra("createEmployeeFinish") != null){
             callingActivity = getActivity().getIntent().getStringExtra("createEmployeeFinish");
         }
-
+        onActivityCreated(savedInstanceState);
         //Setup loading bar and hide
         loadingbar = view.findViewById(R.id.loadingbarTextView);
         loadingbar.bringToFront();
@@ -163,41 +162,6 @@ public class RentOutFragment extends Fragment
         }
 
 
-    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener()
-        {
-        @Override
-        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3)
-            {
-            // arg1 = year
-            // arg2 = month
-            // arg3 = day
-            textViewLejeperiodeStart.setText(Integer.toString(arg3) + "/" + Integer.toString(arg2 + 1) + "/" + Integer.toString(arg1));
-            //If rental dates selected and employee is selected
-            if (employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/"))
-                {
-                addEmployeeBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-                }
-            }
-        };
-
-    private DatePickerDialog.OnDateSetListener myDateListener2 = new DatePickerDialog.OnDateSetListener()
-        {
-        @Override
-        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3)
-            {
-            // arg1 = year
-            // arg2 = month
-            // arg3 = day
-            textViewLejeperiodeSlut.setText(Integer.toString(arg3) + "/" + Integer.toString(arg2 + 1) + "/" + Integer.toString(arg1));
-            //If rental dates selected and employee is selected
-            if (employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/"))
-                {
-                addEmployeeBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-                }
-            }
-        };
-
-
     @SuppressLint("StaticFieldLeak")
     public void createNewEmployee(DataSnapshot entry, LinearLayout myContainer){
 
@@ -218,7 +182,7 @@ public class RentOutFragment extends Fragment
         TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
         TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
         TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
-        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
+        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewStatus);
         LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
         LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
         ImageView imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
@@ -233,7 +197,16 @@ public class RentOutFragment extends Fragment
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-//        textViewStatus.setText(Employee.get("available").toString().replaceAll("\"",""));
+        textViewStatus.setText(Employee.get("status").toString().replaceAll("\"",""));
+
+
+        //Tjek status
+        if(!Employee.get("status").toString().replaceAll("\"", "").equals("ikke udlejet")){
+            udlejBtn.setClickable(false);
+            udlejBtn.setBackgroundColor(Color.GRAY);
+        }
+
+
         //Set temporary picture while real pictures are downloading
             profilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
@@ -316,7 +289,6 @@ public class RentOutFragment extends Fragment
                     }
                 }.execute();
             }
-
 
             if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end

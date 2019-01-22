@@ -124,7 +124,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         beskrivelse = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
         pay = ((GlobalVariables) this.getApplication()).getTempEmployeePay();
         distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
-        //imageUri = Uri.parse(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
         imgData = StringToBitMap(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
 
 
@@ -143,7 +142,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         if ( v == buttonNextPage )
         {
             Intent Udlej = new Intent(this, TabbedRentOut.class);
-            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).available("Home").owner(GlobalVariables.getFirebaseUser().getUid()).builder();
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).status("ikke udlejet").available("Home").owner(GlobalVariables.getFirebaseUser().getUid()).builder();
 
             //Upload image if standard image is selected or if custom image is selected!
             if(((GlobalVariables) this.getApplication()).getTempEmployeeImage().equals("flexicu")){

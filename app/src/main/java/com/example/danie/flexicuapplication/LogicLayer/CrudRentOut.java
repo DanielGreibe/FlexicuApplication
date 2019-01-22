@@ -24,8 +24,9 @@ public class CrudRentOut {
     String zipcode;
     int dist;
     String owner;
+    String status;
 
-    public CrudRentOut(String id, String name, String job, String pic, String rentStart, String rentEnd, String rank, String pay, String zipcode, int dist, String owner){
+    public CrudRentOut(String id, String name, String job, String pic, String rentStart, String rentEnd, String rank, String pay, String zipcode, int dist, String owner, String status){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         this.id = id;
         this.name = name;
@@ -38,6 +39,7 @@ public class CrudRentOut {
         this.zipcode = zipcode;
         this.dist = dist;
         this.owner = owner;
+        this.status = status;
 
 
         boolean[] unique = {false};
@@ -70,4 +72,8 @@ public class CrudRentOut {
     public int getRentId() {
         return rentId;
     }
+
+    public String getStatus(){ return status;}
+
+    public void setStatus(String status){ this.status = status;}
 }
