@@ -93,12 +93,15 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
                 {
                 Toast.makeText(this, "Postnummeret skal være 4 cifre", Toast.LENGTH_SHORT).show();
                 }
-            zipcode = Integer.parseInt(editTextZipcode.getText().toString());
-            ((GlobalVariables) this.getApplication()).setTempEmployeeZipcode(zipcode);
-            Intent createEmployeeDescription = new Intent(this, CreateEmployeeDescription.class);
+            else
+                {
+                zipcode = Integer.parseInt(editTextZipcode.getText().toString());
+                ((GlobalVariables) this.getApplication()).setTempEmployeeZipcode(zipcode);
+                Intent createEmployeeDescription = new Intent(this, CreateEmployeeDescription.class);
                 Bundle bndlanimation =
-                        ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                        ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
                 startActivity(createEmployeeDescription, bndlanimation);
+                }
 
             }
         }
