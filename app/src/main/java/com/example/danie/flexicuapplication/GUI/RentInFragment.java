@@ -148,6 +148,7 @@ public class RentInFragment extends Fragment {
         String enddate = entry.getEndDate();
         String rank = String.valueOf(entry.getRank());
         String dr = entry.getKey();
+        String urlString = entry.getPic().replaceAll("\"", "");
 
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
@@ -157,7 +158,7 @@ public class RentInFragment extends Fragment {
         //System.out.println(src);
         URL url = null;
         try {
-            url = new URL(entry.getPic().replace("\"", ""));
+            url = new URL(urlString);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -210,7 +211,7 @@ public class RentInFragment extends Fragment {
             CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
                     textViewPay.getText().toString(), textViewProfession.getText().toString(),
                     startdate, enddate, "test ejer",
-                    textViewZipcode.getText().toString(), rank, finalUrl.toString(), "udlejet");
+                    textViewZipcode.getText().toString(), rank, urlString, "udlejet");
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
             myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
