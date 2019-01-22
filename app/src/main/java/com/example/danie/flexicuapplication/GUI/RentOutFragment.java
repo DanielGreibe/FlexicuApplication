@@ -347,8 +347,7 @@ public class RentOutFragment extends Fragment
         existingViews.add(Employee.get("ID").toString().replaceAll("\"",""));
         }
 
-    private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow)
-        {
+    private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow) {
         if (linearLayoutExpanded.getVisibility() == View.GONE)
             {
             linearLayoutExpanded.setVisibility(View.VISIBLE);
