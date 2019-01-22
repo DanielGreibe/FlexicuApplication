@@ -138,6 +138,8 @@ public class RentInFragment extends Fragment {
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
         Button indlejButton = ExpandableCardview.findViewById(R.id.buttonUdlej);
         indlejButton.setText("Indlej");
+        TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
+        TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
 
         //Hent data og gør det til et JsonObject
 
@@ -152,6 +154,13 @@ public class RentInFragment extends Fragment {
         String rank = String.valueOf(Employee.getRank());
         String dr = Employee.getKey();
         String urlString = Employee.getPic().replaceAll("\"", "");
+
+        if(Employee.getdescription().equals("")){
+            headerDescription.setVisibility(View.GONE);
+            textViewDescription.setVisibility(View.GONE);
+        } else {
+            textViewDescription.setText(Employee.getdescription());
+        }
 
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
@@ -269,6 +278,7 @@ public class RentInFragment extends Fragment {
                 .owner(obj.get("owner").toString().replaceAll("\"",""))
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
+                .description(obj.get("description").toString().replaceAll("\"", ""))
                 .builder();
         return people;
     }

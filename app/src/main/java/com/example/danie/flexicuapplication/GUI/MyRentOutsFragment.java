@@ -167,6 +167,9 @@ public class MyRentOutsFragment extends Fragment {
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         Button buttonRating = ExpandableCardview.findViewById(R.id.buttonUdlej);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
+        TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
+        TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
+
 
         //Hent data og gør det til et JsonObject
         JsonParser parser = new JsonParser();
@@ -187,6 +190,13 @@ public class MyRentOutsFragment extends Fragment {
         textViewProfession.setText(Employee.get("job").toString().replaceAll("\"" , ""));
         String employeeStatus = Employee.get("status").toString().replaceAll("\"", "");
         textViewStatus.setText(employeeStatus);
+
+        if(Employee.get("description").toString().replace("\"" , "").equals("")){
+            headerDescription.setVisibility(View.GONE);
+            textViewDescription.setVisibility(View.GONE);
+        } else {
+            textViewDescription.setText(Employee.get("description").toString().replace("\"" , ""));
+        }
 
         buttonRating.setText("Bedøm lejer");
         if(employeeStatus.equals("udlejet")){

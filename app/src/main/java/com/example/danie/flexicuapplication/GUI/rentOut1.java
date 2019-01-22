@@ -90,6 +90,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
     String pay;
     String postnummer;
     String owner;
+    String description;
 
     @SuppressLint({"SetTextI18n", "StaticFieldLeak"})
     @Override
@@ -129,6 +130,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         rank = Employee.get("rank").toString().replaceAll("\"", "");
         pay = Employee.get("pay").toString().replaceAll("\"", "");
         owner = Employee.get("owner").toString().replaceAll("\"", "");
+        description = Employee.get("description").toString().replaceAll("\"","");
 
         annoneceTextView.setText("Opret annonce for\n" + navn);
         if (navn.contains(" ")) {
@@ -202,7 +204,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         bekræftButton.setOnClickListener((view) -> {
             if (getResources().getDrawable(R.drawable.layout_background_round_corner_blue_black_edge).getConstantState() == bekræftButton.getBackground().getConstantState()) {
-                CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid() + ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "sat til udleje");
+                CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid() + ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "sat til udleje",description);
                 Gson gson = new Gson();
                 String rentOutJSON = gson.toJson(newRentOut);
                 myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
@@ -386,6 +388,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
                 .owner(obj.get("owner").toString().replaceAll("\"", ""))
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"", "")))
                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"", "")))
+                .description(obj.get("description").toString().replaceAll("\"", ""))
                 .builder();
         return people;
     }

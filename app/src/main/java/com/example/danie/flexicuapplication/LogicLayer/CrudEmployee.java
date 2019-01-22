@@ -27,6 +27,7 @@ public class CrudEmployee
     private final String owner;
     private final String key;
     private String status;
+    private String description;
 
 
     private CrudEmployee(EmployeBuilder builder)
@@ -46,6 +47,7 @@ public class CrudEmployee
         this.owner = builder.owner;
         this.key = builder.key;
         this.status = builder.status;
+        this.description = builder.description;
         }
 
     public static class EmployeBuilder
@@ -65,6 +67,7 @@ public class CrudEmployee
         String owner;
         String key;
         String status;
+        String description;
         public EmployeBuilder(String name)
             {
             this.name = name;
@@ -164,7 +167,10 @@ public class CrudEmployee
             this.status = status;
             return this;
         }
-
+        public EmployeBuilder description (String description){
+            this.description = description;
+            return this;
+        }
 
 
         public EmployeBuilder startDate(String startDate){
@@ -225,6 +231,8 @@ public class CrudEmployee
         public void setStatus(String status){this.status = status;}
 
         public void setavailable(String available) {this.available = available;}
+
+        public void stedescription(String description) {this.description = description;}
         }
 
 
@@ -294,7 +302,7 @@ public class CrudEmployee
 
     public String getStatus(){ return status;}
 
-    //Setter
+    public  String getdescription() {return description;}
 
     }
 
