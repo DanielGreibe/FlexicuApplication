@@ -344,12 +344,24 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
     public void validateDate() {
         String[] startDate = lejeStartTextView.getText().toString().split("/");
         String[] endDate = lejeSlutTextView.getText().toString().split("/");
-        if (Integer.parseInt(startDate[0] + startDate[1] + startDate[2]) > Integer.parseInt(endDate[0] + endDate[1] + endDate[2])) {
-            lejeStartTextView.setTextColor(Color.RED);
-            lejeSlutTextView.setTextColor(Color.RED);
-        }else{
-            bekræftButton.setEnabled(true);
-            bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_blue_black_edge);
+        if (Integer.parseInt(startDate[2]) >= Integer.parseInt(endDate[2])) {
+            if(Integer.parseInt(startDate[1]) >= Integer.parseInt(endDate[1])) {
+                if(Integer.parseInt(startDate[0]) >= Integer.parseInt(endDate[0]) ) {
+                    lejeStartTextView.setTextColor(Color.RED);
+                    lejeSlutTextView.setTextColor(Color.RED);
+                }
+                else{
+                    bekræftButton.setEnabled(true);
+                    bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_blue_black_edge);
+                    lejeStartTextView.setTextColor(Color.BLACK);
+                    lejeSlutTextView.setTextColor(Color.BLACK);
+            }
+        } else{
+                bekræftButton.setEnabled(true);
+                bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_blue_black_edge);
+                lejeStartTextView.setTextColor(Color.BLACK);
+                lejeSlutTextView.setTextColor(Color.BLACK);
+            }
 
         }
 
