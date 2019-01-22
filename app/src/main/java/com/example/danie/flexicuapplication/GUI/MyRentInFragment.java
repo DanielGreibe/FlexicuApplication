@@ -60,9 +60,9 @@ public class MyRentInFragment extends Fragment {
         TextView title = view.findViewById(R.id.textView4);
         //Load workers from database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefUdlejninger = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
+        DatabaseReference myRefIndlejninger = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
         //Load employees and create cardviews and add to scroller
-        myRefUdlejninger.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRefIndlejninger.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
             //Hent liste over udlejede medarbejdere
@@ -77,7 +77,7 @@ public class MyRentInFragment extends Fragment {
             }
         });
 
-        myRefUdlejninger.addValueEventListener(new ValueEventListener() {
+        myRefIndlejninger.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot entry : dataSnapshot.getChildren()){
@@ -139,19 +139,6 @@ public class MyRentInFragment extends Fragment {
         //We want to download images for the list of workers
 
 
-
-
-
-        //System.out.println(src);
-        URL url = null;
-        try {
-            url = new URL(Employee.get("pic").toString().replace("\"", ""));
-//            url = new URL("https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/50766559_10216852442560037_7143500932259512320_n.jpg?_nc_cat=101&_nc_ht=scontent-arn2-1.xx&oh=5c9a281ea2e69a4ffe3042eeffe85adf&oe=5CBFB77F");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-
         if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
 //        if(false){
             int minPixels = 0;
@@ -167,6 +154,14 @@ public class MyRentInFragment extends Fragment {
             }
         } else {
 
+            //System.out.println(src);
+            URL url = null;
+            try {
+                url = new URL(Employee.get("pic").toString().replace("\"", ""));
+//            url = new URL("https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/50766559_10216852442560037_7143500932259512320_n.jpg?_nc_cat=101&_nc_ht=scontent-arn2-1.xx&oh=5c9a281ea2e69a4ffe3042eeffe85adf&oe=5CBFB77F");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             //We want to download images for the list of workers
             URL finalUrl = url;
             new AsyncTask<Void, Void, Bitmap>() {
