@@ -21,8 +21,9 @@ public class CrudRentIns {
     String rank;
     String pic;
     String status;
+    String description;
 
-    public CrudRentIns(String name, String pay, String job, String rentStart, String rentEnd, String owner, String location, String rank, String pic, String status) {
+    public CrudRentIns(String name, String pay, String job, String rentStart, String rentEnd, String owner, String location, String rank, String pic, String status, String description) {
         this.name = name;
         this.pay = pay;
         this.job = job;
@@ -33,6 +34,7 @@ public class CrudRentIns {
         this.rank = rank;
         this.pic = pic;
         this.status = status;
+        this.description = description;
 
         boolean[] unique = {false};
         while (!unique[0]) {

@@ -250,7 +250,7 @@ public class RentInFragment extends Fragment {
             CrudRentIns temp = new CrudRentIns(Employee.getName(),
                     Double.toString(Employee.getPay()), Employee.getJob(),
                     Employee.getStartDate(), Employee.getEndDate(), Employee.getOwner(),
-                    Integer.toString(Employee.getZipcode()), Double.toString(Employee.getRank()), Employee.getPic(), "udlejet");
+                    Integer.toString(Employee.getZipcode()), Double.toString(Employee.getRank()), Employee.getPic(), "udlejet", Employee.getdescription());
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
             myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
@@ -326,6 +326,7 @@ public class RentInFragment extends Fragment {
                 .owner(obj.get("owner").toString().replaceAll("\"", ""))
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"", "")))
                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"", "")))
+                .description(obj.get("description").toString().replaceAll("\"", ""))
                 .builder();
         return people;
     }
