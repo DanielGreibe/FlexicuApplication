@@ -18,10 +18,6 @@ public class GlobalVariables extends Application
     private int tempEmployeeZipcode;
     private int tempEmployeeDistance;
 
-
-    private double tempEmployeeRating;
-    private Address userAddress;
-
     public static com.google.firebase.auth.FirebaseUser getFirebaseUser()
         {
         return FirebaseUser;
