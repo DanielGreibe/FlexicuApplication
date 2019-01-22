@@ -125,15 +125,6 @@ public class MyRentInFragment extends Fragment {
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
-        //textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-        /*if ( Employee.get("available").toString().equals("true"))
-            {
-            textViewStatus.setText("Ledig");
-            }
-        else
-            {
-            textViewStatus.setText("Udlejet");
-            }*/
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
         //We want to download images for the list of workers
@@ -154,11 +145,9 @@ public class MyRentInFragment extends Fragment {
             }
         } else {
 
-            //System.out.println(src);
             URL url = null;
             try {
                 url = new URL(Employee.get("pic").toString().replace("\"", ""));
-//            url = new URL("https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/50766559_10216852442560037_7143500932259512320_n.jpg?_nc_cat=101&_nc_ht=scontent-arn2-1.xx&oh=5c9a281ea2e69a4ffe3042eeffe85adf&oe=5CBFB77F");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -192,40 +181,10 @@ public class MyRentInFragment extends Fragment {
                     super.onPostExecute(s);
                     s = RoundedImageView.getCroppedBitmap(s, 200);
                     profilePic.setImageBitmap(s);
-                 /*   if(loadingbar.getVisibility() == View.VISIBLE) {
-                        //Set fade animation and hide after animation end
-                        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                        anim.setDuration(1500);
-                        anim.setRepeatCount(0);
-                        anim.willChangeBounds();
-                        loadingbar.startAnimation(anim);
-                        loadingbar.postOnAnimation(new Runnable() {
-                            @Override
-                            public void run() {
-                                loadingbar.setVisibility(View.INVISIBLE);
-                            }
-                        });
-                    }*/
-
                 }
             }.execute();
         }
 
-
-           /* if(loadingbar.getVisibility() == View.VISIBLE) {
-                //Set fade animation and hide after animation end
-                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(1500);
-                anim.setRepeatCount(0);
-                anim.willChangeBounds();
-                loadingbar.startAnimation(anim);
-                loadingbar.postOnAnimation(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadingbar.setVisibility(View.INVISIBLE);
-                    }
-                });
-            }*/
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
         linearLayoutCollapsed.setOnClickListener((test) ->
         {

@@ -149,15 +149,6 @@ public class RentInFragment extends Fragment {
         String rank = String.valueOf(entry.getRank());
         String dr = entry.getKey();
 
-
-        /*if ( Employee.get("available").toString().equals("true"))
-            {
-            textViewStatus.setText("Ledig");
-            }
-        else
-            {
-            textViewStatus.setText("Udlejet");
-            }*/
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
         //We want to download images for the list of workers
@@ -262,8 +253,8 @@ public class RentInFragment extends Fragment {
                 .endDate(obj.get("rentEnd").toString())
                 .key(dr)
                 .owner(obj.get("owner").toString().replaceAll("\"",""))
-                //.dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
-//                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
+                .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
+                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
                 .builder();
         return people;
     }

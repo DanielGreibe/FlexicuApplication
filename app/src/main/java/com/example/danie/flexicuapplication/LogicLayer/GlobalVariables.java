@@ -112,23 +112,5 @@ public class GlobalVariables extends Application
         this.tempEmployeeDistance = tempEmployeeDistance;
         }
 
-    public Address getUserAddress()
-        {
-        return userAddress;
-        }
 
-    public void setUserAddress(Address userAddress)
-        {
-        this.userAddress = userAddress;
-        }
-
-    public double getTempEmployeeRating()
-        {
-        return tempEmployeeRating;
-        }
-
-    public void setTempEmployeeRating(double tempEmployeeRating)
-        {
-        this.tempEmployeeRating = tempEmployeeRating;
-        }
     }
