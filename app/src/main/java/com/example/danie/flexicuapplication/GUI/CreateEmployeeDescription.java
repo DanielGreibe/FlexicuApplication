@@ -44,7 +44,7 @@ public class CreateEmployeeDescription extends AppCompatActivity implements View
         textViewTitle = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        textViewTitle.setText("Tilføj en beskrivelse til " + name);
+        textViewTitle.setText("Tilføj en description til " + name);
         springOver = findViewById(R.id.springOverTV);
         springOver.setOnClickListener(this);
 
@@ -103,7 +103,7 @@ public class CreateEmployeeDescription extends AppCompatActivity implements View
                 Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
                 startActivity(createEmployeeImage, bndlanimation);
             } else {
-                Toast.makeText(this, "Tilføj en beskrivelse, eller spring over", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Tilføj en description, eller spring over", Toast.LENGTH_SHORT).show();
             }
         } else if(v == springOver && (editTextDescription.getText().toString().length() == 0)){
             System.out.println("******");

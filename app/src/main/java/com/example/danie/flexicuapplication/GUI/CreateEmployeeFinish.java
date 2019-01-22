@@ -12,6 +12,8 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baoyachi.stepview.HorizontalStepView;
@@ -41,20 +43,14 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     private StorageReference mStorageRef;
 
     TextView textViewTitle;
-    TextView textViewName;
-    TextView textViewYear;
-    TextView textViewErhverv;
-    TextView textViewPostcode;
-    TextView textViewDescription;
-    TextView textViewPay;
-    TextView textViewDistance;
     Button buttonNextPage;
+    LinearLayout container;
 
     String name;
     String year;
-    String erhverv;
+    String profession;
     int zipcode;
-    String beskrivelse;
+    String description;
     String pay;
     int distance;
     Uri imageUri;
@@ -66,15 +62,9 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_create_employee_finish);
 
         textViewTitle = findViewById(R.id.textViewTitle);
-        textViewName = findViewById(R.id.textViewName);
-        textViewYear = findViewById(R.id.textViewYear);
-        textViewErhverv = findViewById(R.id.textViewErhverv);
-        textViewPostcode = findViewById(R.id.textViewPostcode);
-        textViewDescription = findViewById(R.id.textViewDescription);
-        textViewPay = findViewById(R.id.textViewPay);
-        textViewDistance = findViewById(R.id.textViewHeaderDistance);
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
+        container = findViewById(R.id.linearLayoutFinish);
 
         //SETUP PROGRESSBAR
         HorizontalStepView stepView = findViewById(R.id.step_view);
@@ -115,25 +105,16 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                 scroller.scrollTo(500, 0);
             }
         });
-
-
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         year = ((GlobalVariables) this.getApplication()).getTempEmployeeYear();
-        erhverv = ((GlobalVariables) this.getApplication()).getTempEmployeeProfession();
+        profession = ((GlobalVariables) this.getApplication()).getTempEmployeeProfession();
         zipcode = ((GlobalVariables) this.getApplication()).getTempEmployeeZipcode();
-        beskrivelse = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
+        description = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
         pay = ((GlobalVariables) this.getApplication()).getTempEmployeePay();
         distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
         imgData = StringToBitMap(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
 
-
-        textViewName.setText("Navn: " + name);
-        textViewYear.setText("Fødselsår: " + year);
-        textViewErhverv.setText("Erhverv: " + erhverv);
-        textViewPostcode.setText("Postnummer: " + zipcode);
-        textViewDescription.setText("Beskrivelse: " + beskrivelse);
-        textViewPay.setText("Timeløn: " + pay + " kr/t");
-        textViewDistance.setText("Afstand: " + distance + " km");
+        cardView();
     }
 
     @Override
@@ -142,7 +123,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         if ( v == buttonNextPage )
         {
             Intent Udlej = new Intent(this, TabbedRentOut.class);
-            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(erhverv).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).status("ikke udlejet").available("Home").owner(GlobalVariables.getFirebaseUser().getUid()).builder();
+            CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(profession).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).status("ikke udlejet").available("Home").owner(GlobalVariables.getFirebaseUser().getUid()).builder();
 
             //Upload image if standard image is selected or if custom image is selected!
             if(((GlobalVariables) this.getApplication()).getTempEmployeeImage().equals("flexicu")){
@@ -221,5 +202,61 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         super.onBackPressed();
         overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
         finish();
+    }
+
+    public void cardView(){
+        View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
+        //Lav FindViewById på Viewsne som er blevet inflated
+        TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
+        TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
+        TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
+        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewStatus);
+        TextView headderStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
+        LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
+        LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
+        ImageView imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
+        TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
+        TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
+        ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
+        Button udlejBtn = ExpandableCardview.findViewById(R.id.buttonUdlej);
+        TextView textViewLejeperiodeStart = ExpandableCardview.findViewById(R.id.textViewLejeperiodeStart);
+        TextView textViewLejeperiodeSlut = ExpandableCardview.findViewById(R.id.textViewLejeperiodeSlut);
+        TextView headerLejStart = ExpandableCardview.findViewById(R.id.textViewHeaderLejeperiodeStart);
+        TextView headerLejEnd = ExpandableCardview.findViewById(R.id.textViewHeaderLejeperiodeSlut);
+        TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
+        TextView rate = ExpandableCardview.findViewById(R.id.textViewRating);
+        ImageView rateImage = ExpandableCardview.findViewById(R.id.imageButton2);
+        TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
+
+
+
+        //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
+        textViewPay.setText(pay);
+        textViewZipcode.setText((zipcode+""));
+        textViewDistance.setText((distance+""));
+        textViewName.setText(name);
+        textViewProfession.setText(profession);
+        textViewStatus.setText("ikke udlejet");
+        textViewDescription.setText(description);
+        profilePic.setImageBitmap(imgData);
+        headderStatus.setText("Fødsels år");
+        textViewStatus.setText(year);
+
+        if(description.equals("")){
+            headerDescription.setVisibility(View.GONE);
+            textViewDescription.setVisibility(View.GONE);
+        }
+
+
+        rate.setVisibility(View.GONE);
+        rateImage.setVisibility(View.GONE);
+        headerLejStart.setVisibility(View.GONE);
+        headerLejEnd.setVisibility(View.GONE);
+        textViewLejeperiodeSlut.setVisibility(View.GONE);
+        textViewLejeperiodeStart.setVisibility(View.GONE);
+        udlejBtn.setVisibility(View.GONE);
+        imageButtonArrow.setVisibility(View.INVISIBLE);
+        linearLayoutExpanded.setVisibility(View.VISIBLE);
+        container.addView(ExpandableCardview);
     }
 }
