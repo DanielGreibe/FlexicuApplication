@@ -187,6 +187,7 @@ public class MyRentOutsFragment extends Fragment {
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
         buttonRating.setText("Bedøm udlejer");
+        buttonRating.setText("Bedøm lejer");
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
 
