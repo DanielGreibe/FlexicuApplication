@@ -329,8 +329,8 @@ public class RentInFragment extends Fragment {
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"", "")))
                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"", "")))
                 .description(obj.get("description").toString().replaceAll("\"", ""))
-                .endDate(obj.get("rentEnd").toString().replaceAll("\"",""))
-                .startDate(obj.get("rentStart").toString().replaceAll("\"",""))
+                .endDate(obj.get("endDate").toString().replaceAll("\"",""))
+                .startDate(obj.get("startDate").toString().replaceAll("\"",""))
                 .builder();
         return people;
     }
