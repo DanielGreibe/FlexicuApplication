@@ -16,6 +16,7 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -110,6 +111,9 @@ public class MyRentInFragment extends Fragment {
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
+        Button b = ExpandableCardview.findViewById(R.id.buttonUdlej);
+        b.setText("Bedøm");
+
 
         //Hent data og gør det til et JsonObject
         JsonParser parser = new JsonParser();
@@ -123,7 +127,7 @@ public class MyRentInFragment extends Fragment {
         }
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
-        textViewPay.setText(Employee.get("pay").toString() + " kr/t");
+        textViewPay.setText(Employee.get("pay").toString().replaceAll("\"",""));
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
