@@ -254,7 +254,7 @@ public class RentInFragment extends Fragment {
                 .key(dr)
                 .owner(obj.get("owner").toString().replaceAll("\"",""))
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
-                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
+                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
                 .builder();
         return people;
     }

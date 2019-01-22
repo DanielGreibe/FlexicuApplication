@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentOut;
@@ -69,7 +70,8 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
     TextView beskrivelse1TextView = null;
     ImageView profilBilledeImageView = null;
     Button bekræftButton = null;
-
+    boolean startDate = false;
+    boolean endDate = false;
     //Employee variables
     String pictureURl = null;
     int afstand;
@@ -120,7 +122,8 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         rank = Employee.get("rank").toString().replaceAll("\"", "");
         pay = Employee.get("pay").toString().replaceAll("\"", "");
         owner = Employee.get("owner").toString().replaceAll("\"","");
-
+        bekræftButton.setEnabled(false);
+        bekræftButton.setBackgroundColor(Color.GRAY);
 
         annoneceTextView.setText("Opret annonce for\n"+ navn);
         if(navn.contains(" ")){
@@ -299,9 +302,12 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
             // arg2 = month
             // arg3 = day
             lejeStartTextView.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
+            startDate = true;
+
             //If rental dates selected and employee is selected
             /*if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
                 udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
+
             }*/
         }
     };
@@ -313,10 +319,25 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
             // arg2 = month
             // arg3 = day
             lejeSlutTextView.setText(Integer.toString(arg3)+"/"+Integer.toString(arg2+1)+"/"+Integer.toString(arg1));
+            endDate = true;
+            if(endDate && startDate){
+                validateDate();
+            }
             //If rental dates selected and employee is selected
             /*if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
                 udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
             }*/
         }
     };
+
+    public void validateDate(){
+        String[] startDate = lejeStartTextView.getText().toString().split("/");
+        String[] endDate = lejeSlutTextView.getText().toString().split("/");
+        if(Integer.parseInt(startDate[0]+startDate[1]+startDate[2]) > Integer.parseInt(endDate[0]+endDate[1]+endDate[2])){
+            lejeStartTextView.setTextColor(Color.RED);
+            lejeSlutTextView.setTextColor(Color.RED);
+            bekræftButton.setEnabled(true);
+            bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_blue_black_edge);
+        }
+    }
 }
