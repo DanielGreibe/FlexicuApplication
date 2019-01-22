@@ -1,6 +1,7 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -101,6 +102,10 @@ public class RentOutFragment extends Fragment
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    System.out.println("HEREHERE " + String.valueOf(getActivity()).contains("TabbedRentIn"));
+                    if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                        return;
+                    }
                     for (DataSnapshot entry : dataSnapshot.getChildren()){
                             createNewEmployee(entry, myContainer);
                     }
@@ -112,14 +117,8 @@ public class RentOutFragment extends Fragment
                     }
                 };
 
-            //If calling activity is rent out employee, add Value even listener
-            try{
-                if(callingActivity.equals("createEmployeeFinish")){
-                    myRefMedarbejder.addValueEventListener(postListener);
-                }
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
+
+            myRefMedarbejder.addValueEventListener(postListener);
             }
 
         //Load employees and create cardviews and add to scroller
@@ -151,6 +150,10 @@ public class RentOutFragment extends Fragment
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    System.out.println("HEREHERE2 " + String.valueOf(getActivity()).contains("TabbedRentIn"));
+                    if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                        return;
+                    }
                     for(DataSnapshot entry : dataSnapshot.getChildren()){
                         createNewEmployee(entry, myContainer);
                     }
