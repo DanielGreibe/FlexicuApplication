@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +59,7 @@ public class RentInFragment extends Fragment {
     List<CrudEmployee> employees = new ArrayList<>();
     int counter = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    TextView freeSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,14 +67,15 @@ public class RentInFragment extends Fragment {
         onActivityCreated(savedInstanceState);
         filter = v.findViewById(R.id.filterMenu);
         mContainer = v.findViewById(R.id.linearLayoutRentin);
-        filter.setOnClickListener((View) -> {
-            Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
-            Bundle bndlanimation =
-                    ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
-            startActivity(filtermenu, bndlanimation);
-            getActivity().finish();
+        freeSearch = v.findViewById(R.id.freeSearch);
 
-        });
+                filter.setOnClickListener((View) -> {
+                    Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
+                    startActivity(filtermenu, bndlanimation);
+
+                });
 
         Bundle bundle = getActivity().getIntent().getExtras();
         DatabaseReference myRef2 = database.getReference("/Udlejninger");
@@ -99,7 +103,7 @@ public class RentInFragment extends Fragment {
 
                     });
 
-                } else {
+                } else{
                     employees.forEach((a) -> createNewEmployee(employees.get(counter++), mContainer));
                 }
             }
