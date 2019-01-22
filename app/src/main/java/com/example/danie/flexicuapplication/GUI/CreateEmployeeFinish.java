@@ -1,15 +1,10 @@
 package com.example.danie.flexicuapplication.GUI;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -233,7 +228,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         ImageView rateImage = ExpandableCardview.findViewById(R.id.imageButton2);
         TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
 
-        showNotification();
+
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(pay);
@@ -263,21 +258,5 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         imageButtonArrow.setVisibility(View.INVISIBLE);
         linearLayoutExpanded.setVisibility(View.VISIBLE);
         container.addView(ExpandableCardview);
-    }
-
-    public void showNotification() {
-        PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, Navigation.class), 0);
-        Resources r = getResources();
-        Notification notification = new NotificationCompat.Builder(this)
-                .setTicker("THIS IS TICKEr")
-                .setSmallIcon(R.drawable.flexicu_logo)
-                .setContentTitle("THIS IS TITLE")
-                .setContentText("THIS IS TEXT")
-                .setContentIntent(pi)
-                .setAutoCancel(true)
-                .build();
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification);
     }
 }
