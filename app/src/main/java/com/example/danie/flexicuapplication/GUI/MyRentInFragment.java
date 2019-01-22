@@ -84,8 +84,6 @@ public class MyRentInFragment extends Fragment {
         myRefIndlejninger.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("HEREHEREHERE "+ getActivity());
-                System.out.println("HEREHERE " + String.valueOf(getActivity()).contains("TabbedRentIn"));
                 if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
                     return;
                 }
@@ -121,6 +119,8 @@ public class MyRentInFragment extends Fragment {
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
         Button b = ExpandableCardview.findViewById(R.id.buttonUdlej);
         b.setText("Bedøm");
+        TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
+        TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
 
 
         //Hent data og gør det til et JsonObject
@@ -137,11 +137,18 @@ public class MyRentInFragment extends Fragment {
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString().replaceAll("\"",""));
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
+        textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
+
+        if(Employee.get("description").toString().replace("\"" , "").equals("")){
+            headerDescription.setVisibility(View.GONE);
+            textViewDescription.setVisibility(View.GONE);
+        } else {
+            textViewDescription.setText(Employee.get("description").toString().replace("\"" , ""));
+        }
+
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
         //We want to download images for the list of workers
-
-
         if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
 //        if(false){
             int minPixels = 0;

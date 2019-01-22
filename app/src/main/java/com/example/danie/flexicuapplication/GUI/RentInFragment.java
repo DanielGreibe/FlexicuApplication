@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +60,7 @@ public class RentInFragment extends Fragment {
     List<CrudEmployee> employees = new ArrayList<>();
     int counter = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    TextView freeSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,14 +68,15 @@ public class RentInFragment extends Fragment {
         onActivityCreated(savedInstanceState);
         filter = v.findViewById(R.id.filterMenu);
         mContainer = v.findViewById(R.id.linearLayoutRentin);
-        filter.setOnClickListener((View) -> {
-            Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
-            Bundle bndlanimation =
-                    ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
-            startActivity(filtermenu, bndlanimation);
-            getActivity().finish();
+        freeSearch = v.findViewById(R.id.freeSearch);
 
-        });
+                filter.setOnClickListener((View) -> {
+                    Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
+                    startActivity(filtermenu, bndlanimation);
+
+                });
 
         Bundle bundle = getActivity().getIntent().getExtras();
         DatabaseReference myRef2 = database.getReference("/Udlejninger");
@@ -99,7 +104,7 @@ public class RentInFragment extends Fragment {
 
                     });
 
-                } else {
+                } else{
                     employees.forEach((a) -> createNewEmployee(employees.get(counter++), mContainer));
                 }
             }
@@ -134,6 +139,8 @@ public class RentInFragment extends Fragment {
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
         Button indlejButton = ExpandableCardview.findViewById(R.id.buttonUdlej);
         indlejButton.setText("Indlej");
+        TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
+        TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
 
         //Hent data og gør det til et JsonObject
 
@@ -149,6 +156,13 @@ public class RentInFragment extends Fragment {
         String dr = Employee.getKey();
         String urlString = Employee.getPic().replaceAll("\"", "");
 
+        if(Employee.getdescription().equals("")){
+            headerDescription.setVisibility(View.GONE);
+            textViewDescription.setVisibility(View.GONE);
+        } else {
+            textViewDescription.setText(Employee.getdescription());
+        }
+
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
         //We want to download images for the list of workers
@@ -157,35 +171,61 @@ public class RentInFragment extends Fragment {
         //System.out.println(src);
         URL url = null;
         try {
-            url = new URL(urlString);
+            url = new URL(Employee.getPic());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        //We want to download images for the list of workers
-        URL finalUrl = url;
-        new AsyncTask<Void, Void, Bitmap>() {
-            //Get pictures in background
-            @Override
-            protected Bitmap doInBackground(Void... voids) {
-                try {
-                    //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
-                    Bitmap myBitmap = Glide
-                            .with(profilePic)
-                            .asBitmap()
-                            .load(finalUrl)
-                            .submit()
-                            .get();
-                    return myBitmap;
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
+        System.out.println("HERE3 " + Employee.getPic());
 
-        }.execute();
+
+
+        if(Employee.getPic().equals("flexicu")){
+            int minPixels = 0;
+            Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
+            if(photo.getWidth() < photo.getHeight()){
+                minPixels = photo.getWidth();
+            }
+            else {
+                minPixels = photo.getHeight();
+                Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth() - minPixels) / 2), ((photo.getHeight() - minPixels) / 2), minPixels, minPixels);
+                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 400);
+                profilePic.setImageBitmap(squareImg);
+            }
+        } else {
+            //We want to download images for the list of workers
+            URL finalUrl = url;
+            new AsyncTask<Void, Void, Bitmap>() {
+                //Get pictures in background
+                @Override
+                protected Bitmap doInBackground(Void... voids) {
+                    try {
+                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
+                        Bitmap myBitmap = Glide
+                                .with(profilePic)
+                                .asBitmap()
+                                .load(finalUrl)
+                                .submit()
+                                .get();
+                        return myBitmap;
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                //On return update images in list
+                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+                @Override
+                protected void onPostExecute(Bitmap s) {
+                    super.onPostExecute(s);
+                    s = RoundedImageView.getCroppedBitmap(s, 200);
+                    profilePic.setImageBitmap(s);
+                }
+            }.execute();
+        }
 
 
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
@@ -210,7 +250,7 @@ public class RentInFragment extends Fragment {
             CrudRentIns temp = new CrudRentIns(Employee.getName(),
                     Double.toString(Employee.getPay()), Employee.getJob(),
                     Employee.getStartDate(), Employee.getEndDate(), Employee.getOwner(),
-                    Integer.toString(Employee.getZipcode()), Double.toString(Employee.getRank()), Employee.getPic(), "udlejet");
+                    Integer.toString(Employee.getZipcode()), Double.toString(Employee.getRank()), Employee.getPic(), "udlejet", Employee.getdescription());
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
             myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
@@ -265,6 +305,7 @@ public class RentInFragment extends Fragment {
                 .owner(obj.get("owner").toString().replaceAll("\"",""))
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
+                .description(obj.get("description").toString().replaceAll("\"", ""))
                 .builder();
         return people;
     }
@@ -285,6 +326,7 @@ public class RentInFragment extends Fragment {
                 .owner(obj.get("owner").toString().replaceAll("\"", ""))
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"", "")))
                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"", "")))
+                .description(obj.get("description").toString().replaceAll("\"", ""))
                 .builder();
         return people;
     }

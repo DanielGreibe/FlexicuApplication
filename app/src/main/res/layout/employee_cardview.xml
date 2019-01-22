@@ -281,8 +281,7 @@
                         android:id="@+id/textViewDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="20dp"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sagittis massa vitae magna hendrerit, ac fringilla erat iaculis. Donec id venenatis dolor, eu pulvinar quam. Curabitur volutpat, eros eu condimentum varius, nisl ipsum mattis massa, et viverra orci dolor sed magna. Duis orci ipsum, aliquet gravida justo ac, tristique aliquam." />
+                        android:paddingLeft="20dp" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout

@@ -102,7 +102,6 @@ public class RentOutFragment extends Fragment
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    System.out.println("HEREHERE " + String.valueOf(getActivity()).contains("TabbedRentIn"));
                     if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
                         return;
                     }
@@ -150,7 +149,6 @@ public class RentOutFragment extends Fragment
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    System.out.println("HEREHERE2 " + String.valueOf(getActivity()).contains("TabbedRentIn"));
                     if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
                         return;
                     }
@@ -179,7 +177,6 @@ public class RentOutFragment extends Fragment
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
-
         String tempID = Employee.get("ID").toString().replaceAll("\"","");
         if(existingViews.contains(tempID)){
             return;
@@ -202,6 +199,7 @@ public class RentOutFragment extends Fragment
         Button udlejBtn = ExpandableCardview.findViewById(R.id.buttonUdlej);
         TextView textViewLejeperiodeStart = ExpandableCardview.findViewById(R.id.textViewLejeperiodeStart);
         TextView textViewLejeperiodeSlut = ExpandableCardview.findViewById(R.id.textViewLejeperiodeSlut);
+        TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
         TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
@@ -212,8 +210,15 @@ public class RentOutFragment extends Fragment
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
         textViewStatus.setText(Employee.get("status").toString().replaceAll("\"",""));
 
+        if(Employee.get("description").toString().replace("\"" , "").equals("")){
+            headerDescription.setVisibility(View.GONE);
+            textViewDescription.setVisibility(View.GONE);
+        } else {
+            textViewDescription.setText(Employee.get("description").toString().replace("\"" , ""));
+        }
+
         //Ændrer tekstfelterne textViewLejeperiodeStart og Slut afhængig af brugerens status
-        if (Employee.get("status").toString().replace("\"", "").equals("ikke udlejet"))
+        if (Employee.get("status").toString().replaceAll("\"", "").equals("ikke udlejet"))
             {
             textViewLejeperiodeStart.setText("Ikke udlejet");
             textViewLejeperiodeSlut.setText("Ikke udlejet");
