@@ -9,12 +9,13 @@ public class CriteriaProfession implements CriteriaInterface {
     public CriteriaProfession(String searchCriteria)
     {
         this.searchCriteria = searchCriteria;
+        System.out.println(this.searchCriteria);
     }
     @Override
     public List<CrudEmployee> meetCriteria(List<CrudEmployee> persons) {
         List<CrudEmployee> profession = new ArrayList<CrudEmployee>();
-
         for(CrudEmployee employee: persons) {
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++");
             if(employee.getJob().equals(searchCriteria)){
                 profession.add(employee);
             }

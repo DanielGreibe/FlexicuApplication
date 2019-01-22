@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ public class FiltersRentIn extends AppCompatActivity
         private EditText upperPay;
         private SeekBar seekBarDist;
         private TextView seekbarValue;
+        private Spinner editTextprof;
+        ArrayList<String> items = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
@@ -37,14 +41,27 @@ public class FiltersRentIn extends AppCompatActivity
         btn = findViewById(R.id.searchBtn);
         seekbarValue=findViewById(R.id.progressValue);
         lowerPay = findViewById(R.id.payLower);
+        editTextprof = findViewById(R.id.spinnerJobFilter);
         upperPay = findViewById(R.id.payUpper);
         lowerPay.setText("0");
         upperPay.setText("999");
         seekBarDist = findViewById(R.id.distSlider);
-        seekBarDist.setProgress(100);
+        seekBarDist.setProgress(75);
         seekbarValue.setText(seekBarDist.getProgress() + " km");
-        seekBarDist.setMax(100);
+        seekBarDist.setMax(150);
+            items.add("Tømmer");
+            items.add("VVS");
+            items.add("Elektrikker");
+            items.add("Murer");
+            items.add("Anlægsgartner");
+            items.add("Maler");
+            items.add("Arbejdsmand");
+            items.add("Smed");
+            items.add("Chaufør - under 3,5T");
+            items.add("Chaufør - over 3,5T");
 
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+            editTextprof.setAdapter(adapter);
         seekBarDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -69,6 +86,7 @@ public class FiltersRentIn extends AppCompatActivity
                 filterList.add(lowerPay.getText().toString());
                 filterList.add(upperPay.getText().toString());
                 filterList.add(String.valueOf(seekBarDist.getProgress()));
+                filterList.add(editTextprof.getSelectedItem().toString());
                 Bundle bundle  = new Bundle();
                 bundle.putStringArrayList("filterValues", filterList);
                  intent.putStringArrayListExtra("filterValues", filterList);

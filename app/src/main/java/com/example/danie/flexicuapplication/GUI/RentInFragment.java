@@ -29,6 +29,7 @@ import com.example.danie.flexicuapplication.LogicLayer.CriteriaDistance;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayLower;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayUpper;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentIns;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
@@ -72,9 +73,6 @@ public class RentInFragment extends Fragment {
 
         });
 
-
-
-
         Bundle bundle = getActivity().getIntent().getExtras();
         DatabaseReference myRef2 = database.getReference("/Udlejninger");
         myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -94,7 +92,8 @@ public class RentInFragment extends Fragment {
                     CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
                     CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
                     CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
-                    CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
+                    CriteriaInterface profession = new CriteriaProfession(filterValues.get(3));
+                    CriteriaInterface payBounds = new AndCriteria(payLower, profession, payUpper, dist );
                     payBounds.meetCriteria(employees).forEach((a) -> {
                         createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
 
