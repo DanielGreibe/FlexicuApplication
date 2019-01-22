@@ -124,7 +124,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         beskrivelse = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
         pay = ((GlobalVariables) this.getApplication()).getTempEmployeePay();
         distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
-        //imageUri = Uri.parse(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
         imgData = StringToBitMap(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
 
 

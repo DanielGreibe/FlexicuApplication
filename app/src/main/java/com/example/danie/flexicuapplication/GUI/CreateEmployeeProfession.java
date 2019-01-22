@@ -50,8 +50,6 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         items.add("VVS");
         items.add("Elektrkker");
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef2 = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere");
-
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
             editTextErhverv.setAdapter(adapter);
             //SETUP PROGRESSBAR

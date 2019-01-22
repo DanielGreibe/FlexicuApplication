@@ -132,7 +132,7 @@ public class TabbedRentIn extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
         finish();
     }
 }

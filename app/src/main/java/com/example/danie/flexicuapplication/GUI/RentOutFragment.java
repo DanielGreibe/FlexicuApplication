@@ -57,9 +57,6 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class RentOutFragment extends Fragment
     {
-    //Date picker variables
-    private Calendar calendar;
-    private int year, month, day;
 
     //Visual logic
     int employeeSelected = 0;
@@ -79,7 +76,7 @@ public class RentOutFragment extends Fragment
         if(getActivity().getIntent().getStringExtra("createEmployeeFinish") != null){
             callingActivity = getActivity().getIntent().getStringExtra("createEmployeeFinish");
         }
-
+        onActivityCreated(savedInstanceState);
         //Setup loading bar and hide
         loadingbar = view.findViewById(R.id.loadingbarTextView);
         loadingbar.bringToFront();
@@ -163,41 +160,6 @@ public class RentOutFragment extends Fragment
         return view;
 
         }
-
-
-    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener()
-        {
-        @Override
-        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3)
-            {
-            // arg1 = year
-            // arg2 = month
-            // arg3 = day
-            textViewLejeperiodeStart.setText(Integer.toString(arg3) + "/" + Integer.toString(arg2 + 1) + "/" + Integer.toString(arg1));
-            //If rental dates selected and employee is selected
-            if (employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/"))
-                {
-                addEmployeeBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-                }
-            }
-        };
-
-    private DatePickerDialog.OnDateSetListener myDateListener2 = new DatePickerDialog.OnDateSetListener()
-        {
-        @Override
-        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3)
-            {
-            // arg1 = year
-            // arg2 = month
-            // arg3 = day
-            textViewLejeperiodeSlut.setText(Integer.toString(arg3) + "/" + Integer.toString(arg2 + 1) + "/" + Integer.toString(arg1));
-            //If rental dates selected and employee is selected
-            if (employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/"))
-                {
-                addEmployeeBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-                }
-            }
-        };
 
 
     @SuppressLint("StaticFieldLeak")

@@ -97,7 +97,7 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
         public void onBackPressed() {
             super.onBackPressed();
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
-            Intent intent = new Intent(this, RentOut.class);
+            Intent intent = new Intent(this, RentOutFragment.class);
             intent.putExtra("callingActivity", "navigation");
             finish();
         }
