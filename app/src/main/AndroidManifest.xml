@@ -65,9 +65,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".GUI.CreateEmployee" />
-        <activity android:name=".GUI.MyRentOuts" />
-        <activity android:name=".GUI.MyRentIns" />
-        <activity android:name=".GUI.RentOut" />
         <activity android:name=".GUI.RentIn" />
         <activity android:name=".GUI.Navigation" />
         <activity android:name=".GUI.FiltersRentIn" />
