@@ -311,6 +311,9 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
             // arg3 = day
             lejeStartTextView.setText(Integer.toString(arg3) + "/" + Integer.toString(arg2 + 1) + "/" + Integer.toString(arg1));
             startDate = true;
+            if (endDate && startDate) {
+                validateDate();
+            }
 
             //If rental dates selected and employee is selected
             /*if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
@@ -344,8 +347,10 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         if (Integer.parseInt(startDate[0] + startDate[1] + startDate[2]) > Integer.parseInt(endDate[0] + endDate[1] + endDate[2])) {
             lejeStartTextView.setTextColor(Color.RED);
             lejeSlutTextView.setTextColor(Color.RED);
+        }else{
             bekræftButton.setEnabled(true);
             bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_blue_black_edge);
+
         }
 
     }
