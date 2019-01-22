@@ -225,7 +225,7 @@ public class RentOutFragment extends Fragment
             }
     else
             {
-            //TODO sæt textViewLejeperiodeStart og textViewLejeperiodeSlut til rigtig data
+
             }
 
 

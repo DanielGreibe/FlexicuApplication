@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -55,6 +56,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     int distance;
     Uri imageUri;
     Bitmap imgData;
+    String stringImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         pay = ((GlobalVariables) this.getApplication()).getTempEmployeePay();
         distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
         imgData = StringToBitMap(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
+        stringImage = ((GlobalVariables) this.getApplication()).getTempEmployeeImage();
 
         cardView();
     }
@@ -231,14 +234,22 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
 
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
-        textViewPay.setText(pay);
-        textViewZipcode.setText((zipcode+""));
-        textViewDistance.setText((distance+""));
+        textViewPay.setText(pay + " kr/t");
+        textViewZipcode.setText((zipcode + ""));
+        textViewDistance.setText((distance + " km"));
         textViewName.setText(name);
         textViewProfession.setText(profession);
         textViewStatus.setText("ikke udlejet");
         textViewDescription.setText(description);
-        profilePic.setImageBitmap(imgData);
+     if (stringImage.equals("flexicu"))
+            {
+            profilePic.setBackgroundResource(R.drawable.flexiculogocube);
+            }
+        else
+            {
+            profilePic.setImageBitmap(imgData);
+            }
+
         headderStatus.setText("Fødsels år");
         textViewStatus.setText(year);
 
