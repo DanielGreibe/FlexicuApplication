@@ -114,7 +114,7 @@ public class RentOutFragment extends Fragment
 
             //If calling activity is rent out employee, add Value even listener
             try{
-                if(callingActivity.equals("createEmployeeFinish")){
+                if(callingActivity.equals("udlejActivity")){
                     myRefMedarbejder.addValueEventListener(postListener);
                 }
             }catch (NullPointerException e){
