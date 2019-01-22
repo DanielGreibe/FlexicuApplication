@@ -212,14 +212,20 @@ public class RentOutFragment extends Fragment
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
         textViewStatus.setText(Employee.get("status").toString().replaceAll("\"",""));
 
-        if (Employee.get("status").toString().replace("\"", "").equals("ikke udlejet") || Employee.get("status").toString().replace("\"", "").equals("sat til udleje"))
+        //Ændrer tekstfelterne textViewLejeperiodeStart og Slut afhængig af brugerens status
+        if (Employee.get("status").toString().replace("\"", "").equals("ikke udlejet"))
             {
             textViewLejeperiodeStart.setText("Ikke udlejet");
             textViewLejeperiodeSlut.setText("Ikke udlejet");
             }
+    else if (Employee.get("status").toString().replace("\"", "").equals("sat til udleje"))
+            {
+            textViewLejeperiodeStart.setText("Sat til udleje");
+            textViewLejeperiodeSlut.setText("Sat til udleje");
+            }
     else
             {
-            //TODO sæt textViweLejeperiodeStart og textViewLejeperiodeSlut til rigtig data
+            //TODO sæt textViewLejeperiodeStart og textViewLejeperiodeSlut til rigtig data
             }
 
 
