@@ -111,7 +111,15 @@ public class RentOutFragment extends Fragment
                     System.out.println("Error!");
                     }
                 };
-            myRefMedarbejder.addValueEventListener(postListener);
+
+            //If calling activity is rent out employee, add Value even listener
+            try{
+                if(callingActivity.equals("udlejActivity")){
+                    myRefMedarbejder.addValueEventListener(postListener);
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
             }
 
         //Load employees and create cardviews and add to scroller
