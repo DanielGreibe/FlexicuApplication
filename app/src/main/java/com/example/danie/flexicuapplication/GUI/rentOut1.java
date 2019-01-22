@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,8 +16,10 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import java.lang.Object;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -36,7 +39,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +51,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.maps.android.SphericalUtil;
 import com.ramotion.fluidslider.FluidSlider;
 
 import java.io.IOException;
@@ -154,7 +160,10 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         //Set slider settings
         int min = 5;
         int max = 150;
-        slider.setPosition(afstand/max);
+        double spænd = max-min;
+        double km = 1.0/spænd;
+        double result = (afstand-5)*km;
+        slider.setPosition((float)result);
         slider.setColorBar(Color.rgb(0, 153, 203));
         slider.setColorBubble(Color.WHITE);
         slider.setStartText(Integer.toString(min) + " km");
@@ -192,7 +201,7 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         bekræftButton.setOnClickListener((view) -> {
             if(lejeStartTextView.getText().toString().contains("/") && lejeSlutTextView.getText().toString().contains("/")){
-                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "Sat til udleje");
+                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "sat til udleje");
                     Gson gson = new Gson();
                     String rentOutJSON = gson.toJson(newRentOut);
                     myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
@@ -285,7 +294,12 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
                 .strokeColor(Color.rgb(0, 153, 203))
                 .strokeWidth(4)
                 .fillColor(Color.argb(100, 123,123,123)));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 9));
+
+        VisibleRegion visibleRegion = map.getProjection().getVisibleRegion();
+        double distance = SphericalUtil.computeDistanceBetween(
+                visibleRegion.farLeft, map.getCameraPosition().target);
+
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 7));
     }
 
     @Override

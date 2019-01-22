@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -174,6 +175,12 @@ public class MyRentOutsFragment extends Fragment {
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
 
+        //Tjek status
+        if(!Employee.get("status").toString().replaceAll("\"", "").equals("udlejet")){
+            buttonRating.setEnabled(false);
+            buttonRating.setBackgroundColor(Color.GRAY);
+        }
+
         if(existingViews.contains(Employee.get("ID").toString().replaceAll("\"", ""))){
             return;
         }else{
@@ -186,7 +193,6 @@ public class MyRentOutsFragment extends Fragment {
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-        buttonRating.setText("Bedøm udlejer");
         buttonRating.setText("Bedøm lejer");
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);

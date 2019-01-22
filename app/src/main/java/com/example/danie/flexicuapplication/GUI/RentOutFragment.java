@@ -202,7 +202,7 @@ public class RentOutFragment extends Fragment
 
         //Tjek status
         if(!Employee.get("status").toString().replaceAll("\"", "").equals("ikke udlejet")){
-            udlejBtn.setClickable(false);
+            udlejBtn.setEnabled(false);
             udlejBtn.setBackgroundColor(Color.GRAY);
         }
 
