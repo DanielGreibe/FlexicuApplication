@@ -389,6 +389,8 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"", "")))
                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"", "")))
                 .description(obj.get("description").toString().replaceAll("\"", ""))
+                .startDate(lejeStartTextView.getText().toString().replaceAll("\"",""))
+                .endDate(lejeSlutTextView.getText().toString().replaceAll("\"",""))
                 .builder();
         return people;
     }
