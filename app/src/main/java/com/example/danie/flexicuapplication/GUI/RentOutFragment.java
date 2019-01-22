@@ -206,7 +206,7 @@ public class RentOutFragment extends Fragment
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
 
-        String tempID = String.valueOf(Employee.get("ID"));
+        String tempID = Employee.get("ID").toString().replaceAll("\"","");
         if(existingViews.contains(tempID)){
             return;
         }
