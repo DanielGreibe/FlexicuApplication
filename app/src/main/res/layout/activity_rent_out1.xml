@@ -16,7 +16,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
-        android:background="@drawable/layout_background_round_corner_blue_black_edge"
+        android:background="@drawable/layout_background_round_corner_grey"
         android:text="Bekræft"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
