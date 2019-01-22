@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.anton46.stepsview.StepsView;
 import com.baoyachi.stepview.HorizontalStepView;
@@ -22,12 +23,10 @@ import com.example.danie.flexicuapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateEmployeeDescription extends AppCompatActivity implements View.OnClickListener
-    {
+public class CreateEmployeeDescription extends AppCompatActivity implements View.OnClickListener{
     Button buttonNextPage;
-    TextView textViewTitle;
+    TextView textViewTitle, springOver;
     EditText editTextDescription;
-
     String name;
     String year;
     String erhverv;
@@ -46,6 +45,8 @@ public class CreateEmployeeDescription extends AppCompatActivity implements View
         Intent intent = getIntent();
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         textViewTitle.setText("Tilføj en beskrivelse til " + name);
+        springOver = findViewById(R.id.springOverTV);
+        springOver.setOnClickListener(this);
 
         //SETUP PROGRESSBAR
         HorizontalStepView stepView = findViewById(R.id.step_view);
@@ -93,19 +94,26 @@ public class CreateEmployeeDescription extends AppCompatActivity implements View
         }
 
     @Override
-    public void onClick(View v)
-        {
-        if (v == buttonNextPage)
-            {
-            beskrivelse = editTextDescription.getText().toString();
+    public void onClick(View v) {
+        if (v == buttonNextPage){
+            if(editTextDescription.length() > 0){
+                beskrivelse = editTextDescription.getText().toString();
+                ((GlobalVariables) this.getApplication()).setTempEmployeeDescription(beskrivelse);
+                Intent createEmployeeImage = new Intent(this, CreateEmployeeImage.class);
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
+                startActivity(createEmployeeImage, bndlanimation);
+            } else {
+                Toast.makeText(this, "Tilføj en beskrivelse, eller spring over", Toast.LENGTH_SHORT).show();
+            }
+        } else if(v == springOver && (editTextDescription.getText().toString().length() == 0)){
+            System.out.println("******");
+            beskrivelse = "";
             ((GlobalVariables) this.getApplication()).setTempEmployeeDescription(beskrivelse);
             Intent createEmployeeImage = new Intent(this, CreateEmployeeImage.class);
-                Bundle bndlanimation =
-                        ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
-                startActivity(createEmployeeImage, bndlanimation);
-
-            }
+            Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
+            startActivity(createEmployeeImage, bndlanimation);
         }
+    }
         @Override
         public void onBackPressed() {
             super.onBackPressed();
