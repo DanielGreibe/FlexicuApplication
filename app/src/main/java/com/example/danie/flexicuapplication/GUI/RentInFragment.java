@@ -220,9 +220,7 @@ public class RentInFragment extends Fragment {
             String key = dr;
             String owner = entry.getOwner();
             DatabaseReference toDelete = FirebaseDatabase.getInstance().getReference("Udlejninger").child(key);
-            DatabaseReference toDelete2 = FirebaseDatabase.getInstance().getReference("Users/"+ owner +"/Udlejninger").child(key);
             toDelete.removeValue();
-            toDelete2.removeValue();
 
             ExpandableCardview.setVisibility(View.GONE);
 
