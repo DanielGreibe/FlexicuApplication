@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.example.danie.flexicuapplication.LogicLayer.CriteriaDistance;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayLower;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaPayUpper;
+import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentIns;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
@@ -57,6 +60,7 @@ public class RentInFragment extends Fragment {
     List<CrudEmployee> employees = new ArrayList<>();
     int counter = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    TextView freeSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,17 +68,15 @@ public class RentInFragment extends Fragment {
         onActivityCreated(savedInstanceState);
         filter = v.findViewById(R.id.filterMenu);
         mContainer = v.findViewById(R.id.linearLayoutRentin);
-        filter.setOnClickListener((View) -> {
-            Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
-            Bundle bndlanimation =
-                    ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
-            startActivity(filtermenu, bndlanimation);
-            getActivity().finish();
+        freeSearch = v.findViewById(R.id.freeSearch);
 
-        });
+                filter.setOnClickListener((View) -> {
+                    Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
+                    Bundle bndlanimation =
+                            ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
+                    startActivity(filtermenu, bndlanimation);
 
-
-
+                });
 
         Bundle bundle = getActivity().getIntent().getExtras();
         DatabaseReference myRef2 = database.getReference("/Udlejninger");
@@ -95,13 +97,14 @@ public class RentInFragment extends Fragment {
                     CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
                     CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
                     CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
-                    CriteriaInterface payBounds = new AndCriteria(payLower, payUpper, dist);
+                    CriteriaInterface profession = new CriteriaProfession(filterValues.get(3));
+                    CriteriaInterface payBounds = new AndCriteria(payLower, profession, payUpper, dist );
                     payBounds.meetCriteria(employees).forEach((a) -> {
                         createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
 
                     });
 
-                } else {
+                } else{
                     employees.forEach((a) -> createNewEmployee(employees.get(counter++), mContainer));
                 }
             }
