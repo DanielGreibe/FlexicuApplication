@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
@@ -218,7 +220,7 @@ public class RentOutFragment extends Fragment
         TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
         TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
         TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
-        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
+        TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewStatus);
         LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
         LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
         ImageView imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
@@ -233,7 +235,16 @@ public class RentOutFragment extends Fragment
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-//        textViewStatus.setText(Employee.get("available").toString().replaceAll("\"",""));
+        textViewStatus.setText(Employee.get("status").toString().replaceAll("\"",""));
+
+
+        //Tjek status
+        if(!Employee.get("status").toString().replaceAll("\"", "").equals("ikke udlejet")){
+            udlejBtn.setClickable(false);
+            udlejBtn.setBackgroundColor(Color.GRAY);
+        }
+
+
         //Set temporary picture while real pictures are downloading
             profilePic.setImageResource(R.drawable.download);
             //We want to download images for the list of workers
@@ -316,7 +327,6 @@ public class RentOutFragment extends Fragment
                     }
                 }.execute();
             }
-
 
             if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end

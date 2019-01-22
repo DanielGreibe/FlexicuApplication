@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentOut;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
@@ -191,18 +192,25 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         bekræftButton.setOnClickListener((view) -> {
             if(lejeStartTextView.getText().toString().contains("/") && lejeSlutTextView.getText().toString().contains("/")){
-                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner);
+                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "Sat til udleje");
                     Gson gson = new Gson();
                     String rentOutJSON = gson.toJson(newRentOut);
                     myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
                     String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + ID);
                     myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
             }
+
+            CrudEmployee employee = JsonToPersonConverter(entryString, "sat til udleje");
+            Gson gson = new Gson();
+            String jsonEmployee = gson.toJson(employee);
+            DatabaseReference updateEmployee = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/");
+            //Load employees and create cardviews and add to scroller
+            updateEmployee.child(employee.getID()).setValue(jsonEmployee);
+            System.out.println("HERE1 " + employee.toString());
             Intent intent = new Intent(this, TabbedRentOut.class);
             intent.putExtra("callingActivity", "udlejActivity");
             startActivity(intent);
             finish();
-
             });
 
 
@@ -319,4 +327,24 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
             }*/
         }
     };
+
+    public CrudEmployee JsonToPersonConverter(String entry, String status){
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(entry);
+        JsonObject obj = element.getAsJsonObject();
+
+        CrudEmployee people = new CrudEmployee.EmployeBuilder(
+                obj.get("name").toString().replace("\"", ""))
+                .job(obj.get("job").toString().replace("\"", ""))
+                .ID(obj.get("ID").toString().replaceAll("\"",""))
+                .pic(obj.get("pic").toString().replaceAll("\"", ""))
+                .owner(obj.get("owner").toString().replaceAll("\"", ""))
+                .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"","")))
+                .status(status)
+                .owner(obj.get("owner").toString().replaceAll("\"",""))
+                .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
+                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
+                .builder();
+        return people;
+    }
 }

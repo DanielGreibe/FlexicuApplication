@@ -184,7 +184,7 @@ public class MyRentOutsFragment extends Fragment {
         textViewDistance.setText(Employee.get("dist").toString() + " km");
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
-        buttonRating.setText("Bedøm udlejer");
+        buttonRating.setText("Bedøm lejer");
         /*if ( Employee.get("available").toString().equals("true"))
             {
             textViewStatus.setText("Ledig");

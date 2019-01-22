@@ -26,6 +26,7 @@ public class CrudEmployee
     private final String endDate;
     private final String owner;
     private final String key;
+    private String status;
 
 
     private CrudEmployee(EmployeBuilder builder)
@@ -44,6 +45,7 @@ public class CrudEmployee
         this.endDate = builder.endDate;
         this.owner = builder.owner;
         this.key = builder.key;
+        this.status = builder.status;
         }
 
     public static class EmployeBuilder
@@ -62,6 +64,7 @@ public class CrudEmployee
         String available;
         String owner;
         String key;
+        String status;
         public EmployeBuilder(String name)
             {
             this.name = name;
@@ -157,22 +160,27 @@ public class CrudEmployee
             return this;
             }
 
-
-
-            public EmployeBuilder startDate(String startDate){
-            this.startDate = startDate;
+        public EmployeBuilder status (String status){
+            this.status = status;
             return this;
-            }
+        }
 
-            public EmployeBuilder endDate(String endDate){
-                this.endDate = endDate;
-                return this;
-            }
 
-            public EmployeBuilder key(String key){
-                this.key = key;
-                return this;
-            }
+
+        public EmployeBuilder startDate(String startDate){
+        this.startDate = startDate;
+        return this;
+        }
+
+        public EmployeBuilder endDate(String endDate){
+            this.endDate = endDate;
+            return this;
+        }
+
+        public EmployeBuilder key(String key){
+            this.key = key;
+            return this;
+        }
 
         public CrudEmployee builder()
             {
@@ -214,6 +222,8 @@ public class CrudEmployee
             this.pic = pic;
             }
 
+        public void setStatus(String status){this.status = status;}
+
         public void setavailable(String available) {this.available = available;}
         }
 
@@ -248,14 +258,15 @@ public class CrudEmployee
         {
         return pic;
         }
-        public String getOwner(){
-            return owner;
-        }
 
-        public String getID()
-        {
-        return ID;
-        }
+    public String getOwner(){
+        return owner;
+    }
+
+    public String getID()
+    {
+    return ID;
+    }
 
     public void setPic(String URL)
         {
@@ -267,18 +278,21 @@ public class CrudEmployee
         return available;
         }
 
-        public int getZipcode(){return zipcode;}
-        public String getEndDate() {
-            return endDate;
-        }
+    public int getZipcode(){return zipcode;}
 
-        public String getStartDate() {
-            return startDate;
-        }
+    public String getEndDate() {
+        return endDate;
+    }
 
-        public String getKey() {
-            return key;
-        }
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getStatus(){ return status;}
 
     //Setter
 
