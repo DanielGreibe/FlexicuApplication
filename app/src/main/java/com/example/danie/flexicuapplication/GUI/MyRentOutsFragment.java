@@ -113,6 +113,10 @@ public class MyRentOutsFragment extends Fragment {
         ValueEventListener newData = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("HEREHERE " + String.valueOf(getActivity()).contains("TabbedRentIn"));
+                if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                    return;
+                }
                 for(DataSnapshot entry : dataSnapshot.getChildren()){
                     String temp = entry.toString().replaceAll("\"", "");
                     temp = temp.substring(temp.length()-6, temp.length()-2);
@@ -140,13 +144,7 @@ public class MyRentOutsFragment extends Fragment {
         };
 
         //If calling activity is rent out employee, add Value even listener
-        try{
-            if(callingActivity.equals("udlejActivity")){
-                myRefUdlejninger.addValueEventListener(newData);
-            }
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+        myRefUdlejninger.addValueEventListener(newData);
             return view;
         }
 

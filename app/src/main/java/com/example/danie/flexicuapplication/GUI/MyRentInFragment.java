@@ -1,6 +1,8 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,6 +41,7 @@ import com.google.gson.JsonParser;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
@@ -81,6 +84,11 @@ public class MyRentInFragment extends Fragment {
         myRefIndlejninger.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("HEREHEREHERE "+ getActivity());
+                System.out.println("HEREHERE " + String.valueOf(getActivity()).contains("TabbedRentIn"));
+                if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                    return;
+                }
                 for(DataSnapshot entry : dataSnapshot.getChildren()){
                     createNewEmployee(entry, myContainer);
                 }
