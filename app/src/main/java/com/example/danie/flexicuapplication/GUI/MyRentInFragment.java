@@ -15,6 +15,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -122,6 +125,31 @@ public class MyRentInFragment extends Fragment {
         TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
         TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
 
+        b.setOnClickListener((test) ->
+        {
+            View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
+            Button buttonRate = popupView.findViewById(R.id.buttonRate);
+            RatingBar ratingBar = popupView.findViewById(R.id.ratingBar);
+
+
+
+            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            boolean focusable = true;
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+
+            popupWindow.showAtLocation(textViewPay, Gravity.CENTER, 0, 0);
+
+            buttonRate.setOnClickListener((Rating) -> {
+                Float rating = ratingBar.getRating();
+
+                //Closes the popup window
+                popupWindow.dismiss();
+            });
+
+
+        });
 
         //Hent data og gør det til et JsonObject
         JsonParser parser = new JsonParser();
