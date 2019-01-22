@@ -184,12 +184,12 @@
         android:background="@drawable/layout_background_round_corners_blue"
         android:text="Videre"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintBottom_toTopOf="@+id/springOverTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/springOverTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

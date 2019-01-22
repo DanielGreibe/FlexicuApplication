@@ -46,7 +46,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
 
     Button buttonNextPage;
     ImageView preview, crossPreview;
-    TextView textViewTitle;
+    TextView textViewTitle, springOver;
     ConstraintLayout firmaBilledeSelect, tagBilledeSelect, vaelgBilledeSelect;
     String name;
     String erhverv;
@@ -77,6 +77,8 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         textViewTitle = findViewById(R.id.textViewTitle);
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         textViewTitle.setText("Tilføj et billede af " + name + " eller firmaets logo");
+        springOver = findViewById(R.id.springOverTV);
+        springOver.setOnClickListener(this);
 
         //SETUP PROGRESSBAR
         HorizontalStepView stepView = findViewById(R.id.step_view);
@@ -169,11 +171,18 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onClick(View v) {
-            if (v == buttonNextPage) {
+            if(v == buttonNextPage && preview.getVisibility() != View.INVISIBLE){
                 Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
                 ((GlobalVariables) this.getApplication()).setTempEmployeeImage(ImageString);
                 Bundle bndlanimation =
                         ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+                startActivity(CreateEmployeeFinish, bndlanimation);
+            } else if(v == buttonNextPage && preview.getVisibility() == View.INVISIBLE){
+                Toast.makeText(this, "Vælg et billede, eller firmalogo", Toast.LENGTH_SHORT).show();
+            } else if(v == springOver && preview.getVisibility() == View.INVISIBLE){
+                Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
+                ((GlobalVariables) this.getApplication()).setTempEmployeeImage("flexicu");
+                Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                 startActivity(CreateEmployeeFinish, bndlanimation);
             }
         }
