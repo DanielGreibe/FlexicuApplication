@@ -29,6 +29,7 @@ import com.crashlytics.android.Crashlytics;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
+import com.example.danie.flexicuapplication.profileSettings;
 import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -80,6 +81,8 @@ protected void onCreate(Bundle savedInstanceState)
     opretBruger.setOnClickListener(this);
     proBar = findViewById(R.id.progressBar);
     proBar.setVisibility(View.INVISIBLE);
+
+
 
     settings = getSharedPreferences("prefs",0);
     editor = settings.edit();

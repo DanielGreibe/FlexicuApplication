@@ -4,18 +4,21 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.danie.flexicuapplication.R;
+import com.example.danie.flexicuapplication.profileSettings;
 
 public class Navigation extends AppCompatActivity implements View.OnClickListener
     {
 
     Button buttonIndlej;
     Button buttonUdlej;
+    ConstraintLayout settingsButton;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -26,12 +29,19 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_navigation);
         buttonIndlej = findViewById(R.id.buttonIndlej);
         buttonUdlej = findViewById(R.id.buttonUdlej);
+        settingsButton = findViewById(R.id.settingsButton);
 
         buttonIndlej.setElevation(8);
         buttonUdlej.setElevation(8);
 
         buttonIndlej.setOnClickListener(this);
         buttonUdlej.setOnClickListener(this);
+
+            //Set settings button onClick
+            settingsButton.setOnClickListener(v -> {
+                Intent intent = new Intent(this, profileSettings.class);
+                startActivity(intent);
+            });
         }
 
     @Override
