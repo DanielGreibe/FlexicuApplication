@@ -54,7 +54,7 @@ public class RentInFragment extends Fragment {
     ImageView filter;
     LinearLayout mContainer;
     List<CrudEmployee> employees = new ArrayList<>();
-    int counter = 0, count = 0;
+    int counter = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
@@ -247,7 +247,7 @@ public class RentInFragment extends Fragment {
                 obj.get("name").toString().replace("\"", ""))
                 .job(obj.get("job").toString().replace("\"", ""))
                 .ID(obj.get("id").toString().replaceAll("\"",""))
-                .pic(obj.get("pic").toString())
+                .pic(obj.get("pic").toString().replace("\"", ""))
                 .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"","")))
                 .startDate(obj.get("rentStart").toString())
                 .endDate(obj.get("rentEnd").toString())
