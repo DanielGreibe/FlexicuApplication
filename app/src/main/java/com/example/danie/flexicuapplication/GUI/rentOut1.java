@@ -129,8 +129,6 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         rank = Employee.get("rank").toString().replaceAll("\"", "");
         pay = Employee.get("pay").toString().replaceAll("\"", "");
         owner = Employee.get("owner").toString().replaceAll("\"", "");
-        bekræftButton.setEnabled(false);
-        bekræftButton.setBackgroundColor(Color.GRAY);
 
         annoneceTextView.setText("Opret annonce for\n" + navn);
         if (navn.contains(" ")) {
@@ -163,10 +161,10 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         //Set slider settings
         int min = 5;
         int max = 150;
-        double spænd = max-min;
-        double km = 1.0/spænd;
-        double result = (afstand-5)*km;
-        slider.setPosition((float)result);
+        double spænd = max - min;
+        double km = 1.0 / spænd;
+        double result = (afstand - 5) * km;
+        slider.setPosition((float) result);
         slider.setColorBar(Color.rgb(0, 153, 203));
         slider.setColorBubble(Color.WHITE);
         slider.setStartText(Integer.toString(min) + " km");
@@ -203,28 +201,26 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
         });
 
         bekræftButton.setOnClickListener((view) -> {
-            if(lejeStartTextView.getText().toString().contains("/") && lejeSlutTextView.getText().toString().contains("/")){
-                    CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid()+ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "sat til udleje");
-                    Gson gson = new Gson();
-                    String rentOutJSON = gson.toJson(newRentOut);
-                    myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
-                    String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + ID);
-                    myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
+            if (getResources().getDrawable(R.drawable.layout_background_round_corner_blue_black_edge).getConstantState() == bekræftButton.getBackground().getConstantState()) {
+                CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid() + ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "sat til udleje");
+                Gson gson = new Gson();
+                String rentOutJSON = gson.toJson(newRentOut);
+                myRefUdlejninger.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutJSON);
+                String rentOutIdJSON = gson.toJson("" + GlobalVariables.getFirebaseUser().getUid() + ID);
+                myRefUdlejid.child(Integer.toString(newRentOut.getRentId())).setValue(rentOutIdJSON);
+
+                CrudEmployee employee = JsonToPersonConverter(entryString, "sat til udleje");
+                String jsonEmployee = gson.toJson(employee);
+                DatabaseReference updateEmployee = database.getReference("Users/" + GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/");
+                //Load employees and create cardviews and add to scroller
+                updateEmployee.child(employee.getID()).setValue(jsonEmployee);
+                System.out.println("HERE1 " + employee.toString());
+                Intent intent = new Intent(this, TabbedRentOut.class);
+                intent.putExtra("callingActivity", "udlejActivity");
+                startActivity(intent);
+                finish();
             }
-
-            CrudEmployee employee = JsonToPersonConverter(entryString, "sat til udleje");
-            Gson gson = new Gson();
-            String jsonEmployee = gson.toJson(employee);
-            DatabaseReference updateEmployee = database.getReference("Users/" + GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/");
-            //Load employees and create cardviews and add to scroller
-            updateEmployee.child(employee.getID()).setValue(jsonEmployee);
-            System.out.println("HERE1 " + employee.toString());
-            Intent intent = new Intent(this, TabbedRentOut.class);
-            intent.putExtra("callingActivity", "udlejActivity");
-            startActivity(intent);
-            finish();
         });
-
 
         //Load picture
         if (pictureURl.equals("flexicu")) {
@@ -357,15 +353,14 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
                 if(Integer.parseInt(startDate[0]) >= Integer.parseInt(endDate[0]) ) {
                     lejeStartTextView.setTextColor(Color.RED);
                     lejeSlutTextView.setTextColor(Color.RED);
+                    bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_grey);
                 }
                 else{
-                    bekræftButton.setEnabled(true);
                     bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_blue_black_edge);
                     lejeStartTextView.setTextColor(Color.BLACK);
                     lejeSlutTextView.setTextColor(Color.BLACK);
             }
         } else{
-                bekræftButton.setEnabled(true);
                 bekræftButton.setBackgroundResource(R.drawable.layout_background_round_corner_blue_black_edge);
                 lejeStartTextView.setTextColor(Color.BLACK);
                 lejeSlutTextView.setTextColor(Color.BLACK);
