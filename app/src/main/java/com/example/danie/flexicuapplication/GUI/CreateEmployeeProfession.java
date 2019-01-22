@@ -46,9 +46,16 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         editTextErhverv = findViewById(R.id.spinnerJob);
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
-        items.add("Håndværker");
+        items.add("Tømmer");
         items.add("VVS");
-        items.add("Elektrkker");
+        items.add("Elektrikker");
+        items.add("Murer");
+        items.add("Anlægsgartner");
+        items.add("Maler");
+        items.add("Arbejdsmand");
+        items.add("Smed");
+        items.add("Chaufør - under 3,5T");
+        items.add("Chaufør - over 3,5T");
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
             editTextErhverv.setAdapter(adapter);

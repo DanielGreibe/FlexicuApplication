@@ -224,7 +224,7 @@ public class RentInFragment extends Fragment {
             toDelete.removeValue();
             toDelete2.removeValue();
 
-
+            ExpandableCardview.setVisibility(View.GONE);
 
         });
     }
