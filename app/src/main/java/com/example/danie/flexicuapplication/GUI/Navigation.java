@@ -1,9 +1,14 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.app.ActivityOptions;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +38,8 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
         buttonIndlej.setOnClickListener(this);
         buttonUdlej.setOnClickListener(this);
         }
+
+
 
     @Override
     public void onClick(View v)
