@@ -117,7 +117,7 @@ public class RentInFragment extends Fragment {
 
 
     @SuppressLint("StaticFieldLeak")
-    public void createNewEmployee(CrudEmployee entry, LinearLayout myContainer) {
+    public void createNewEmployee(CrudEmployee Employee, LinearLayout myContainer) {
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
         View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
@@ -139,16 +139,16 @@ public class RentInFragment extends Fragment {
         //Hent data og gør det til et JsonObject
 
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
-        textViewPay.setText(String.valueOf(entry.getPay()) + " kr/t");
-        textViewZipcode.setText(String.valueOf(entry.getZipcode()));
-        textViewDistance.setText(String.valueOf(entry.getDist()) + " km");
-        textViewName.setText(entry.getName().replace("\"", ""));
-        textViewProfession.setText(entry.getJob().replace("\"", ""));
-        String startdate = entry.getStartDate();
-        String enddate = entry.getEndDate();
-        String rank = String.valueOf(entry.getRank());
-        String dr = entry.getKey();
-        String urlString = entry.getPic().replaceAll("\"", "");
+        textViewPay.setText(String.valueOf(Employee.getPay()) + " kr/t");
+        textViewZipcode.setText(String.valueOf(Employee.getZipcode()));
+        textViewDistance.setText(String.valueOf(Employee.getDist()) + " km");
+        textViewName.setText(Employee.getName().replace("\"", ""));
+        textViewProfession.setText(Employee.getJob().replace("\"", ""));
+        String startdate = Employee.getStartDate();
+        String enddate = Employee.getEndDate();
+        String rank = String.valueOf(Employee.getRank());
+        String dr = Employee.getKey();
+        String urlString = Employee.getPic().replaceAll("\"", "");
 
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
@@ -208,17 +208,28 @@ public class RentInFragment extends Fragment {
             // Tilføj pågældende udlejning til ejen indlejning
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Indlejninger");
-            CrudRentIns temp = new CrudRentIns(textViewName.getText().toString(),
-                    textViewPay.getText().toString(), textViewProfession.getText().toString(),
-                    startdate, enddate, "test ejer",
-                    textViewZipcode.getText().toString(), rank, urlString, "udlejet");
+            CrudRentIns temp = new CrudRentIns(Employee.getName(),
+                    Double.toString(Employee.getPay()), Employee.getJob(),
+                    Employee.getStartDate(), Employee.getEndDate(), Employee.getOwner(),
+                    Integer.toString(Employee.getZipcode()), Double.toString(Employee.getRank()), Employee.getPic(), "udlejet");
             Gson gson = new Gson();
             String employeeJSON = gson.toJson(temp);
             myRef.child(Integer.toString(temp.getID())).setValue(employeeJSON);
 
+            String employeeID = Employee.getID().substring(Employee.getID().length()-4);
+            String ownerID = Employee.getID().substring(0, Employee.getID().length()-4);
+
+
+
+
+            DatabaseReference updateStatus = database.getReference("Users/"+ownerID+"/Medarbejdere/");
+            CrudEmployee employee = JsonToPersonConverter2(gson.toJson(Employee), "udlejet", employeeID);
+
+            updateStatus.child(employeeID).setValue(gson.toJson(employee));
+
             //Fjern udlejninger fra databasen
             String key = dr;
-            String owner = entry.getOwner();
+            String owner = Employee.getOwner();
             DatabaseReference toDelete = FirebaseDatabase.getInstance().getReference("Udlejninger").child(key);
             toDelete.removeValue();
 
@@ -255,6 +266,26 @@ public class RentInFragment extends Fragment {
                 .owner(obj.get("owner").toString().replaceAll("\"",""))
                 .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"","")))
                 .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"","")))
+                .builder();
+        return people;
+    }
+
+    public CrudEmployee JsonToPersonConverter2(String entry, String status, String ownerID) {
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(entry);
+        JsonObject obj = element.getAsJsonObject();
+
+        CrudEmployee people = new CrudEmployee.EmployeBuilder(
+                obj.get("name").toString().replace("\"", ""))
+                .job(obj.get("job").toString().replace("\"", ""))
+                .ID(ownerID)
+                .pic(obj.get("pic").toString().replaceAll("\"", ""))
+                .owner(obj.get("owner").toString().replaceAll("\"", ""))
+                .pay(Double.parseDouble(obj.get("pay").toString().replaceAll("\"", "")))
+                .status(status)
+                .owner(obj.get("owner").toString().replaceAll("\"", ""))
+                .dist(Integer.parseInt(obj.get("dist").toString().replaceAll("\"", "")))
+                .zipcode(Integer.parseInt(obj.get("zipcode").toString().replaceAll("\"", "")))
                 .builder();
         return people;
     }
