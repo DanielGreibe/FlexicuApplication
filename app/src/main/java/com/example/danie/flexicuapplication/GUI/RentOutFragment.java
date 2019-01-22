@@ -200,6 +200,10 @@ public class RentOutFragment extends Fragment
         TextView textViewProfession = ExpandableCardview.findViewById(R.id.textViewProfession);
         ImageView profilePic = ExpandableCardview.findViewById(R.id.imageViewImage);
         Button udlejBtn = ExpandableCardview.findViewById(R.id.buttonUdlej);
+        TextView textViewLejeperiodeStart = ExpandableCardview.findViewById(R.id.textViewLejeperiodeStart);
+        TextView textViewLejeperiodeSlut = ExpandableCardview.findViewById(R.id.textViewLejeperiodeSlut);
+        TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
+
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
         textViewZipcode.setText(Employee.get("zipcode").toString());
@@ -207,6 +211,17 @@ public class RentOutFragment extends Fragment
         textViewName.setText(Employee.get("name").toString().replace("\"" , ""));
         textViewProfession.setText(Employee.get("job").toString().replace("\"" , ""));
         textViewStatus.setText(Employee.get("status").toString().replaceAll("\"",""));
+
+        if (Employee.get("status").toString().replace("\"", "").equals("ikke udlejet") || Employee.get("status").toString().replace("\"", "").equals("sat til udleje"))
+            {
+            textViewLejeperiodeStart.setText("Ikke udlejet");
+            textViewLejeperiodeSlut.setText("Ikke udlejet");
+            }
+    else
+            {
+            //TODO sæt textViweLejeperiodeStart og textViewLejeperiodeSlut til rigtig data
+            }
+
 
 
         //Tjek status
