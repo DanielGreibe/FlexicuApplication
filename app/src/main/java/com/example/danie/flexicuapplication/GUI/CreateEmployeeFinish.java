@@ -241,20 +241,17 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         textViewProfession.setText(profession);
         textViewStatus.setText("ikke udlejet");
         textViewDescription.setText(description);
-     if (imgData == null)
-            {
+        if (imgData == null){
             //Get round image
             Glide.with(this).load(R.drawable.flexiculogocube).
                     apply(RequestOptions.circleCropTransform())
                     .into(profilePic);
-            }
-        else
-            {
+        } else{
                 //Get round image
                 Glide.with(this).load(imgData).
                         apply(RequestOptions.circleCropTransform())
                         .into(profilePic);
-            }
+        }
 
         headderStatus.setText("Fødsels år");
         textViewStatus.setText(year);
