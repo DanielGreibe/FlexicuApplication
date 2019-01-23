@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -80,6 +81,7 @@ public class RentInFragment extends Fragment {
         mContainer = v.findViewById(R.id.linearLayoutRentin);
         freeSearch = v.findViewById(R.id.freeSearch);
 
+
                 filter.setOnClickListener((View) -> {
                 /*
                     Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
@@ -99,6 +101,13 @@ public class RentInFragment extends Fragment {
 
 
                 popupWindow.showAtLocation(mContainer, Gravity.CENTER, 0, 0);
+                View containerOfPopup = (View) popupWindow.getContentView().getParent();
+                WindowManager windowManager = (WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE);
+                WindowManager.LayoutParams layoutParameters = (WindowManager.LayoutParams) containerOfPopup.getLayoutParams();
+                // add flag
+                layoutParameters.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                layoutParameters.dimAmount = 0.8f;
+                windowManager.updateViewLayout(containerOfPopup, layoutParameters);
 
                 ArrayList<String> filterList = new ArrayList<String>();
                 Button btn = popupView.findViewById(R.id.searchBtn);
