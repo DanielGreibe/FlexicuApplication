@@ -121,10 +121,8 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     }
 
     @Override
-    public void onClick(View v)
-    {
-        if ( v == buttonNextPage )
-        {
+    public void onClick(View v){
+        if ( v == buttonNextPage ){
             Intent Udlej = new Intent(this, TabbedRentOut.class);
             CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(profession).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).status("ikke udlejet").available("Home").owner(GlobalVariables.getFirebaseUser().getUid()).description(description).builder();
 
@@ -219,8 +217,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         ImageView rateImage = ExpandableCardview.findViewById(R.id.imageButton2);
         TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
 
-
-
         //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
         textViewPay.setText(pay + " kr/t");
         textViewZipcode.setText((zipcode + ""));
@@ -248,8 +244,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             headerDescription.setVisibility(View.GONE);
             textViewDescription.setVisibility(View.GONE);
         }
-
-
         rate.setVisibility(View.GONE);
         rateImage.setVisibility(View.GONE);
         headerLejStart.setVisibility(View.GONE);
