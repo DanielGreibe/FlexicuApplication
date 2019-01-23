@@ -52,7 +52,9 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
 
         for(int image: images){
             SlideShow(image);
+
         }
+
     }
 
     @Override
