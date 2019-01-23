@@ -64,6 +64,7 @@ public class RentOutFragment extends Fragment
     String callingActivity = "default";
     ArrayList<String> existingViews = new ArrayList<>();
     LinearLayout myContainer;
+    boolean allredyRentOut;
 
     TextView loadingbar, textViewLejeperiodeStart, textViewLejeperiodeSlut;
     private Button addEmployeeBtn;
@@ -112,7 +113,9 @@ public class RentOutFragment extends Fragment
                     for (DataSnapshot entry : dataSnapshot.getChildren()){
                             createNewEmployee(entry, myContainer);
                     }
-                    cardDevider.setVisibility(View.VISIBLE);
+                    if(allredyRentOut) {
+                        cardDevider.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 @Override
@@ -137,7 +140,9 @@ public class RentOutFragment extends Fragment
                     // createEmployeeView(entry, myContainer);
                     createNewEmployee(entry, myContainer);
                     }
-                    cardDevider.setVisibility(View.VISIBLE);
+                    if(allredyRentOut) {
+                        cardDevider.setVisibility(View.VISIBLE);
+                    }
                 }
 
 
@@ -360,6 +365,7 @@ public class RentOutFragment extends Fragment
         } else {
             myContainer.addView(ExpandableCardview,myContainer.getChildCount());
             myContainer.addView(Spacer,myContainer.getChildCount());
+            allredyRentOut = true;
         }
 
 
