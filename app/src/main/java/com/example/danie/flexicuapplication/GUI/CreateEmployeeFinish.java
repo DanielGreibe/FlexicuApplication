@@ -129,7 +129,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(profession).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).status("ikke udlejet").available("Home").owner(GlobalVariables.getFirebaseUser().getUid()).description(description).builder();
 
             //Upload image if standard image is selected or if custom image is selected!
-            if(((GlobalVariables) this.getApplication()).getTempEmployeeImage().equals("flexicu")){
+            if(imgData == null){
                 employee.setPic("flexicu"); //TODO ADD STANDARD IMG LINK
                 // Write a message to the database
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -188,18 +188,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         });
     }
 
-    public Bitmap StringToBitMap(String encodedString){
-        try {
-            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        } catch(Exception e) {
-            e.getMessage();
-            return null;
-        }
-    }
-
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -241,20 +229,17 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         textViewProfession.setText(profession);
         textViewStatus.setText("ikke udlejet");
         textViewDescription.setText(description);
-     if (imgData.equals(null))
-            {
+        if (imgData == null){
             //Get round image
             Glide.with(this).load(R.drawable.flexiculogocube).
                     apply(RequestOptions.circleCropTransform())
                     .into(profilePic);
-            }
-        else
-            {
+        } else{
                 //Get round image
                 Glide.with(this).load(imgData).
                         apply(RequestOptions.circleCropTransform())
                         .into(profilePic);
-            }
+        }
 
         headderStatus.setText("Fødsels år");
         textViewStatus.setText(year);
