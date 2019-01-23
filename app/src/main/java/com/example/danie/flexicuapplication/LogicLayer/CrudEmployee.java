@@ -233,6 +233,10 @@ public class CrudEmployee
         public void setavailable(String available) {this.available = available;}
 
         public void stedescription(String description) {this.description = description;}
+
+        public void  setStartDate(String startDate) {this.startDate = startDate;}
+
+        public void  setendDate(String endDate) {this.endDate = endDate;}
         }
 
 
@@ -303,7 +307,6 @@ public class CrudEmployee
     public String getStatus(){ return status;}
 
     public  String getdescription() {return description;}
-
     }
 
 

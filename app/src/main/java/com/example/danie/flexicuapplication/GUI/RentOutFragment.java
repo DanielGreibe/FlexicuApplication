@@ -218,20 +218,16 @@ public class RentOutFragment extends Fragment
         }
 
         //Ændrer tekstfelterne textViewLejeperiodeStart og Slut afhængig af brugerens status
-        if (Employee.get("status").toString().replaceAll("\"", "").equals("ikke udlejet"))
-            {
+        if (Employee.get("status").toString().replaceAll("\"", "").equals("ikke udlejet")){
             textViewLejeperiodeStart.setText("Ikke udlejet");
             textViewLejeperiodeSlut.setText("Ikke udlejet");
-            }
-    else if (Employee.get("status").toString().replace("\"", "").equals("sat til udleje"))
-            {
+        } else if (Employee.get("status").toString().replace("\"", "").equals("sat til udleje")){
             textViewLejeperiodeStart.setText("Sat til udleje");
             textViewLejeperiodeSlut.setText("Sat til udleje");
-            }
-    else
-            {
-
-            }
+        } else {
+            textViewLejeperiodeStart.setText(Employee.get("startDate").toString().replaceAll("\"",""));
+            textViewLejeperiodeSlut.setText(Employee.get("endDate").toString().replaceAll("\"",""));
+        }
 
 
 
