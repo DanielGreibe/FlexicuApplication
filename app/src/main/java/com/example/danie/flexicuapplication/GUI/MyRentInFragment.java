@@ -179,18 +179,10 @@ public class MyRentInFragment extends Fragment {
         profilePic.setImageResource(R.drawable.download);
         //We want to download images for the list of workers
         if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
-//        if(false){
-            int minPixels = 0;
-            Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
-            if(photo.getWidth() < photo.getHeight()){
-                minPixels = photo.getWidth();
-            }
-            else {
-                minPixels = photo.getHeight();
-                Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth() - minPixels) / 2), ((photo.getHeight() - minPixels) / 2), minPixels, minPixels);
-                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 400);
-                profilePic.setImageBitmap(squareImg);
-            }
+            Glide.with(this)
+                    .load(R.drawable.flexiculogocube)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(profilePic);
         } else {
 
             URL url = null;
