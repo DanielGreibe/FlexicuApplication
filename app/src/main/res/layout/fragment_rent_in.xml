@@ -50,7 +50,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/freeSearch"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/freeSearch"
-            app:srcCompat="@drawable/menu_kvadrat" />
+            app:srcCompat="@drawable/settingsicon" />
 
         <View
             android:id="@+id/divider"
