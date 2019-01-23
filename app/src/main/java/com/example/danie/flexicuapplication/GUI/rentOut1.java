@@ -227,16 +227,10 @@ public class rentOut1 extends AppCompatActivity implements OnMapReadyCallback {
 
         //Load picture
         if (pictureURl.equals("flexicu")) {
-            int minPixels = 0;
-            Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
-            if (photo.getWidth() < photo.getHeight()) {
-                minPixels = photo.getWidth();
-            } else {
-                minPixels = photo.getHeight();
-                Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth() - minPixels) / 2), ((photo.getHeight() - minPixels) / 2), minPixels, minPixels);
-                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 400);
-                profilBilledeImageView.setImageBitmap(squareImg);
-            }
+            Glide.with(this)
+                    .load(R.drawable.flexiculogocube)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(profilBilledeImageView);
         } else {
             //System.out.println(src);
             URL url = null;

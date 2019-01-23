@@ -95,6 +95,7 @@ public class RentOutFragment extends Fragment
         Bundle bndlanimation =
                 ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
         startActivity(opretAnsat, bndlanimation);
+        //getActivity().finish();
         });
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -107,7 +108,7 @@ public class RentOutFragment extends Fragment
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                    if(!String.valueOf(getActivity()).contains("TabbedRentOut")){
                         return;
                     }
                     for (DataSnapshot entry : dataSnapshot.getChildren()){
@@ -160,7 +161,7 @@ public class RentOutFragment extends Fragment
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                    if(!String.valueOf(getActivity()).contains("TabbedRentOut")){
                         return;
                     }
                     for(DataSnapshot entry : dataSnapshot.getChildren()){
@@ -274,17 +275,10 @@ public class RentOutFragment extends Fragment
 
 
             if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
-                int minPixels = 0;
-                Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
-                if(photo.getWidth() < photo.getHeight()){
-                    minPixels = photo.getWidth();
-                }
-                else {
-                    minPixels = photo.getHeight();
-                    Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth() - minPixels) / 2), ((photo.getHeight() - minPixels) / 2), minPixels, minPixels);
-                    squareImg = RoundedImageView.getCroppedBitmap(squareImg, 400);
-                    profilePic.setImageBitmap(squareImg);
-                }
+                Glide.with(this)
+                        .load(R.drawable.flexiculogocube)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(profilePic);
             } else {
                 //We want to download images for the list of workers
                 URL finalUrl = url;
