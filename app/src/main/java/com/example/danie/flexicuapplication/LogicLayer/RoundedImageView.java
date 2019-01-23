@@ -64,7 +64,6 @@ public class RoundedImageView extends android.support.v7.widget.AppCompatImageVi
         } else {
             sbmp = bmp;
         }
-
         Bitmap output = Bitmap.createBitmap(radius, radius, Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 

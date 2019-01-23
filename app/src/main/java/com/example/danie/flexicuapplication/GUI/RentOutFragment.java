@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
@@ -58,7 +59,6 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class RentOutFragment extends Fragment
     {
-
     //Visual logic
     int employeeSelected = 0;
     String callingActivity = "default";
@@ -288,51 +288,10 @@ public class RentOutFragment extends Fragment
             } else {
                 //We want to download images for the list of workers
                 URL finalUrl = url;
-                new AsyncTask<Void, Void, Bitmap>() {
-                    //Get pictures in background
-                    @Override
-                    protected Bitmap doInBackground(Void... voids) {
-                        try {
-                            //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
-                            Bitmap myBitmap = Glide
-                                    .with(profilePic)
-                                    .asBitmap()
-                                    .load(finalUrl)
-                                    .submit()
-                                    .get();
-                            return myBitmap;
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-
-                    //On return update images in list
-                    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-                    @Override
-                    protected void onPostExecute(Bitmap s) {
-                        super.onPostExecute(s);
-                        s = RoundedImageView.getCroppedBitmap(s, 200);
-                        profilePic.setImageBitmap(s);
-                        if (loadingbar.getVisibility() == View.VISIBLE) {
-                            //Set fade animation and hide after animation end
-                            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                            anim.setDuration(1500);
-                            anim.setRepeatCount(0);
-                            anim.willChangeBounds();
-                            loadingbar.startAnimation(anim);
-                            loadingbar.postOnAnimation(new Runnable() {
-                                @Override
-                                public void run() {
-                                    loadingbar.setVisibility(View.INVISIBLE);
-                                }
-                            });
-                        }
-
-                    }
-                }.execute();
+                Glide.with(this)
+                        .load(finalUrl)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(profilePic);
             }
 
             if(loadingbar.getVisibility() == View.VISIBLE) {

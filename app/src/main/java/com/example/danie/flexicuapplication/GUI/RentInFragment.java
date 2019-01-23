@@ -37,6 +37,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.danie.flexicuapplication.LogicLayer.AndCriteria;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaDistance;
 import com.example.danie.flexicuapplication.LogicLayer.CriteriaInterface;
@@ -292,36 +293,10 @@ public class RentInFragment extends Fragment {
         } else {
             //We want to download images for the list of workers
             URL finalUrl = url;
-            new AsyncTask<Void, Void, Bitmap>() {
-                //Get pictures in background
-                @Override
-                protected Bitmap doInBackground(Void... voids) {
-                    try {
-                        //Use glide for faster load and to save images in cache! (glide.asBitmap does not create its own asynctask)
-                        Bitmap myBitmap = Glide
-                                .with(profilePic)
-                                .asBitmap()
-                                .load(finalUrl)
-                                .submit()
-                                .get();
-                        return myBitmap;
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-
-                //On return update images in list
-                @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-                @Override
-                protected void onPostExecute(Bitmap s) {
-                    super.onPostExecute(s);
-                    s = RoundedImageView.getCroppedBitmap(s, 200);
-                    profilePic.setImageBitmap(s);
-                }
-            }.execute();
+            Glide.with(this)
+                    .load(finalUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(profilePic);
         }
 
 
