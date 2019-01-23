@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -67,7 +68,7 @@ public class RentOutFragment extends Fragment
     boolean allredyRentOut;
 
     TextView loadingbar, textViewLejeperiodeStart, textViewLejeperiodeSlut;
-    private Button addEmployeeBtn;
+    private FloatingActionButton addEmployeeBtn;
     int id = 1;
 
     @SuppressLint("ResourceType")

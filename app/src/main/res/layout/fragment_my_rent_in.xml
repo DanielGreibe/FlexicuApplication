@@ -19,7 +19,7 @@
             android:layout_marginLeft="9dp"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
-            android:layout_marginBottom="70dp"
+            android:layout_marginBottom="35dp"
             android:scrollbarStyle="insideInset"
             android:scrollbarThumbVertical="@drawable/layout_background_round_corners_blue"
             app:layout_constraintBottom_toBottomOf="parent"
