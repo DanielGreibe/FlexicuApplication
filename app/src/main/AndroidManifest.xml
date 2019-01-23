@@ -27,7 +27,8 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="stateHidden"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".profileSettings"></activity>
+        <activity android:name=".GUI.About"></activity>
+        <activity android:name=".profileSettings" />
 
         <uses-library
             android:name="org.apache.http.legacy"

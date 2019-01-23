@@ -131,7 +131,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
     <TextView
-        android:id="@+id/textViewTitle3"
+        android:id="@+id/header"
         android:layout_width="381dp"
         android:layout_height="92dp"
         android:layout_marginStart="8dp"
@@ -203,7 +203,7 @@
         android:background="@drawable/layout_background_round_corners_blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle3" />
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <com.kofigyan.stateprogressbar.StateProgressBar
         android:id="@+id/your_state_progress_bar_id"
