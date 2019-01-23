@@ -32,8 +32,8 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
         settingsButton = findViewById(R.id.settingsButton);
         aboutButton = findViewById(R.id.aboutButton);
         slideShowVF = findViewById(R.id.slideShow);
-        int images[] = {R.drawable.slide1, R.drawable.slide2, R.drawable.slide3,R.drawable.slide4};
-
+        //int images[] = {R.drawable.slide1, R.drawable.slide2, R.drawable.slide3,R.drawable.slide4};
+        int images[] = {R.drawable.rsz_slide1, R.drawable.rsz_slide2, R.drawable.rsz_slide3, R.drawable.rsz_slide4};
         buttonIndlej.setElevation(8);
         buttonUdlej.setElevation(8);
 
