@@ -1,6 +1,7 @@
 package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -16,15 +17,24 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RatingBar;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.danie.flexicuapplication.LogicLayer.AndCriteria;
@@ -61,6 +71,7 @@ public class RentInFragment extends Fragment {
     int counter = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     TextView freeSearch;
+    Bundle dataBundle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,15 +81,101 @@ public class RentInFragment extends Fragment {
         mContainer = v.findViewById(R.id.linearLayoutRentin);
         freeSearch = v.findViewById(R.id.freeSearch);
 
+
                 filter.setOnClickListener((View) -> {
+                /*
                     Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
                     Bundle bndlanimation =
                             ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
                     startActivity(filtermenu, bndlanimation);
+                    */
+                //Vis Popup
+                View popupView = getLayoutInflater().inflate(R.layout.activity_rent_in_filters, null);
+
+
+
+                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                boolean focusable = true;
+                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+
+                popupWindow.showAtLocation(mContainer, Gravity.CENTER, 0, 0);
+                View containerOfPopup = (View) popupWindow.getContentView().getParent();
+                WindowManager windowManager = (WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE);
+                WindowManager.LayoutParams layoutParameters = (WindowManager.LayoutParams) containerOfPopup.getLayoutParams();
+                // add flag
+                layoutParameters.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                layoutParameters.dimAmount = 0.8f;
+                windowManager.updateViewLayout(containerOfPopup, layoutParameters);
+
+                ArrayList<String> filterList = new ArrayList<String>();
+                Button btn = popupView.findViewById(R.id.searchBtn);
+                TextView seekbarValue = popupView.findViewById(R.id.progressValue);
+                EditText lowerPay = popupView.findViewById(R.id.payLower);
+                Spinner editTextprof = popupView.findViewById(R.id.spinnerJobFilter);
+                EditText upperPay = popupView.findViewById(R.id.payUpper);
+                ArrayList<String> items = new ArrayList<>();
+
+                SeekBar seekBarDist = popupView.findViewById(R.id.distSlider);
+                seekBarDist.setProgress(75);
+                seekbarValue.setText("Fra 0 til "+ seekBarDist.getProgress() + " km");
+
+                seekBarDist.setMax(150);
+                items.add("Tømmer");
+                items.add("VVS");
+                items.add("Elektrikker");
+                items.add("Murer");
+                items.add("Anlægsgartner");
+                items.add("Maler");
+                items.add("Arbejdsmand");
+                items.add("Smed");
+                items.add("Chaufør - under 3,5T");
+                items.add("Chaufør - over 3,5T");
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
+                editTextprof.setAdapter(adapter);
+
+                seekBarDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                seekbarValue.setText("Fra 0 til " + String.valueOf(progress)+" km");
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
 
                 });
 
-        Bundle bundle = getActivity().getIntent().getExtras();
+                btn.setOnClickListener((view)->{
+                filterList.add(lowerPay.getText().toString());
+                filterList.add(upperPay.getText().toString());
+                filterList.add(String.valueOf(seekBarDist.getProgress()));
+                filterList.add(editTextprof.getSelectedItem().toString());
+                dataBundle  = new Bundle();
+                dataBundle.putStringArrayList("filterValues", filterList);
+                if (lowerPay.getText().toString().equals("") && upperPay.getText().toString().equals(""))
+                    {
+                    Toast.makeText(getContext(), "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
+                    }else {
+                popupWindow.dismiss();
+                mContainer.removeAllViews();
+                createEmployeeWithFilter();
+                }
+
+                });
+
+
+
+                });
+
+
         DatabaseReference myRef2 = database.getReference("/Udlejninger");
         myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -92,8 +189,8 @@ public class RentInFragment extends Fragment {
                         employees.add(JsonToPersonConverter(entry, entry.getKey()));
                     }
                 }
-                if (bundle != null) {
-                    ArrayList<String> filterValues = bundle.getStringArrayList("filterValues");
+                if (dataBundle != null) {
+                    ArrayList<String> filterValues = dataBundle.getStringArrayList("filterValues");
                     CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
                     CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
                     CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
@@ -334,6 +431,22 @@ public class RentInFragment extends Fragment {
                 .builder();
         return people;
     }
-}
+@TargetApi(Build.VERSION_CODES.N)
+public void createEmployeeWithFilter()
+    {
+    counter = 0;
+    if (dataBundle != null) {
+    ArrayList<String> filterValues = dataBundle.getStringArrayList("filterValues");
+    CriteriaInterface payLower = new CriteriaPayLower(Double.parseDouble(filterValues.get(0)));
+    CriteriaInterface payUpper = new CriteriaPayUpper(Double.parseDouble(filterValues.get(1)));
+    CriteriaInterface dist = new CriteriaDistance(Double.parseDouble(filterValues.get(2)));
+    CriteriaInterface profession = new CriteriaProfession(filterValues.get(3));
+    CriteriaInterface payBounds = new AndCriteria(payLower, profession, payUpper, dist );
+    payBounds.meetCriteria(employees).forEach((a) -> {
+    createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
+
+    });
+    }
+}}
 
 

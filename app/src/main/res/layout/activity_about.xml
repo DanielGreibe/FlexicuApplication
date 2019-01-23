@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/FlexGrey"
+    tools:context=".GUI.About">
+
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:adjustViewBounds="true"
+        android:background="@color/white"
+        android:contentDescription="@string/flexicu_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/flexicu_logo" />
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="381dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center_horizontal"
+        android:text="Denne app er udarbejdet i sammarbejde mellem Flexicu og DTU"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="395dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/FlexBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
+    <View
+        android:id="@+id/background"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/layout_background_round_corners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <ImageView
+        android:id="@+id/imageViewOliver"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@+id/background"
+        app:layout_constraintTop_toTopOf="@+id/background"
+        app:srcCompat="@drawable/oliver" />
+
+    <TextView
+        android:id="@+id/textViewOliver"
+        android:layout_width="149dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Oliver Nielsen \ns164917 \n5. semester Elektro Teknologi"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewOliver"
+        app:layout_constraintStart_toEndOf="@+id/imageViewOliver"
+        app:layout_constraintTop_toTopOf="@+id/imageViewOliver" />
+
+    <ImageView
+        android:id="@+id/imageViewDaniel"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/background"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewOliver"
+        app:srcCompat="@drawable/daniel" />
+
+    <TextView
+        android:id="@+id/textViewDaniel"
+        android:layout_width="149dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Daniel Greibe\ns175207\n3. semester Softare Teknologi"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewDaniel"
+        app:layout_constraintStart_toEndOf="@+id/imageViewDaniel"
+        app:layout_constraintTop_toTopOf="@+id/imageViewDaniel" />
+
+    <ImageView
+        android:id="@+id/imageViewFutte"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/background"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewDaniel"
+        app:srcCompat="@drawable/futte" />
+
+    <TextView
+        android:id="@+id/textViewFutte"
+        android:layout_width="149dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Nicklas Thysen\ns175204\n3. semester Softare Teknologi"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewFutte"
+        app:layout_constraintStart_toEndOf="@+id/imageViewFutte"
+        app:layout_constraintTop_toTopOf="@+id/imageViewFutte" />
+
+    <ImageView
+        android:id="@+id/imageViewMathias"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/background"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewFutte"
+        app:srcCompat="@drawable/mathias" />
+
+    <TextView
+        android:id="@+id/textViewMathias"
+        android:layout_width="149dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Mathias Høgsgaard \ns175211 \n3. semester Softare Teknologi"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewMathias"
+        app:layout_constraintStart_toEndOf="@+id/imageViewMathias"
+        app:layout_constraintTop_toTopOf="@+id/imageViewMathias" />
+
+
+</android.support.constraint.ConstraintLayout>

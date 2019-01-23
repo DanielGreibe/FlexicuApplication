@@ -25,6 +25,10 @@ public class AndCriteria implements CriteriaInterface {
     public List<CrudEmployee> meetCriteria(List<CrudEmployee> persons) {
 
         List<CrudEmployee> firstCriteriaPersons = criteria.meetCriteria(persons);
-        return otherCriteria.meetCriteria(firstCriteriaPersons);
+        List<CrudEmployee> secondCriteriaPersons = otherCriteria.meetCriteria(firstCriteriaPersons);
+        List<CrudEmployee> thirdCriteriaPersons = someOther.meetCriteria(secondCriteriaPersons);
+        List<CrudEmployee> fourthCriteriaPersons = someThird.meetCriteria(thirdCriteriaPersons);
+
+        return fourthCriteriaPersons;
     }
 }

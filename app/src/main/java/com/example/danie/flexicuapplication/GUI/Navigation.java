@@ -18,9 +18,8 @@ import com.example.danie.flexicuapplication.profileSettings;
 public class Navigation extends AppCompatActivity implements View.OnClickListener
     {
 
-    Button buttonIndlej;
-    Button buttonUdlej;
-    ConstraintLayout settingsButton;
+    Button buttonIndlej, buttonUdlej;
+    ConstraintLayout settingsButton, aboutButton;
     ViewFlipper slideShowVF;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -32,6 +31,7 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
         buttonIndlej = findViewById(R.id.buttonIndlej);
         buttonUdlej = findViewById(R.id.buttonUdlej);
         settingsButton = findViewById(R.id.settingsButton);
+        aboutButton = findViewById(R.id.aboutButton);
         slideShowVF = findViewById(R.id.slideShow);
         int images[] = {R.drawable.slide1, R.drawable.slide2, R.drawable.slide3,R.drawable.slide4};
 
@@ -46,6 +46,10 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
                 Intent intent = new Intent(this, profileSettings.class);
                 startActivity(intent);
             });
+            aboutButton.setOnClickListener(v -> {
+                Intent intent = new Intent(this, About.class);
+                startActivity(intent);
+             });
 
         for(int image: images){
             SlideShow(image);

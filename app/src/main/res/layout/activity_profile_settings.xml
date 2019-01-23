@@ -131,7 +131,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
     <TextView
-        android:id="@+id/textViewTitle3"
+        android:id="@+id/header"
         android:layout_width="381dp"
         android:layout_height="67dp"
         android:layout_marginStart="8dp"
@@ -204,6 +204,6 @@
         android:background="@color/FlexBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle3" />
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
 </android.support.constraint.ConstraintLayout>
