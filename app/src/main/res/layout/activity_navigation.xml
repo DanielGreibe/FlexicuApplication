@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="Settings"
+            android:text="About"
             android:textColor="@android:color/black"
             android:textSize="8sp"
             app:layout_constraintEnd_toStartOf="@+id/imageView131"
