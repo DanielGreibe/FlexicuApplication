@@ -40,7 +40,6 @@ public class CreateEmployeeDescription extends AppCompatActivity implements View
         setContentView(R.layout.activity_create_employee_description);
 
         editTextDescription = findViewById(R.id.editTextDescription);
-        editTextDescription.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         textViewTitle = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
