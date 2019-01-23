@@ -35,19 +35,20 @@ public class FiltersRentIn extends AppCompatActivity
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_in_filters);
-           ArrayList<String> filterList = new ArrayList<String>();
 
 
+        ArrayList<String> filterList = new ArrayList<String>();
         btn = findViewById(R.id.searchBtn);
         seekbarValue=findViewById(R.id.progressValue);
         lowerPay = findViewById(R.id.payLower);
         editTextprof = findViewById(R.id.spinnerJobFilter);
         upperPay = findViewById(R.id.payUpper);
-        lowerPay.setText("0");
-        upperPay.setText("999");
+
         seekBarDist = findViewById(R.id.distSlider);
         seekBarDist.setProgress(75);
-        seekbarValue.setText(seekBarDist.getProgress() + " km");
+        lowerPay.setText("0");
+        upperPay.setText("999");
+        seekbarValue.setText("Fra 0 til "+ seekBarDist.getProgress() + " km");
         seekBarDist.setMax(150);
             items.add("Tømmer");
             items.add("VVS");
@@ -65,7 +66,7 @@ public class FiltersRentIn extends AppCompatActivity
         seekBarDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekbarValue.setText(String.valueOf(progress)+" km");
+                seekbarValue.setText("Fra 0 til " + String.valueOf(progress)+" km");
             }
 
             @Override
