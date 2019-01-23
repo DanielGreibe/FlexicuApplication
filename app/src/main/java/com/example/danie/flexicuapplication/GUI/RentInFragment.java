@@ -122,7 +122,7 @@ public class RentInFragment extends Fragment {
                 seekbarValue.setText("Fra 0 til "+ seekBarDist.getProgress() + " km");
 
                 seekBarDist.setMax(150);
-                items.add("Tømmer");
+                items.add("Tømrer");
                 items.add("VVS");
                 items.add("Elektrikker");
                 items.add("Murer");
@@ -130,8 +130,8 @@ public class RentInFragment extends Fragment {
                 items.add("Maler");
                 items.add("Arbejdsmand");
                 items.add("Smed");
-                items.add("Chaufør - under 3,5T");
-                items.add("Chaufør - over 3,5T");
+                items.add("Chauffør - under 3,5T");
+                items.add("Chauffør - over 3,5T");
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
                 editTextprof.setAdapter(adapter);
 
@@ -238,6 +238,8 @@ public class RentInFragment extends Fragment {
         indlejButton.setText("Indlej");
         TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
         TextView textViewDescription = ExpandableCardview.findViewById(R.id.textViewDescription);
+        TextView textViewLejeperiodeStart = ExpandableCardview.findViewById(R.id.textViewLejeperiodeStart);
+        TextView textViewLejeperiodeSlut = ExpandableCardview.findViewById(R.id.textViewLejeperiodeSlut);
 
         //Hent data og gør det til et JsonObject
 
@@ -252,6 +254,9 @@ public class RentInFragment extends Fragment {
         String rank = String.valueOf(Employee.getRank());
         String dr = Employee.getKey();
         String urlString = Employee.getPic().replaceAll("\"", "");
+        textViewLejeperiodeStart.setText(Employee.getStartDate().toString().replaceAll("\"",""));
+        textViewLejeperiodeSlut.setText(Employee.getEndDate().toString().replaceAll("\"",""));
+
 
         if(Employee.getdescription().equals("")){
             headerDescription.setVisibility(View.GONE);
