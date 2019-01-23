@@ -115,7 +115,7 @@ public class MyRentOutsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("HEREHERE " + String.valueOf(getActivity()).contains("TabbedRentIn"));
-                if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                if(!String.valueOf(getActivity()).contains("TabbedRentOut")){
                     return;
                 }
                 for(DataSnapshot entry : dataSnapshot.getChildren()){

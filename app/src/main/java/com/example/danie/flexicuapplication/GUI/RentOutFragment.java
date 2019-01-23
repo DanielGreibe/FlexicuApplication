@@ -107,7 +107,7 @@ public class RentOutFragment extends Fragment
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                    if(!String.valueOf(getActivity()).contains("TabbedRentOut")){
                         return;
                     }
                     for (DataSnapshot entry : dataSnapshot.getChildren()){
@@ -160,7 +160,7 @@ public class RentOutFragment extends Fragment
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!String.valueOf(getActivity()).contains("TabbedRentIn")){
+                    if(!String.valueOf(getActivity()).contains("TabbedRentOut")){
                         return;
                     }
                     for(DataSnapshot entry : dataSnapshot.getChildren()){
