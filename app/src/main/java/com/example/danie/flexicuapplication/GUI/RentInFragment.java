@@ -160,7 +160,7 @@ public class RentInFragment extends Fragment {
                 filterList.add(editTextprof.getSelectedItem().toString());
                 dataBundle  = new Bundle();
                 dataBundle.putStringArrayList("filterValues", filterList);
-                if (lowerPay.getText().toString().equals("") && upperPay.getText().toString().equals(""))
+                if (lowerPay.getText().toString().equals("") || upperPay.getText().toString().equals(""))
                     {
                     Toast.makeText(getContext(), "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
                     }else {
