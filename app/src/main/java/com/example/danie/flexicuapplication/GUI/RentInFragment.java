@@ -214,6 +214,7 @@ public class RentInFragment extends Fragment {
             }
         });
 
+
         return v;
     }
 

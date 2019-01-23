@@ -96,6 +96,7 @@ public class RentOutFragment extends Fragment
         Bundle bndlanimation =
                 ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
         startActivity(opretAnsat, bndlanimation);
+        //getActivity().finish();
         });
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
