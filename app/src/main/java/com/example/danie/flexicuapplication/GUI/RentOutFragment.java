@@ -63,6 +63,7 @@ public class RentOutFragment extends Fragment
     int employeeSelected = 0;
     String callingActivity = "default";
     ArrayList<String> existingViews = new ArrayList<>();
+    LinearLayout myContainer;
 
     TextView loadingbar, textViewLejeperiodeStart, textViewLejeperiodeSlut;
     private Button addEmployeeBtn;
@@ -83,7 +84,10 @@ public class RentOutFragment extends Fragment
         loadingbar.bringToFront();
         loadingbar.setVisibility(View.INVISIBLE);
         addEmployeeBtn = view.findViewById(R.id.addEmployee);
-        LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
+        myContainer = view.findViewById(R.id.scrollViewLayout2);
+        View cardDevider = getLayoutInflater().inflate(R.layout.card_devider, null, false);
+        myContainer.addView(cardDevider);
+        cardDevider.setVisibility(View.INVISIBLE);
         addEmployeeBtn.setOnClickListener((vieww) -> {
         Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class); //TODO change to CreateEmplyee.class
             opretAnsat.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -108,6 +112,7 @@ public class RentOutFragment extends Fragment
                     for (DataSnapshot entry : dataSnapshot.getChildren()){
                             createNewEmployee(entry, myContainer);
                     }
+                    cardDevider.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -132,6 +137,7 @@ public class RentOutFragment extends Fragment
                     // createEmployeeView(entry, myContainer);
                     createNewEmployee(entry, myContainer);
                     }
+                    cardDevider.setVisibility(View.VISIBLE);
                 }
 
 
@@ -184,6 +190,7 @@ public class RentOutFragment extends Fragment
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
         View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
+
 
         //Lav FindViewById på Viewsne som er blevet inflated
         TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
@@ -340,17 +347,22 @@ public class RentOutFragment extends Fragment
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
         linearLayoutCollapsed.setOnClickListener((test) ->
         {
-
         expand(linearLayoutExpanded, imageButtonArrow);
         });
-        imageButtonArrow.setOnClickListener((test) ->
-        {
+        imageButtonArrow.setOnClickListener((test) -> {
         expand(linearLayoutExpanded, imageButtonArrow);
         });
 
         //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
-        myContainer.addView(ExpandableCardview);
-        myContainer.addView(Spacer);
+        if(Employee.get("status").toString().replaceAll("\"", "").equals("ikke udlejet")){
+            myContainer.addView(ExpandableCardview,0);
+            myContainer.addView(Spacer,0);
+        } else {
+            myContainer.addView(ExpandableCardview,myContainer.getChildCount());
+            myContainer.addView(Spacer,myContainer.getChildCount());
+        }
+
+
         existingViews.add(Employee.get("ID").toString().replaceAll("\"",""));
         }
 
