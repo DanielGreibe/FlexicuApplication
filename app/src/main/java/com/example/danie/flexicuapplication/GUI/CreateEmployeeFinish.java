@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
@@ -56,7 +58,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     int distance;
     Uri imageUri;
     Bitmap imgData;
-    String stringImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +115,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         description = ((GlobalVariables) this.getApplication()).getTempEmployeeDescription();
         pay = ((GlobalVariables) this.getApplication()).getTempEmployeePay();
         distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
-        imgData = StringToBitMap(((GlobalVariables) this.getApplication()).getTempEmployeeImage());
-        stringImage = ((GlobalVariables) this.getApplication()).getTempEmployeeImage();
+        imgData = ((GlobalVariables) this.getApplication()).getTempEmployeeImage();
 
         cardView();
     }
@@ -241,13 +241,19 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         textViewProfession.setText(profession);
         textViewStatus.setText("ikke udlejet");
         textViewDescription.setText(description);
-     if (stringImage.equals("flexicu"))
+     if (imgData.equals(null))
             {
-            profilePic.setBackgroundResource(R.drawable.flexiculogocube);
+            //Get round image
+            Glide.with(this).load(R.drawable.flexiculogocube).
+                    apply(RequestOptions.circleCropTransform())
+                    .into(profilePic);
             }
         else
             {
-            profilePic.setImageBitmap(imgData);
+                //Get round image
+                Glide.with(this).load(imgData).
+                        apply(RequestOptions.circleCropTransform())
+                        .into(profilePic);
             }
 
         headderStatus.setText("Fødsels år");

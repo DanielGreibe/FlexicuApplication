@@ -1,6 +1,7 @@
 package com.example.danie.flexicuapplication.LogicLayer;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 import android.location.Address;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -10,7 +11,7 @@ public class GlobalVariables extends Application
     private static com.google.firebase.auth.FirebaseUser FirebaseUser;
 
     private String tempEmployeeDescription;
-    private String tempEmployeeImage;
+    private Bitmap tempEmployeeImage;
     private String tempEmployeePay;
     private String tempEmployeeProfession;
     private String tempEmployeeName;
@@ -38,12 +39,12 @@ public class GlobalVariables extends Application
         this.tempEmployeeDescription = tempEmployeeDescription;
         }
 
-    public String getTempEmployeeImage()
+    public Bitmap getTempEmployeeImage()
         {
         return tempEmployeeImage;
         }
 
-    public void setTempEmployeeImage(String tempEmployeeImage)
+    public void setTempEmployeeImage(Bitmap tempEmployeeImage)
         {
         this.tempEmployeeImage = tempEmployeeImage;
         }

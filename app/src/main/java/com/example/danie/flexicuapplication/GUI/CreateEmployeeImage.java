@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.anton46.stepsview.StepsView;
 import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
@@ -41,6 +43,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CreateEmployeeImage extends AppCompatActivity implements View.OnClickListener{
 
@@ -61,6 +64,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
 
     //Upload variables
     String ImageString = "flexicu";
+    Bitmap ImageData = null;
     Uri imageUri = null;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -153,10 +157,9 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
             preview.setVisibility(View.VISIBLE);
 
             //Get round image
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
-            bitmap = RoundedImageView.getCroppedBitmap(bitmap, 200);
-            preview.setImageBitmap(bitmap);
-
+            Glide.with(this).load(R.drawable.flexiculogocube).
+                    apply(RequestOptions.circleCropTransform())
+                    .into(preview);
         });
 
         //Slet preview button
@@ -173,7 +176,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         public void onClick(View v) {
             if(v == buttonNextPage && preview.getVisibility() != View.INVISIBLE){
                 Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
-                ((GlobalVariables) this.getApplication()).setTempEmployeeImage(ImageString);
+                ((GlobalVariables) this.getApplication()).setTempEmployeeImage(ImageData);
                 Bundle bndlanimation =
                         ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                 startActivity(CreateEmployeeFinish, bndlanimation);
@@ -181,7 +184,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 Toast.makeText(this, "Vælg et billede, eller firmalogo", Toast.LENGTH_SHORT).show();
             } else if(v == springOver && preview.getVisibility() == View.INVISIBLE){
                 Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
-                ((GlobalVariables) this.getApplication()).setTempEmployeeImage("flexicu");
+                ((GlobalVariables) this.getApplication()).setTempEmployeeImage(null);
                 Bundle bndlanimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                 startActivity(CreateEmployeeFinish, bndlanimation);
             }
@@ -205,20 +208,17 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         protected void onActivityResult(int requestCode, int resultCode, Intent data){
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                //imageUri = Uri.parse(data.toURI());
-                //System.out.println("URI IS: " + imageUri.toString());
 
-                //Make image square
-                int minPixels = 0;
-                if(photo.getWidth() < photo.getHeight()) minPixels = photo.getWidth();
-                else minPixels = photo.getHeight();
-                Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth()-minPixels)/2), ((photo.getHeight()-minPixels)/2), minPixels, minPixels);
+
                 //Get round image
-                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 200);
+                Glide.with(this).load(photo).
+                        apply(RequestOptions.circleCropTransform())
+                        .into(preview);
+                ImageData = photo;
+                ImageString = "SpecialImage";
 
-                ImageString = BitMapToString(squareImg);
+
                 preview.setVisibility(View.VISIBLE);
-                preview.setImageBitmap(squareImg);
                 crossPreview.setVisibility(View.VISIBLE);
             }else if(requestCode == GALLERY_SELECT){
                 Bitmap photo = null;
@@ -231,15 +231,14 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                         e.printStackTrace();
                     }
                 }else{return;} //Return if no image selected
-                int minPixels = 0;
-                if(photo.getWidth() < photo.getHeight()) minPixels = photo.getWidth();
-                else minPixels = photo.getHeight();
-                Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth()-minPixels)/2), ((photo.getHeight()-minPixels)/2), minPixels, minPixels);
+
                 //Get round image
-                squareImg = RoundedImageView.getCroppedBitmap(squareImg, 200);
-                ImageString = BitMapToString(squareImg);
+                Glide.with(this).load(photo).
+                        apply(RequestOptions.circleCropTransform())
+                        .into(preview);
+                ImageString = "SpecialImage";
+                ImageData = photo;
                 preview.setVisibility(View.VISIBLE);
-                preview.setImageBitmap(squareImg);
                 crossPreview.setVisibility(View.VISIBLE);
             }
         }
