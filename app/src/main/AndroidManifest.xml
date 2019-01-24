@@ -52,7 +52,8 @@
         <activity
             android:name=".GUI.TabbedRentIn"
             android:label="@string/title_activity_tabbed_rent_in"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".GUI.TabbedRentOut"
             android:label="@string/title_activity_tabbed_rent_out"

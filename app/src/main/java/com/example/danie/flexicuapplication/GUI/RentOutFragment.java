@@ -238,7 +238,7 @@ public class RentOutFragment extends Fragment
             Intent intent = new Intent(this.getContext(), rentOutEmployee.class);
             intent.putExtra("entryString", entry.getValue().toString());
             startActivity(intent);
-            //getActivity().finish();
+            getActivity().finish();
 
         });
 
