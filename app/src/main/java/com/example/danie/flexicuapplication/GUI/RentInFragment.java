@@ -230,7 +230,6 @@ public class RentInFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     public void createNewEmployee(CrudEmployee Employee, LinearLayout myContainer) {
-        myContainer.removeAllViews();
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
         View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
