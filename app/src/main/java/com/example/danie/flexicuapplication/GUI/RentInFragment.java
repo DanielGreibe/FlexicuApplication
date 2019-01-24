@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,6 +74,7 @@ public class RentInFragment extends Fragment {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     TextView freeSearch;
     Bundle dataBundle;
+    TextView textViewNoElements;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class RentInFragment extends Fragment {
         filter = v.findViewById(R.id.filterMenu);
         mContainer = v.findViewById(R.id.linearLayoutRentin);
         freeSearch = v.findViewById(R.id.freeSearch);
+        textViewNoElements = v.findViewById(R.id.textViewNoElements);
 
 
                 filter.setOnClickListener((View) -> {
@@ -198,6 +201,10 @@ public class RentInFragment extends Fragment {
                     CriteriaInterface profession = new CriteriaProfession(filterValues.get(3));
                     CriteriaInterface payBounds = new AndCriteria(payLower, profession, payUpper, dist );
                     payBounds.meetCriteria(employees).forEach((a) -> {
+                    if ( employees.size() == 0)
+                        {
+                        textViewNoElements.setVisibility(View.VISIBLE);
+                        }
                         createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
 
                     });
@@ -205,6 +212,7 @@ public class RentInFragment extends Fragment {
                 } else{
                     employees.forEach((a) -> createNewEmployee(employees.get(counter++), mContainer));
                 }
+
             }
 
 
@@ -221,6 +229,7 @@ public class RentInFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     public void createNewEmployee(CrudEmployee Employee, LinearLayout myContainer) {
+        myContainer.removeAllViews();
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
         View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
@@ -344,6 +353,13 @@ public class RentInFragment extends Fragment {
             toDelete.removeValue();
 
             ExpandableCardview.setVisibility(View.GONE);
+            Log.e("Childs", mContainer.getChildCount()+"");
+            if (mContainer.getChildCount() == 2)
+                {
+                mContainer.addView(textViewNoElements);
+                textViewNoElements.setVisibility(View.VISIBLE);
+                textViewNoElements.setText("Der er ikke nogle medarbejdere ledige :(");
+                }
 
         });
     }
@@ -418,6 +434,10 @@ public void createEmployeeWithFilter()
     CriteriaInterface payBounds = new AndCriteria(payLower, profession, payUpper, dist );
     payBounds.meetCriteria(employees).forEach((a) -> {
     createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
+    if (mContainer.getChildCount() > 1)
+        {
+        textViewNoElements.setVisibility(View.GONE);
+        }
 
     });
     }
