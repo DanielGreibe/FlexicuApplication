@@ -205,7 +205,11 @@ public class RentInFragment extends Fragment {
                         {
                         textViewNoElements.setVisibility(View.VISIBLE);
                         }
+                    else
+                        {
+                        textViewNoElements.setVisibility(View.GONE);
                         createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
+                        }
 
                     });
 
@@ -230,6 +234,7 @@ public class RentInFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     public void createNewEmployee(CrudEmployee Employee, LinearLayout myContainer) {
+        textViewNoElements.setVisibility(View.GONE);
         //Inflater to XML filer ind, et Cardview og en Spacer som bruges til at skabe afstand fordi det ikke er muligt med Padding eller Layout Margin.
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
         View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
@@ -354,7 +359,16 @@ public class RentInFragment extends Fragment {
 
             ExpandableCardview.setVisibility(View.GONE);
             Log.e("Childs", mContainer.getChildCount()+"");
-            if (mContainer.getChildCount() == 2)
+
+            int antalLedigeMedarbejdere = 0;
+            for (int i = 0; i < mContainer.getChildCount(); i++)
+                {
+                if (mContainer.getChildAt(i).getVisibility() != View.GONE)
+                    {
+                    antalLedigeMedarbejdere++;
+                    }
+                }
+            if (antalLedigeMedarbejdere == 0)
                 {
                 mContainer.addView(textViewNoElements);
                 textViewNoElements.setVisibility(View.VISIBLE);
@@ -434,7 +448,7 @@ public void createEmployeeWithFilter()
     CriteriaInterface payBounds = new AndCriteria(payLower, profession, payUpper, dist );
     payBounds.meetCriteria(employees).forEach((a) -> {
     createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
-    if (mContainer.getChildCount() > 1)
+    if (mContainer.getChildCount() == 1)
         {
         textViewNoElements.setVisibility(View.GONE);
         }
