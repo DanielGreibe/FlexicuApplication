@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -281,6 +282,13 @@ public class MyRentOutsFragment extends Fragment {
 
 
             popupWindow.showAtLocation(textViewPay, Gravity.CENTER, 0, 0);
+        View containerOfPopup = (View) popupWindow.getContentView().getParent();
+        WindowManager windowManager = (WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams layoutParameters = (WindowManager.LayoutParams) containerOfPopup.getLayoutParams();
+        // add flag
+        layoutParameters.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParameters.dimAmount = 0.8f;
+        windowManager.updateViewLayout(containerOfPopup, layoutParameters);
 
             buttonRate.setOnClickListener((Rating) -> {
                 Float rating = ratingBar.getRating();
