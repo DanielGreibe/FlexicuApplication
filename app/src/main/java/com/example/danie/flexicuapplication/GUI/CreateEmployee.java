@@ -68,6 +68,7 @@ public class CreateEmployee extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v){
+    //Checks if the input field is empty and starts the next activity createEmployeeYear with a sliding animation
         if (v == buttonNextPage){
             if (editTextName.getText().toString().equals("")){
                 Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
