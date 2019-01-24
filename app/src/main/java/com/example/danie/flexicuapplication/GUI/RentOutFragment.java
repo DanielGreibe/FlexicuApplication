@@ -216,8 +216,7 @@ public class RentOutFragment extends Fragment
             getActivity().finish();
 
         });
-
-            //System.out.println(src);
+        //Gets the image url of the employees image
             URL url = null;
             try {
                 url = new URL(Employee.get("pic").toString().replace("\"", ""));
@@ -226,7 +225,7 @@ public class RentOutFragment extends Fragment
             }
 
 
-
+            //Loads flexicu image
             if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
                 Glide.with(this)
                         .load(R.drawable.flexiculogocube)
@@ -240,7 +239,6 @@ public class RentOutFragment extends Fragment
                         .apply(RequestOptions.circleCropTransform())
                         .into(profilePic);
             }
-
             if(loadingbar.getVisibility() == View.VISIBLE) {
                 //Set fade animation and hide after animation end
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
@@ -279,6 +277,7 @@ public class RentOutFragment extends Fragment
         }
 
     private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow) {
+    //Logic used to expand and collapse cardviews
         if (linearLayoutExpanded.getVisibility() == View.GONE)
             {
             linearLayoutExpanded.setVisibility(View.VISIBLE);
