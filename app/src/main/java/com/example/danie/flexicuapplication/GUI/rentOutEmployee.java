@@ -72,6 +72,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
     String postnummer;
     String owner;
     String description;
+    Boolean maprdy = true;
 
     @SuppressLint({"SetTextI18n", "StaticFieldLeak"})
     @Override
@@ -135,7 +136,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
                 System.out.println("Latitude: " + address.getLatitude() + " Longi: " + address.getLongitude());
                 System.out.println("List: " + addresses.toString());
             } else {
-                // Display appropriate message when Geocoder services are not available
+                maprdy = false;
             }
         } catch (IOException e) {
             // handle exception
@@ -157,7 +158,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
             @Override
             public Unit invoke(Float aFloat) {
                 int value = (int) (((max - min) * aFloat) + min);
-                circle.setRadius(value * 1000);
+                if(maprdy)circle.setRadius(value * 1000);
                 slider.setBubbleText(Integer.toString(value));
                 afstand = value;
                 return null;
@@ -230,6 +231,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
 
     @Override
     public void onMapReady(GoogleMap map) {
+        if(!maprdy) return;
         LatLng position = new LatLng(address.getLatitude(), address.getLongitude());
         MarkerOptions marker = new MarkerOptions()
                 .position(position)
@@ -341,5 +343,14 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
                 .endDate(lejeSlutTextView.getText().toString().replaceAll("\"",""))
                 .builder();
         return people;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
+        Intent intent = new Intent(this, RentOutFragment.class);
+        intent.putExtra("callingActivity", "navigation");
+        finish();
     }
 }
