@@ -41,7 +41,7 @@ public class CreateEmployeeYear extends AppCompatActivity implements View.OnClic
         spinnerYear = findViewById(R.id.spinnerYear);
 
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        textViewTitle.setText(" Hvilket årstal er " + name + " født?");
+        textViewTitle.setText("Hvilket årstal er " + name + " født?");
 
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);

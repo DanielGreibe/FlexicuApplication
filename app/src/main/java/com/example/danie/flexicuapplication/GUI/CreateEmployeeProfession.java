@@ -92,7 +92,7 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
                     .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(this, R.drawable.trans_focus));
 
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        textViewTitle.setText(" Tilføj profession til " + name);
+        textViewTitle.setText(" Tilføj erhverv til " + name);
 
         }
 

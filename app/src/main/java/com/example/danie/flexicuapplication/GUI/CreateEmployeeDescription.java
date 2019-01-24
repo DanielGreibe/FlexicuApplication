@@ -43,7 +43,7 @@ public class CreateEmployeeDescription extends AppCompatActivity implements View
         textViewTitle = findViewById(R.id.textViewTitle);
         Intent intent = getIntent();
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        textViewTitle.setText("Tilføj en description til " + name);
+        textViewTitle.setText("Tilføj en beskrivelse til " + name);
         springOver = findViewById(R.id.springOverTV);
         springOver.setOnClickListener(this);
 

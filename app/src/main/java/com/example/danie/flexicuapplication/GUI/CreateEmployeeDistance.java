@@ -71,7 +71,7 @@ public class CreateEmployeeDistance extends AppCompatActivity implements View.On
 
         buttonNextPage.setOnClickListener(this);
         String name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        textViewTitle.setText("Indtast afstand som " + name + " er villig at pendle");
+        textViewTitle.setText("Indtast afstand som " + name + "\n er villig til at pendle");
         }
 
     @Override

@@ -38,7 +38,7 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
         editTextZipcode = findViewById(R.id.editTextPostcode);
         titel = findViewById(R.id.textViewTitle);
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        titel.setText("Indtast postnummer til " + name);
+        titel.setText("Indtast " + name + "'s" + " postnummer");
         nextPage = findViewById(R.id.buttonNextPage);
         nextPage.setOnClickListener(this);
 
