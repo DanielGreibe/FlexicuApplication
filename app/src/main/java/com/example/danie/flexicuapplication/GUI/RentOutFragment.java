@@ -37,14 +37,12 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class RentOutFragment extends Fragment
     {
-    //Visual logic
-    int employeeSelected = 0;
+    //Create Global Variables
     String callingActivity = "default";
     ArrayList<String> existingViews = new ArrayList<>();
     LinearLayout myContainer;
     boolean allredyRentOut;
-
-    TextView loadingbar, textViewLejeperiodeStart, textViewLejeperiodeSlut;
+    TextView loadingbar;
     private FloatingActionButton addEmployeeBtn;
     int id = 1;
 
@@ -68,19 +66,18 @@ public class RentOutFragment extends Fragment
         myContainer.addView(cardDevider);
         cardDevider.setVisibility(View.INVISIBLE);
         addEmployeeBtn.setOnClickListener((vieww) -> {
-        Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class); //TODO change to CreateEmplyee.class
+        Intent opretAnsat = new Intent(getApplicationContext(), CreateEmployee.class);
             opretAnsat.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         Bundle bndlanimation =
                 ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
         startActivity(opretAnsat, bndlanimation);
-        //getActivity().finish();
         });
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Load workers from database
         DatabaseReference myRefMedarbejder = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere");
 
-        //If employee has been created
+        //If employee has been created add a cardview with its data, allredyRentOut is true if atleast one employee is rented out.
         if (callingActivity.equals("createEmployeeFinish")) {
             loadingbar.setVisibility(View.VISIBLE);
             ValueEventListener postListener = new ValueEventListener() {
@@ -132,28 +129,6 @@ public class RentOutFragment extends Fragment
                 System.out.println("Error!");
                 }
             });
-
-
-        if(callingActivity.equals("createEmployeeFinish")){
-            loadingbar.setVisibility(View.VISIBLE);
-            ValueEventListener postListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!String.valueOf(getActivity()).contains("TabbedRentOut")){
-                        return;
-                    }
-                    for(DataSnapshot entry : dataSnapshot.getChildren()){
-                        createNewEmployee(entry, myContainer);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    System.out.println("Error!");
-                }
-            };
-            myRefMedarbejder.addValueEventListener(postListener);
-        }
 
         return view;
 
