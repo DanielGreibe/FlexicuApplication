@@ -47,16 +47,15 @@ import java.util.concurrent.ExecutionException;
 
 public class CreateEmployeeImage extends AppCompatActivity implements View.OnClickListener{
 
+    //Declare global variables
     Button buttonNextPage;
     ImageView preview, crossPreview;
     TextView textViewTitle, springOver;
     ConstraintLayout firmaBilledeSelect, tagBilledeSelect, vaelgBilledeSelect;
     String name;
-    String erhverv;
 
     //Camera variables
     private static final int CAMERA_REQUEST = 1888;
-    private ImageView imageView;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
 
     //Gallery select variables
@@ -73,6 +72,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_image);
 
+        //Create views, add text to them and hide the previews
         crossPreview = findViewById(R.id.crossPreview);
         preview = findViewById(R.id.imageViewPreview);
         firmaBilledeSelect = findViewById(R.id.vaelgFirmaBillede);
@@ -83,6 +83,17 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         textViewTitle.setText("Tilføj et billede af " + name + " eller firmaets logo");
         springOver = findViewById(R.id.springOverTV);
         springOver.setOnClickListener(this);
+        buttonNextPage = findViewById(R.id.buttonNextPage);
+        buttonNextPage.setOnClickListener(this);
+        preview.setVisibility(View.INVISIBLE);
+        crossPreview.setVisibility(View.INVISIBLE);
+        HorizontalScrollView scroller = findViewById(R.id.horizontalScrollView2);
+        scroller.post(new Runnable() {
+            @Override
+            public void run() {
+                scroller.scrollTo(500, 0);
+            }
+        });
 
         //SETUP PROGRESSBAR
         HorizontalStepView stepView = findViewById(R.id.step_view);
@@ -116,22 +127,8 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(this, R.drawable.default_custom))
                 .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(this, R.drawable.trans_focus));
 
-        buttonNextPage = findViewById(R.id.buttonNextPage);
-        buttonNextPage.setOnClickListener(this);
 
-        HorizontalScrollView scroller = findViewById(R.id.horizontalScrollView2);
-        scroller.post(new Runnable() {
-            @Override
-            public void run() {
-                scroller.scrollTo(500, 0);
-            }
-        });
-
-        preview.setVisibility(View.INVISIBLE);
-        crossPreview.setVisibility(View.INVISIBLE);
-
-
-        //Tag billede button
+        //If you don't have the permission to open the camera ask for them, otherwise open the camera.
         tagBilledeSelect.setOnClickListener((view) ->{
             if (checkSelfPermission(Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -143,14 +140,14 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
             }
         });
 
-        //Vælg billede button
+        //If you don't have the permission to open the Gallery ask for them, otherwise open the gallery
         vaelgBilledeSelect.setOnClickListener((view) ->{
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, GALLERY_SELECT);
         });
 
-        //Brug firmabillede
+        //Sets the preview as Flexicu
         firmaBilledeSelect.setOnClickListener((view) ->{
             ImageString = "flexicu";
             crossPreview.setVisibility(View.VISIBLE);
@@ -162,7 +159,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                     .into(preview);
         });
 
-        //Slet preview button
+        //If you clicked on the cross, delete the preview and set the imageString to default flexicu
         crossPreview.setOnClickListener((view) ->{
             crossPreview.setVisibility(View.INVISIBLE);
             preview.setVisibility(View.INVISIBLE);
@@ -174,14 +171,17 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void onClick(View v) {
+            //Clicked to go to next page and you have chosen one of the three options to use an image go to createEmployeeFinish
             if(v == buttonNextPage && preview.getVisibility() != View.INVISIBLE){
                 Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
                 ((GlobalVariables) this.getApplication()).setTempEmployeeImage(ImageData);
                 Bundle bndlanimation =
                         ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                 startActivity(CreateEmployeeFinish, bndlanimation);
+                //Clicked to go to next page and you haven't chosen a picture, write an error message to the user
             } else if(v == buttonNextPage && preview.getVisibility() == View.INVISIBLE){
                 Toast.makeText(this, "Vælg et billede, eller firmalogo", Toast.LENGTH_SHORT).show();
+                //Clicked to skip and you haven't chosen an image go to createEmployeeFinish (Flexicu is used as default image)
             } else if(v == springOver && preview.getVisibility() == View.INVISIBLE){
                 Intent CreateEmployeeFinish = new Intent(this, CreateEmployeeFinish.class);
                 ((GlobalVariables) this.getApplication()).setTempEmployeeImage(null);
@@ -190,7 +190,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
             }
         }
 
-
+        //If you requested permission and it was accepted open the camera otherwise write a toast saying acces was denied.
         @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -205,6 +205,8 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                 }
             }
         }
+
+        //If you opened the camera and took a picture set imageData, imageString and previewImage accordingly
         protected void onActivityResult(int requestCode, int resultCode, Intent data){
             if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
@@ -220,6 +222,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
 
                 preview.setVisibility(View.VISIBLE);
                 crossPreview.setVisibility(View.VISIBLE);
+                //If you chose an image from the Camera set photo variable to the image chosen.
             }else if(requestCode == GALLERY_SELECT){
                 Bitmap photo = null;
                 if (resultCode == RESULT_OK) {
@@ -232,7 +235,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
                     }
                 }else{return;} //Return if no image selected
 
-                //Get round image
+                //Get round image chosen with either the camera or the gallery
                 Glide.with(this).load(photo).
                         apply(RequestOptions.circleCropTransform())
                         .into(preview);
@@ -244,6 +247,7 @@ public class CreateEmployeeImage extends AppCompatActivity implements View.OnCli
         }
     @Override
     public void onBackPressed() {
+    //Makes a slide animation when backpressed
         super.onBackPressed();
         overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
         finish();

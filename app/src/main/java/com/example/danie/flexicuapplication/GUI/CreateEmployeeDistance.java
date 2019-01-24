@@ -2,7 +2,6 @@ package com.example.danie.flexicuapplication.GUI;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,19 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.anton46.stepsview.StepsView;
 import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class CreateEmployeeDistance extends AppCompatActivity implements View.OnClickListener
     {
-
+    //Declare global variables
     Button buttonNextPage;
     TextView textViewTitle;
     EditText editTextDistance;
@@ -32,6 +28,7 @@ public class CreateEmployeeDistance extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
+        //Create views and make onClickListeners
         setContentView(R.layout.activity_create_employee_distance);
         buttonNextPage = findViewById(R.id.buttonNextPage);
         textViewTitle = findViewById(R.id.textViewTitle);
@@ -79,6 +76,7 @@ public class CreateEmployeeDistance extends AppCompatActivity implements View.On
         {
         if (v == buttonNextPage)
             {
+            //Checks conditions for distance field and writes an error message or starts the next activity createEmployeeZipcode
             if (editTextDistance.getText().toString().equals(""))
                 {
                 Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
@@ -101,6 +99,7 @@ public class CreateEmployeeDistance extends AppCompatActivity implements View.On
 
         @Override
         public void onBackPressed() {
+        //slide animation added to OnBackPressed
             super.onBackPressed();
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             finish();

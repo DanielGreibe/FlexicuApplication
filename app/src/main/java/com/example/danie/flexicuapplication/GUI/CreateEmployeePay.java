@@ -23,7 +23,7 @@ import java.util.List;
 
 public class CreateEmployeePay extends AppCompatActivity implements View.OnClickListener
     {
-
+    //Declare global variables
     Button buttonNextPage;
     TextView textViewTitle;
     EditText editTextPay;
@@ -34,9 +34,13 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_pay);
 
+        //Create views and set initial text
         buttonNextPage = findViewById(R.id.buttonNextPage);
         textViewTitle = findViewById(R.id.textViewTitle);
         editTextPay = findViewById(R.id.editTextDistance);
+        buttonNextPage.setOnClickListener(this);
+        String name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
+        textViewTitle.setText("Indtast timeløn til " + name);
 
             //SETUP PROGRESSBAR
             HorizontalStepView stepView = findViewById(R.id.step_view);
@@ -70,9 +74,7 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
                     .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(this, R.drawable.default_custom))
                     .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(this, R.drawable.trans_focus));
 
-        buttonNextPage.setOnClickListener(this);
-        String name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        textViewTitle.setText("Indtast timeløn til " + name);
+
         }
 
     @Override
@@ -80,6 +82,7 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
         {
         if (v == buttonNextPage)
             {
+            //If pay field is empty write an error message otherwise start the activity createEmployeeDistance with a slide animation
             if (editTextPay.getText().toString().equals(""))
                 {
                 Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
@@ -99,6 +102,7 @@ public class CreateEmployeePay extends AppCompatActivity implements View.OnClick
 
         @Override
         public void onBackPressed() {
+        //Make a slide animation when the user press back
             super.onBackPressed();
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             finish();

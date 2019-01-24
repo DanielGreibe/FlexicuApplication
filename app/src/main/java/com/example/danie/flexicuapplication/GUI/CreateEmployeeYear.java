@@ -24,6 +24,7 @@ import java.util.List;
 
 public class CreateEmployeeYear extends AppCompatActivity implements View.OnClickListener
     {
+    //Declare Global Variables
     Button buttonNextPage;
     TextView textViewTitle;
     Spinner spinnerYear;
@@ -37,14 +38,21 @@ public class CreateEmployeeYear extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_year);
 
+        //Create Views and put values into the Year dropdown list
         textViewTitle = findViewById(R.id.textViewTitle);
         spinnerYear = findViewById(R.id.spinnerYear);
-
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         textViewTitle.setText("Hvilket årstal er " + name + " født?");
-
         buttonNextPage = findViewById(R.id.buttonNextPage);
         buttonNextPage.setOnClickListener(this);
+        ArrayList<String> years = new ArrayList<>();
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = currentYear; i >= 1900; i--)
+            {
+            years.add(Integer.toString(i));
+            }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
+        spinnerYear.setAdapter(adapter);
 
             //SETUP PROGRESSBAR
             HorizontalStepView stepView = findViewById(R.id.step_view);
@@ -78,15 +86,6 @@ public class CreateEmployeeYear extends AppCompatActivity implements View.OnClic
                     .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(this, R.drawable.default_custom))
                     .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(this, R.drawable.trans_focus));
 
-        ArrayList<String> years = new ArrayList<>();
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        for (int i = currentYear; i >= 1900; i--)
-            {
-            years.add(Integer.toString(i));
-            }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years);
-        spinnerYear.setAdapter(adapter);
-
         }
 
     @Override
@@ -94,11 +93,10 @@ public class CreateEmployeeYear extends AppCompatActivity implements View.OnClic
         {
         if (v == buttonNextPage)
             {
+            //Puts the chosen year into GlobalVariables and start the activity CreateEmployeeProfession
             year = spinnerYear.getSelectedItem().toString();
             ((GlobalVariables) this.getApplication()).setTempEmployeeYear(year);
             Intent createEmployeeProfession = new Intent(this, CreateEmployeeProfession.class);
-            createEmployeeProfession.putExtra("NameOfEmployee", name);
-            createEmployeeProfession.putExtra("YearOfEmployee", year);
                 Bundle bndlanimation =
                         ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
                 startActivity(createEmployeeProfession, bndlanimation);
@@ -107,6 +105,7 @@ public class CreateEmployeeYear extends AppCompatActivity implements View.OnClic
 
         @Override
         public void onBackPressed() {
+    //Adds a sliding animation when you press the back button
             super.onBackPressed();
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             finish();
