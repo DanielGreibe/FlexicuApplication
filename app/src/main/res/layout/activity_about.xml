@@ -68,11 +68,11 @@
 
     <ImageView
         android:id="@+id/imageViewOliver"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="@+id/background"
         app:srcCompat="@drawable/oliver" />
@@ -80,7 +80,7 @@
     <TextView
         android:id="@+id/textViewOliver"
         android:layout_width="149dp"
-        android:layout_height="54dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="Oliver Nielsen \ns164917 \n5. semester Elektro Teknologi"
@@ -90,8 +90,8 @@
 
     <ImageView
         android:id="@+id/imageViewDaniel"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="20dp"
@@ -102,18 +102,18 @@
     <TextView
         android:id="@+id/textViewDaniel"
         android:layout_width="149dp"
-        android:layout_height="54dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:text="Daniel Greibe\ns175207\n3. semester Softare Teknologi"
+        android:text="Daniel Greibe\ns175207\n3. semester Software Teknologi"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewDaniel"
         app:layout_constraintStart_toEndOf="@+id/imageViewDaniel"
         app:layout_constraintTop_toTopOf="@+id/imageViewDaniel" />
 
     <ImageView
         android:id="@+id/imageViewFutte"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="20dp"
@@ -124,18 +124,18 @@
     <TextView
         android:id="@+id/textViewFutte"
         android:layout_width="149dp"
-        android:layout_height="54dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:text="Nicklas Thysen\ns175204\n3. semester Softare Teknologi"
+        android:text="Nicklas Thysen\ns175204\n3. semester Software Teknologi"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewFutte"
         app:layout_constraintStart_toEndOf="@+id/imageViewFutte"
         app:layout_constraintTop_toTopOf="@+id/imageViewFutte" />
 
     <ImageView
         android:id="@+id/imageViewMathias"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="20dp"
@@ -146,10 +146,10 @@
     <TextView
         android:id="@+id/textViewMathias"
         android:layout_width="149dp"
-        android:layout_height="54dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:text="Mathias Høgsgaard \ns175211 \n3. semester Softare Teknologi"
+        android:text="Mathias Høgsgaard \ns175211 \n3. semester Software Teknologi"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewMathias"
         app:layout_constraintStart_toEndOf="@+id/imageViewMathias"
         app:layout_constraintTop_toTopOf="@+id/imageViewMathias" />
