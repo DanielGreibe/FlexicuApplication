@@ -237,7 +237,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                         .into(profilePic);
         }
 
-        headderStatus.setText("Fødsels år");
+        headderStatus.setText("Fødselsår");
         textViewStatus.setText(year);
 
         if(description.equals("")){
