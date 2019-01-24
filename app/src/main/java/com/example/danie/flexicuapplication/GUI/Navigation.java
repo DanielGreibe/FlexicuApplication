@@ -33,58 +33,60 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
         settingsButton = findViewById(R.id.settingsButton);
         aboutButton = findViewById(R.id.aboutButton);
         slideShowVF = findViewById(R.id.slideShow);
-        //int images[] = {R.drawable.slide1, R.drawable.slide2, R.drawable.slide3,R.drawable.slide4};
+
+        //get images for slideshow
         int images[] = {R.drawable.rsz_slide1, R.drawable.rsz_slide2, R.drawable.rsz_slide3, R.drawable.rsz_slide4};
+
         buttonIndlej.setElevation(8);
         buttonUdlej.setElevation(8);
 
         buttonIndlej.setOnClickListener(this);
         buttonUdlej.setOnClickListener(this);
 
-            //Set settings button onClick
-            settingsButton.setOnClickListener(v -> {
-                Intent intent = new Intent(this, profileSettings.class);
-                startActivity(intent);
-            });
-            aboutButton.setOnClickListener(v -> {
-                Intent intent = new Intent(this, About.class);
-                startActivity(intent);
-             });
+        //Set buttons onClick
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, profileSettings.class);
+            startActivity(intent);
+        });
+        aboutButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, About.class);
+            startActivity(intent);
+         });
 
+        //Start slideshow
         for(int image: images){
             SlideShow(image);
-
         }
 
     }
+
 
     @Override
-    public void onClick(View v)
-        {
-            if ( v == buttonIndlej) {
-                    //Opens the Indlej page
-                    Intent Indlej = new Intent(this, TabbedRentIn.class);
-                    Bundle bndlanimation =
-                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_out_right,R.anim.anim_slide_in_right).toBundle();
-                    startActivity(Indlej, bndlanimation);
-                }
-            else if (v == buttonUdlej) {
-                    //Opens the Udlej page
-                    Intent Udlej = new Intent(this, TabbedRentOut.class);
-                    Bundle bndlanimation =
-                            ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
-                    Udlej.putExtra("callingActivity", "navigation");
-                    startActivity(Udlej, bndlanimation);
-                }
-        }
-        public void SlideShow(int image){
-            ImageView imageView = new ImageView(this);
-            imageView.setBackgroundResource(image);
-            slideShowVF.addView(imageView);
-            slideShowVF.setFlipInterval(4000);
-            slideShowVF.setAutoStart(true);
-            slideShowVF.setInAnimation(this,  android.R.anim.slide_in_left);
-            slideShowVF.setOutAnimation(this, android.R.anim.slide_out_right);
-
+    public void onClick(View v) {
+        if ( v == buttonIndlej) {
+            //Opens the Indlej page
+            Intent Indlej = new Intent(this, TabbedRentIn.class);
+            Bundle bndlanimation =
+                    ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_out_right,R.anim.anim_slide_in_right).toBundle();
+            startActivity(Indlej, bndlanimation);
+        } else if (v == buttonUdlej) {
+            //Opens the Udlej page
+            Intent Udlej = new Intent(this, TabbedRentOut.class);
+            Bundle bndlanimation =
+                    ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.anim_slide_in_left,R.anim.anim_slide_out_left).toBundle();
+            Udlej.putExtra("callingActivity", "navigation");
+            startActivity(Udlej, bndlanimation);
         }
     }
+
+
+    public void SlideShow(int image){
+        ImageView imageView = new ImageView(this);
+        imageView.setBackgroundResource(image);
+        slideShowVF.addView(imageView);
+        slideShowVF.setFlipInterval(4000);
+        slideShowVF.setAutoStart(true);
+        slideShowVF.setInAnimation(this,  android.R.anim.slide_in_left);
+        slideShowVF.setOutAnimation(this, android.R.anim.slide_out_right);
+    }
+}
