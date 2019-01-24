@@ -358,18 +358,20 @@ public class RentInFragment extends Fragment {
             toDelete.removeValue();
 
             ExpandableCardview.setVisibility(View.GONE);
+            Spacer.setVisibility(View.GONE);
             Log.e("Childs", mContainer.getChildCount()+"");
 
             int antalLedigeMedarbejdere = 0;
             for (int i = 0; i < mContainer.getChildCount(); i++)
                 {
-                if (mContainer.getChildAt(i).getVisibility() != View.GONE)
+                if (mContainer.getChildAt(i).getVisibility() == View.VISIBLE)
                     {
                     antalLedigeMedarbejdere++;
                     }
                 }
             if (antalLedigeMedarbejdere == 0)
                 {
+                mContainer.removeAllViews();
                 mContainer.addView(textViewNoElements);
                 textViewNoElements.setVisibility(View.VISIBLE);
                 textViewNoElements.setText("Der er ikke nogle medarbejdere ledige :(");
