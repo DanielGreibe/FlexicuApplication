@@ -1,6 +1,5 @@
 package com.example.danie.flexicuapplication.GUI;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,12 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
 import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
 import com.kofigyan.stateprogressbar.StateProgressBar;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -26,7 +22,7 @@ import java.io.InputStream;
 public class CreateUser_photo extends AppCompatActivity {
 
     //Gallery select variables
-    public static final int GALLERY_SELECT = 1887;
+    public static final int GALLERY_SELECT = 1887; //Used to identify activity return from photoPicker activity
     Uri imageUri = null;
     //Upload variables
     String ImageString = "flexicu";
@@ -45,22 +41,25 @@ public class CreateUser_photo extends AppCompatActivity {
         Intent intent = getIntent();
 
 
+        //Get Views
         crossPreview = findViewById(R.id.crossPreview);
         preview = findViewById(R.id.imageViewPreview);
         vaelgBilledeSelect = findViewById(R.id.vaelgBillede);
         textViewTitle = findViewById(R.id.textViewTitle);
+        buttonNextPage = findViewById(R.id.buttonNextPage);
 
+        //Setup progressbar
         String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
         StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
         stateProgressBar.setStateDescriptionData(descriptionData);
 
-        buttonNextPage = findViewById(R.id.buttonNextPage);
-
+        //Set preview invisible
         preview.setVisibility(View.INVISIBLE);
         crossPreview.setVisibility(View.INVISIBLE);
 
         //Tag billede button
         vaelgBilledeSelect.setOnClickListener((view) ->{
+            //Start photoPicker activity
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, GALLERY_SELECT);
@@ -68,6 +67,7 @@ public class CreateUser_photo extends AppCompatActivity {
 
         //Slet preview button
         crossPreview.setOnClickListener((view) ->{
+            //Hide preview, set image to flexicu standard
             crossPreview.setVisibility(View.INVISIBLE);
             preview.setVisibility(View.INVISIBLE);
             vaelgBilledeSelect.setVisibility(View.VISIBLE);
@@ -88,6 +88,7 @@ public class CreateUser_photo extends AppCompatActivity {
         });
     }
 
+    //When photoPicker activity returns
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == GALLERY_SELECT){
             Bitmap photo = null;
@@ -103,8 +104,11 @@ public class CreateUser_photo extends AppCompatActivity {
             int minPixels = 0;
             if(photo.getWidth() < photo.getHeight()) minPixels = photo.getWidth();
             else minPixels = photo.getHeight();
+
+            //Center Image
             Bitmap squareImg = Bitmap.createBitmap(photo, ((photo.getWidth()-minPixels)/2), ((photo.getHeight()-minPixels)/2), minPixels, minPixels);
-            //Get round image
+
+            //Get round image and display preview
             squareImg = RoundedImageView.getCroppedBitmap(squareImg, 400);
             ImageString = BitMapToString(squareImg);
             preview.setVisibility(View.VISIBLE);

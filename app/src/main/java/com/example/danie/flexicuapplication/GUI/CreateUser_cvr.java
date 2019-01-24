@@ -30,19 +30,24 @@ public class CreateUser_cvr extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user_cvr);
 
+        //get views
         EditText cvrFelt = findViewById(R.id.PasswordEditText);
         Button næste = findViewById(R.id.buttonNextPage);
-
-        String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
         StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
+
+        //Setup progress bar
+        String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
         stateProgressBar.setStateDescriptionData(descriptionData);
 
+        //Prefill for ease of evaluation
         cvrFelt.setText("39762226");
 
 
+        //Set onclick for nextbutton
         næste.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Get CVR-data and start next activity
                 sendGetRequestForCVRData(Integer.parseInt(cvrFelt.getText().toString()));
             }
         });
@@ -55,6 +60,7 @@ public class CreateUser_cvr extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Let button have correct color
                 if(cvrFelt.getText().length() == 8){
                     næste.setBackgroundResource(layout_background_round_corners_blue);
                 }else{
@@ -69,23 +75,23 @@ public class CreateUser_cvr extends AppCompatActivity {
         });
     }
 
+
     private void sendGetRequestForCVRData(int CVR) {
+        //Start get-request and wait for response
         myRequestQueue = Volley.newRequestQueue(this);
         //Method, URL, successListener, errorListener
-        //If call is not successful select from offline word-list
         myStringRequest = new StringRequest(
                 Request.Method.GET,
                 "https://cvrapi.dk/api?search="+CVR+"&country=dk",
                 response -> {
-                    System.out.println("RESPONSE IS: " + response);
-                    System.out.println("ok");
+                    //start intent with received data
                     Intent user_information = new Intent(this, CreateUser_infomation.class);
                     user_information.putExtra("CVR", CVR);
                     user_information.putExtra("DATA", response);
                     startActivity(user_information);
                 },
                 error -> {
-
+                    //TODO Add error handler
                 }
         ); //End of 'new StringRequest' arguments
 

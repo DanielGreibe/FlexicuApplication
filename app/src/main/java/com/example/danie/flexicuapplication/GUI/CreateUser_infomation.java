@@ -25,34 +25,35 @@ public class CreateUser_infomation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user_infomation);
 
+        //Get Views
         Firmanavn = findViewById(R.id.PasswordEditText);
         Email = findViewById(R.id.EmailEditText);
         Telefon = findViewById(R.id.TelefonEditText);
         Postnummer = findViewById(R.id.PostnummerEditText);
         nextButton = findViewById(R.id.buttonNextPage);
 
+        //Setup progress bar
         String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
         StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
         stateProgressBar.setStateDescriptionData(descriptionData);
 
-        //Get intent and parse values
+        //Get intent
         Intent intent = getIntent();
         CVR = intent.getIntExtra("CVR", 0);
         CVRDATA = intent.getStringExtra("DATA");
-        System.out.println("CVRDATA" + CVRDATA);
-        System.out.println("CVR " + CVR);
 
         //Parse JSON
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(CVRDATA);
         JsonObject CVRData = element.getAsJsonObject();
 
+        //Display values
         Firmanavn.setText(CVRData.get("name").toString().replaceAll("\"", ""));
         Email.setText(CVRData.get("email").toString().replaceAll("\"", ""));
         Telefon.setText(CVRData.get("phone").toString().replaceAll("\"", ""));
         Postnummer.setText(CVRData.get("zipcode").toString().replaceAll("\"", ""));
 
-        //Tag billede button
+        //Next button set listener
         nextButton.setOnClickListener((view) ->{
             Intent user_photo = new Intent(this, CreateUser_photo.class);
             user_photo.putExtra("CVR", Integer.toString(CVR));

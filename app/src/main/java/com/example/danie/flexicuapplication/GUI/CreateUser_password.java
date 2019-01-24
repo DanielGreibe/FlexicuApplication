@@ -16,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.kofigyan.stateprogressbar.StateProgressBar;
 
 import static com.example.danie.flexicuapplication.R.drawable.layout_background_round_corners_blue;
@@ -34,15 +33,18 @@ public class CreateUser_password extends AppCompatActivity {
         //Get intent
         Intent intent = getIntent();
 
+        //Get Views
         EditText password = findViewById(R.id.PasswordEditText);
         EditText passwordRepeat = findViewById(R.id.PasswordRepeatEditText);
         Button nextButton = findViewById(R.id.buttonNextPage);
         TextView repeatTextView = findViewById(R.id.repeatTextView);
 
+        //Setup progressbar
         String[] descriptionData = {"CVR", "Info", "Billede", "Password"};
         StateProgressBar stateProgressBar = (StateProgressBar) findViewById(R.id.your_state_progress_bar_id);
         stateProgressBar.setStateDescriptionData(descriptionData);
 
+        //Set repeat input invisible
         repeatTextView.setVisibility(View.INVISIBLE);
         passwordRepeat.setVisibility(View.INVISIBLE);
 
@@ -52,9 +54,11 @@ public class CreateUser_password extends AppCompatActivity {
 
             }
 
+            //Check if password meets requirements
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(password.getText().toString().length() >= 6) {
+                    //Set repeat input visible
                     repeatTextView.setVisibility(View.VISIBLE);
                     passwordRepeat.setVisibility(View.VISIBLE);
                     password.setError(null);
@@ -74,6 +78,7 @@ public class CreateUser_password extends AppCompatActivity {
 
             }
 
+            //Check if both passwords are the same and if they meet requirements
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(passwordRepeat.getText().toString().equals(password.getText().toString())) {
@@ -97,14 +102,16 @@ public class CreateUser_password extends AppCompatActivity {
             }
         });
 
-        //Next button
+        //Next button check if password requirements are OK
         nextButton.setOnClickListener((view) ->{
+            //check if password requirements are OK
             if(truepassword == null){
                 if(password.getText().length() < 6) password.setError("Mindst 6 tegn!");
                 if(!passwordRepeat.getText().toString().equals(password.getText().toString())) passwordRepeat.setError("Passwords er ikke ens!");
                 return;
             }
 
+            //Add user to firebase
             FirebaseAuth firebase = FirebaseAuth.getInstance();
             firebase.createUserWithEmailAndPassword(intent.getStringExtra("EMAIL"), truepassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
@@ -118,11 +125,11 @@ public class CreateUser_password extends AppCompatActivity {
                 }
             });
 
+            //Go back to login
             Intent login = new Intent(this ,Login.class);
             login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(login);
             finish();
         });
-
     }
 }

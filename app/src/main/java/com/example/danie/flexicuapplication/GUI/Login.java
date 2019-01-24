@@ -3,9 +3,6 @@ package com.example.danie.flexicuapplication.GUI;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -15,21 +12,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
-import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
-import com.example.danie.flexicuapplication.profileSettings;
 import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,11 +48,11 @@ private FirebaseAuth mAuth;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 @SuppressLint("StaticFieldLeak")
 @Override
-protected void onCreate(Bundle savedInstanceState)
-{
+protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    //Get Views
     opretBruger = findViewById(R.id.buttonCreateUser);
     textViewLoginLater = findViewById(R.id.textViewLoginLater);
     editTextUsername = findViewById(R.id.editTextUsername);
@@ -84,17 +71,19 @@ protected void onCreate(Bundle savedInstanceState)
 
 
 
+    //Get saved-login settings
     settings = getSharedPreferences("prefs",0);
     editor = settings.edit();
     buttonLogin.setElevation(8);
     opretBruger.setElevation(8);
 
 
-    //Toggle button
+    //Setup toggle button
     saveLog.setColorBorder(R.color.FlexGreen);
     saveLog.setLabelOn("Til");
     saveLog.setLabelOff("Fra");
 
+    //Set saved login values
     String loginInfo = settings.getString("login","");
     if (!loginInfo.equals("")){
         String[] temp;
@@ -107,17 +96,18 @@ protected void onCreate(Bundle savedInstanceState)
     //Init CrashLytics
     Fabric.with(this, new Crashlytics());
 
-    //Crashlytics.getInstance().crash(); // Force a crash to test Crashlytics
     // Initialize Firebase Auth
     mAuth = FirebaseAuth.getInstance();
-
 }
 
+
+    //Check what button has been clicked, and take appropriate action
     @Override
     public void onClick(View v) {
         if ( v == buttonLogin) {
             proBar.setVisibility(View.VISIBLE);
             if (!editTextUsername.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")) {
+                //Attempt to sign in
                 mAuth.signInWithEmailAndPassword(editTextUsername.getText().toString(), editTextPassword.getText().toString()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -145,6 +135,7 @@ protected void onCreate(Bundle savedInstanceState)
         }
     }
 
+    //Set UID and go to navigation activity
     public void loginSuccess(FirebaseUser user){
         ((GlobalVariables) this.getApplication()).setFirebaseUser(user);
         Intent Navigation = new Intent(this, Navigation.class);

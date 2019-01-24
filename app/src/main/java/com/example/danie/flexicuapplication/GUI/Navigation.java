@@ -25,8 +25,9 @@ public class Navigation extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_navigation);
+
+        //Get Views
         buttonIndlej = findViewById(R.id.buttonIndlej);
         buttonUdlej = findViewById(R.id.buttonUdlej);
         settingsButton = findViewById(R.id.settingsButton);

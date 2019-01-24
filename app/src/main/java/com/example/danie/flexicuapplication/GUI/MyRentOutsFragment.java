@@ -6,24 +6,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -41,7 +33,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -49,11 +40,6 @@ import com.google.gson.JsonParser;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static com.example.danie.flexicuapplication.LogicLayer.GlobalVariables.getFirebaseUser;
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
 public class MyRentOutsFragment extends Fragment {
@@ -73,25 +59,29 @@ public class MyRentOutsFragment extends Fragment {
         callingActivity = intent.getStringExtra("callingActivity");
 
         LinearLayout myContainer = view.findViewById(R.id.scrollViewLayout2);
-        ScrollView myScrollView = view.findViewById(R.id.scrollviewUdlej);
-        TextView title = view.findViewById(R.id.textView4);
         onAttach(getContext());
-        //Load workers from database
+
+        //Set database reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRefUdlejninger = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Udlejninger");
+
         //Load employees and create cardviews and add to scroller
         myRefUdlejninger.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("StaticFieldLeak")
             @Override
-            //Hent liste over udlejede medarbejdere
+            //Get list of subleased coworkers ID's
             public void onDataChange(DataSnapshot snapshot) {
+                //For each coworker
                 for (DataSnapshot entry : snapshot.getChildren()) {
+                    //Parse owner and ID of coworker
                     String temp = entry.toString().replaceAll("\"", "");
                     temp = temp.substring(temp.length()-6, temp.length()-2);
                     System.out.println("DATA ID IS: " + temp);
+
+                    //Set reference to get employee
                     DatabaseReference myRefMedarbejder = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
 
-                    //Hent udlejet medarbejder data
+                    //Get employee data
                     myRefMedarbejder.addListenerForSingleValueEvent(new ValueEventListener() {
                         @SuppressLint("StaticFieldLeak")
                         @Override
@@ -112,17 +102,16 @@ public class MyRentOutsFragment extends Fragment {
         });
 
 
+        //Set listener for data change and update UI accordingly
         ValueEventListener newData = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("HEREHERE " + String.valueOf(getActivity()).contains("TabbedRentIn"));
                 if(!String.valueOf(getActivity()).contains("TabbedRentOut")){
                     return;
                 }
                 for(DataSnapshot entry : dataSnapshot.getChildren()){
                     String temp = entry.toString().replaceAll("\"", "");
                     temp = temp.substring(temp.length()-6, temp.length()-2);
-                    System.out.println("DATA ID IS: " + temp);
                     DatabaseReference myRefMedarbejder = database.getReference("Users/"+GlobalVariables.getFirebaseUser().getUid()+"/Medarbejdere/"+temp);
 
                     //Hent udlejet medarbejder data
@@ -144,10 +133,9 @@ public class MyRentOutsFragment extends Fragment {
                 System.out.println("Error!");
             }
         };
-
-        //If calling activity is rent out employee, add Value even listener
         myRefUdlejninger.addValueEventListener(newData);
-            return view;
+
+        return view;
         }
 
     @SuppressLint("StaticFieldLeak")
@@ -157,7 +145,7 @@ public class MyRentOutsFragment extends Fragment {
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
         View Spacer = getLayoutInflater().inflate(R.layout.spacer, null, false);
 
-        //Lav FindViewById på Viewsne som er blevet inflated
+        //Do FindViewById on the Views which have been inflated
         TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
         TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
         TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
@@ -173,18 +161,19 @@ public class MyRentOutsFragment extends Fragment {
         TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
 
 
-        //Hent data og gør det til et JsonObject
+        //Convert to JSON-object
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(entry.getValue().toString());
         JsonObject Employee = element.getAsJsonObject();
 
+        //If employee is already listed, return
         if(existingViews.contains(Employee.get("ID").toString().replaceAll("\"", ""))){
             return;
         }else{
             existingViews.add(Employee.get("ID").toString().replaceAll("\"", ""));
         }
 
-        //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
+        //Set data in newly created cardView
         textViewPay.setText(Employee.get("pay").toString() + " kr/t");
         textViewZipcode.setText(Employee.get("zipcode").toString());
         textViewDistance.setText(Employee.get("dist").toString() + " km");
@@ -193,6 +182,7 @@ public class MyRentOutsFragment extends Fragment {
         String employeeStatus = Employee.get("status").toString().replaceAll("\"", "");
         textViewStatus.setText(employeeStatus);
 
+        //If emloyee has a description, display it
         if(Employee.get("description").toString().replace("\"" , "").equals("")){
             headerDescription.setVisibility(View.GONE);
             textViewDescription.setVisibility(View.GONE);
@@ -200,28 +190,22 @@ public class MyRentOutsFragment extends Fragment {
             textViewDescription.setText(Employee.get("description").toString().replace("\"" , ""));
         }
 
-        buttonRating.setText("Bedøm udlejer");
+        //Hvis employee has been rented to someone, let user evaluate this company
+        buttonRating.setText("Bedøm indlejer");
         if(employeeStatus.equals("udlejet")){
             buttonRating.setEnabled(true);
         }else{
             buttonRating.setEnabled(false);
             buttonRating.setBackgroundColor(Color.GRAY);
         }
+
+
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
 
-
-        //We want to download images for the list of workers
-        //System.out.println(src);
-        URL url = null;
-        try {
-            url = new URL(Employee.get("pic").toString().replace("\"", ""));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-
+        //If no custom image, set Flexicu logo, else download from Firebase Storage, with link stored under Employee.get("pic")
         if(Employee.get("pic").toString().replace("\"", "").equals("flexicu")){
+            //Get picture, make round and display
             int minPixels = 0;
             Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.flexiculogocube);
             if(photo.getWidth() < photo.getHeight()){
@@ -234,9 +218,15 @@ public class MyRentOutsFragment extends Fragment {
                 profilePic.setImageBitmap(squareImg);
             }
         } else {
+            //Download image, make round and display
+            URL finalUrl = null;
+            try {
+                finalUrl = new URL(Employee.get("pic").toString().replace("\"", ""));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
 
             //We want to download images for the list of workers
-            URL finalUrl = url;
             Glide.with(this)
                     .load(finalUrl)
                     .apply(RequestOptions.circleCropTransform())
@@ -244,21 +234,7 @@ public class MyRentOutsFragment extends Fragment {
         }
 
 
-           /* if(loadingbar.getVisibility() == View.VISIBLE) {
-                //Set fade animation and hide after animation end
-                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(1500);
-                anim.setRepeatCount(0);
-                anim.willChangeBounds();
-                loadingbar.startAnimation(anim);
-                loadingbar.postOnAnimation(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadingbar.setVisibility(View.INVISIBLE);
-                    }
-                });
-            }*/
-        //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
+        //Set OnClickListener that handles expansion and collapse of view
         linearLayoutCollapsed.setOnClickListener((test) ->
         {
             expand(linearLayoutExpanded, imageButtonArrow);
@@ -267,28 +243,28 @@ public class MyRentOutsFragment extends Fragment {
         {
             expand(linearLayoutExpanded, imageButtonArrow);
         });
+
+        //Setup rating XML (no backend support for this yet)
         buttonRating.setOnClickListener((test) ->
         {
             View popupView = getLayoutInflater().inflate(R.layout.popup_window, null);
             Button buttonRate = popupView.findViewById(R.id.buttonRate);
             RatingBar ratingBar = popupView.findViewById(R.id.ratingBar);
 
-
-
             int width = LinearLayout.LayoutParams.WRAP_CONTENT;
             int height = LinearLayout.LayoutParams.WRAP_CONTENT;
             boolean focusable = true;
             final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-
             popupWindow.showAtLocation(textViewPay, Gravity.CENTER, 0, 0);
-        View containerOfPopup = (View) popupWindow.getContentView().getParent();
-        WindowManager windowManager = (WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams layoutParameters = (WindowManager.LayoutParams) containerOfPopup.getLayoutParams();
-        // add flag
-        layoutParameters.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParameters.dimAmount = 0.8f;
-        windowManager.updateViewLayout(containerOfPopup, layoutParameters);
+            View containerOfPopup = (View) popupWindow.getContentView().getParent();
+            WindowManager windowManager = (WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE);
+            WindowManager.LayoutParams layoutParameters = (WindowManager.LayoutParams) containerOfPopup.getLayoutParams();
+
+            // add flag
+            layoutParameters.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            layoutParameters.dimAmount = 0.8f;
+            windowManager.updateViewLayout(containerOfPopup, layoutParameters);
 
             buttonRate.setOnClickListener((Rating) -> {
                 Float rating = ratingBar.getRating();
@@ -312,11 +288,12 @@ public class MyRentOutsFragment extends Fragment {
 
         });
 
-        //Tilføjer Cardviewet og Spaceren til det Linære Layout myContainer.
+        //Add cardview and spacer to myContainer
         myContainer.addView(ExpandableCardview);
         myContainer.addView(Spacer);
     }
 
+    //Expand / collapse function
     private void expand(LinearLayout linearLayoutExpanded, ImageView imageButtonArrow)
     {
         if (linearLayoutExpanded.getVisibility() == View.GONE)
