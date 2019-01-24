@@ -98,7 +98,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
         String entryString = getIntent().getStringExtra("entryString");
 
 
-        //Hent data og gør det til et JsonObject
+        //Convert to JSON object
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(entryString);
         JsonObject Employee = element.getAsJsonObject();
@@ -114,6 +114,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
         owner = Employee.get("owner").toString().replaceAll("\"", "");
         description = Employee.get("description").toString().replaceAll("\"","");
 
+        //Set title text
         annoneceTextView.setText("Opret annonce for\n" + navn);
         if (navn.contains(" ")) {
             String tempNavn = navn.substring(0, navn.indexOf(" "));
@@ -125,6 +126,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //Get coordinates from zipcode
         final Geocoder geocoder = new Geocoder(this);
         try {
             List<Address> addresses = geocoder.getFromLocationName(postnummer + ", Denmark", 1);
@@ -133,8 +135,6 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
                 // Use the address as needed
                 @SuppressLint("DefaultLocale") String message = String.format("Latitude: %f, Longitude: %f",
                         address.getLatitude(), address.getLongitude());
-                System.out.println("Latitude: " + address.getLatitude() + " Longi: " + address.getLongitude());
-                System.out.println("List: " + addresses.toString());
             } else {
                 maprdy = false;
             }
@@ -184,6 +184,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
             showDialog(998);
         });
 
+        //On bekræft create employee, convert to JSON string, upload to database and finish activity
         bekræftButton.setOnClickListener((view) -> {
             if (getResources().getDrawable(R.drawable.layout_background_round_corner_blue_black_edge).getConstantState() == bekræftButton.getBackground().getConstantState()) {
                 CrudRentOut newRentOut = new CrudRentOut(GlobalVariables.getFirebaseUser().getUid() + ID, navn, job, pictureURl, lejeStartTextView.getText().toString(), lejeSlutTextView.getText().toString(), rank, pay, postnummer, afstand, owner, "sat til udleje",description);
@@ -196,6 +197,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
                 CrudEmployee employee = JsonToPersonConverter(entryString, "sat til udleje");
                 String jsonEmployee = gson.toJson(employee);
                 DatabaseReference updateEmployee = database.getReference("Users/" + GlobalVariables.getFirebaseUser().getUid() + "/Medarbejdere/");
+
                 //Load employees and create cardviews and add to scroller
                 updateEmployee.child(employee.getID()).setValue(jsonEmployee);
                 System.out.println("HERE1 " + employee.toString());
@@ -213,15 +215,13 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
                     .apply(RequestOptions.circleCropTransform())
                     .into(profilBilledeImageView);
         } else {
-            //System.out.println(src);
-            URL url = null;
+            URL finalUrl = null;
             try {
-                url = new URL(pictureURl);
+                finalUrl = new URL(pictureURl);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             //We want to download images for the list of workers
-            URL finalUrl = url;
             Glide.with(this)
                     .load(finalUrl)
                     .apply(RequestOptions.circleCropTransform())
@@ -229,6 +229,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
+    //When map is ready, set position, and draw circle
     @Override
     public void onMapReady(GoogleMap map) {
         if(!maprdy) return;
@@ -247,6 +248,8 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 9));
     }
 
+
+    //Create calendar date picker dialog
     @Override
     protected Dialog onCreateDialog(int id) {
         // TODO Auto-generated method stub
@@ -259,6 +262,7 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
         return null;
     }
 
+    //On calendar date picker activity return
     private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -270,15 +274,10 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
             if (endDate && startDate) {
                 validateDate();
             }
-
-            //If rental dates selected and employee is selected
-            /*if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-
-            }*/
         }
     };
 
+    //On calendar date picker activity return
     private DatePickerDialog.OnDateSetListener myDateListener2 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
@@ -290,13 +289,10 @@ public class rentOutEmployee extends AppCompatActivity implements OnMapReadyCall
             if (endDate && startDate) {
                 validateDate();
             }
-            //If rental dates selected and employee is selected
-            /*if(employeeSelected != 0 && textViewLejeperiodeSlut.getText().toString().contains("/") && textViewLejeperiodeStart.getText().toString().contains("/")) {
-                udlejBtn.setBackgroundResource(R.drawable.layout_background_round_corners_blue);
-            }*/
         }
     };
 
+    //Validate that the chosen dates
     public void validateDate() {
         String[] startDate = lejeStartTextView.getText().toString().split("/");
         String[] endDate = lejeSlutTextView.getText().toString().split("/");

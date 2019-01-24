@@ -2,36 +2,24 @@ package com.example.danie.flexicuapplication.GUI;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.ActivityOptions;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.opengl.Visibility;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,7 +36,6 @@ import com.example.danie.flexicuapplication.LogicLayer.CriteriaProfession;
 import com.example.danie.flexicuapplication.LogicLayer.CrudEmployee;
 import com.example.danie.flexicuapplication.LogicLayer.CrudRentIns;
 import com.example.danie.flexicuapplication.LogicLayer.GlobalVariables;
-import com.example.danie.flexicuapplication.LogicLayer.RoundedImageView;
 import com.example.danie.flexicuapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,7 +51,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class RentInFragment extends Fragment {
     ImageView filter;
@@ -86,78 +72,70 @@ public class RentInFragment extends Fragment {
         textViewNoElements = v.findViewById(R.id.textViewNoElements);
 
 
-                filter.setOnClickListener((View) -> {
-                /*
-                    Intent filtermenu = new Intent(getContext(), FiltersRentIn.class);
-                    Bundle bndlanimation =
-                            ActivityOptions.makeCustomAnimation(getContext(), R.anim.anim_slide_in_left, R.anim.anim_slide_out_left).toBundle();
-                    startActivity(filtermenu, bndlanimation);
-                    */
-                //Vis Popup
-                View popupView = getLayoutInflater().inflate(R.layout.activity_rent_in_filters, null);
+        filter.setOnClickListener((View) -> {
+        //Create filter popup and dispaly
+        View popupView = getLayoutInflater().inflate(R.layout.activity_rent_in_filters, null);
 
 
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
-                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                boolean focusable = true;
-                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
+        popupWindow.showAtLocation(mContainer, Gravity.CENTER, 0, 0);
+        View containerOfPopup = (View) popupWindow.getContentView().getParent();
+        WindowManager windowManager = (WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams layoutParameters = (WindowManager.LayoutParams) containerOfPopup.getLayoutParams();
+        // add flag
+        layoutParameters.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        layoutParameters.dimAmount = 0.8f;
+        windowManager.updateViewLayout(containerOfPopup, layoutParameters);
 
-                popupWindow.showAtLocation(mContainer, Gravity.CENTER, 0, 0);
-                View containerOfPopup = (View) popupWindow.getContentView().getParent();
-                WindowManager windowManager = (WindowManager)getActivity().getSystemService(Context.WINDOW_SERVICE);
-                WindowManager.LayoutParams layoutParameters = (WindowManager.LayoutParams) containerOfPopup.getLayoutParams();
-                // add flag
-                layoutParameters.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-                layoutParameters.dimAmount = 0.8f;
-                windowManager.updateViewLayout(containerOfPopup, layoutParameters);
+        ArrayList<String> filterList = new ArrayList<String>();
+        Button btn = popupView.findViewById(R.id.searchBtn);
+        TextView seekbarValue = popupView.findViewById(R.id.progressValue);
+        EditText lowerPay = popupView.findViewById(R.id.payLower);
+        Spinner editTextprof = popupView.findViewById(R.id.spinnerJobFilter);
+        EditText upperPay = popupView.findViewById(R.id.payUpper);
+        ArrayList<String> items = new ArrayList<>();
 
-                ArrayList<String> filterList = new ArrayList<String>();
-                Button btn = popupView.findViewById(R.id.searchBtn);
-                TextView seekbarValue = popupView.findViewById(R.id.progressValue);
-                EditText lowerPay = popupView.findViewById(R.id.payLower);
-                Spinner editTextprof = popupView.findViewById(R.id.spinnerJobFilter);
-                EditText upperPay = popupView.findViewById(R.id.payUpper);
-                ArrayList<String> items = new ArrayList<>();
+        SeekBar seekBarDist = popupView.findViewById(R.id.distSlider);
+        seekBarDist.setProgress(75);
+        seekbarValue.setText("Fra 0 til "+ seekBarDist.getProgress() + " km");
 
-                SeekBar seekBarDist = popupView.findViewById(R.id.distSlider);
-                seekBarDist.setProgress(75);
-                seekbarValue.setText("Fra 0 til "+ seekBarDist.getProgress() + " km");
+        seekBarDist.setMax(150);
+        items.add("Tømrer");
+        items.add("VVS");
+        items.add("Elektrikker");
+        items.add("Murer");
+        items.add("Anlægsgartner");
+        items.add("Maler");
+        items.add("Arbejdsmand");
+        items.add("Smed");
+        items.add("Chauffør - under 3,5T");
+        items.add("Chauffør - over 3,5T");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
+        editTextprof.setAdapter(adapter);
 
-                seekBarDist.setMax(150);
-                items.add("Tømrer");
-                items.add("VVS");
-                items.add("Elektrikker");
-                items.add("Murer");
-                items.add("Anlægsgartner");
-                items.add("Maler");
-                items.add("Arbejdsmand");
-                items.add("Smed");
-                items.add("Chauffør - under 3,5T");
-                items.add("Chauffør - over 3,5T");
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-                editTextprof.setAdapter(adapter);
+        seekBarDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            seekbarValue.setText("Fra 0 til " + String.valueOf(progress)+" km");
+            }
 
-                seekBarDist.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekbarValue.setText("Fra 0 til " + String.valueOf(progress)+" km");
-                }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
-                }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
 
-                }
-
-                });
-
-                btn.setOnClickListener((view)->{
+        btn.setOnClickListener((view)->{
                 filterList.add(lowerPay.getText().toString());
                 filterList.add(upperPay.getText().toString());
                 filterList.add(String.valueOf(seekBarDist.getProgress()));
@@ -167,19 +145,15 @@ public class RentInFragment extends Fragment {
                 if (lowerPay.getText().toString().equals("") || upperPay.getText().toString().equals(""))
                     {
                     Toast.makeText(getContext(), "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
-                    }else {
-                popupWindow.dismiss();
-                mContainer.removeAllViews();
-                createEmployeeWithFilter();
+                }else {
+                    popupWindow.dismiss();
+                    mContainer.removeAllViews();
+                    createEmployeeWithFilter();
                 }
+            });
+        });
 
-                });
-
-
-
-                });
-
-
+        //Set database reference and get rented out employees
         DatabaseReference myRef2 = database.getReference("/Udlejninger");
         myRef2.addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -189,6 +163,8 @@ public class RentInFragment extends Fragment {
                     JsonParser parser = new JsonParser();
                     JsonElement element = parser.parse(entry.getValue().toString());
                     JsonObject Employee = element.getAsJsonObject();
+
+                    //If employee ID does not contain own UID, add to list
                     if(!Employee.get("id").toString().contains(GlobalVariables.getFirebaseUser().getUid())) {
                         employees.add(JsonToPersonConverter(entry, entry.getKey()));
                     }
@@ -283,35 +259,28 @@ public class RentInFragment extends Fragment {
 
         //Set temporary picture while real pictures are downloading
         profilePic.setImageResource(R.drawable.download);
+
+
         //We want to download images for the list of workers
-
-
-        //System.out.println(src);
-        URL url = null;
-        try {
-            url = new URL(Employee.getPic());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("HERE3 " + Employee.getPic());
-
-
-
         if(Employee.getPic().equals("flexicu")){
             Glide.with(this)
                     .load(R.drawable.flexiculogocube)
                     .apply(RequestOptions.circleCropTransform())
                     .into(profilePic);
         } else {
+            //System.out.println(src);
+            URL finalUrl = null;
+            try {
+                finalUrl = new URL(Employee.getPic());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             //We want to download images for the list of workers
-            URL finalUrl = url;
             Glide.with(this)
                     .load(finalUrl)
                     .apply(RequestOptions.circleCropTransform())
                     .into(profilePic);
         }
-
 
         //Lav OnClickListener som håndterer at viewet bliver expanded og collapsed.
         linearLayoutCollapsed.setOnClickListener((test) ->
@@ -342,9 +311,6 @@ public class RentInFragment extends Fragment {
 
             String employeeID = Employee.getID().substring(Employee.getID().length()-4);
             String ownerID = Employee.getID().substring(0, Employee.getID().length()-4);
-
-
-
 
             DatabaseReference updateStatus = database.getReference("Users/"+ownerID+"/Medarbejdere/");
             CrudEmployee employee = JsonToPersonConverter2(gson.toJson(Employee), "udlejet", employeeID);
@@ -437,6 +403,7 @@ public class RentInFragment extends Fragment {
                 .builder();
         return people;
     }
+
 @TargetApi(Build.VERSION_CODES.N)
 public void createEmployeeWithFilter()
     {
@@ -449,12 +416,11 @@ public void createEmployeeWithFilter()
     CriteriaInterface profession = new CriteriaProfession(filterValues.get(3));
     CriteriaInterface payBounds = new AndCriteria(payLower, profession, payUpper, dist );
     payBounds.meetCriteria(employees).forEach((a) -> {
-    createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
-    if (mContainer.getChildCount() == 1)
-        {
-        textViewNoElements.setVisibility(View.GONE);
-        }
-
+        createNewEmployee(payBounds.meetCriteria(employees).get(counter++), mContainer);
+        if (mContainer.getChildCount() == 1)
+            {
+            textViewNoElements.setVisibility(View.GONE);
+            }
     });
     }
 }}
