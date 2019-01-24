@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GUI.rentOut1">
+    tools:context=".GUI.rentOutEmployee">
 
     <Button
         android:id="@+id/bekræft"
@@ -75,7 +75,7 @@
 
             <ImageView
                 android:id="@+id/lejeStartImageView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/calendar_icon_inverted" />
@@ -97,7 +97,7 @@
 
             <ImageView
                 android:id="@+id/lejeSlutImageView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/calendar_icon_inverted" />

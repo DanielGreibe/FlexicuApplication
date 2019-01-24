@@ -210,7 +210,8 @@ public class RentInFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                //Probably we should handle an error
+                //TODO handle error
             }
         });
 
