@@ -200,7 +200,7 @@ public class MyRentOutsFragment extends Fragment {
             textViewDescription.setText(Employee.get("description").toString().replace("\"" , ""));
         }
 
-        buttonRating.setText("Bedøm udlejer");
+        buttonRating.setText("Bedøm lejer");
         if(employeeStatus.equals("udlejet")){
             buttonRating.setEnabled(true);
         }else{

@@ -2,21 +2,17 @@ package com.example.danie.flexicuapplication.GUI;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
 import com.bumptech.glide.Glide;
@@ -33,7 +29,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +40,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     //Storage ref
     private StorageReference mStorageRef;
 
+    //Declare Global Variables and Views
     TextView textViewTitle;
     Button buttonNextPage;
     LinearLayout container;
@@ -56,7 +52,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     String description;
     String pay;
     int distance;
-    Uri imageUri;
     Bitmap imgData;
 
     @Override
@@ -108,6 +103,8 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
                 scroller.scrollTo(500, 0);
             }
         });
+
+        //Get all the data entered in the previous createEmployee activites into their corresponding variables
         name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
         year = ((GlobalVariables) this.getApplication()).getTempEmployeeYear();
         profession = ((GlobalVariables) this.getApplication()).getTempEmployeeProfession();
@@ -117,29 +114,32 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         distance = ((GlobalVariables) this.getApplication()).getTempEmployeeDistance();
         imgData = ((GlobalVariables) this.getApplication()).getTempEmployeeImage();
 
-        cardView();
+        createEmployeeCardview();
     }
 
     @Override
     public void onClick(View v){
         if ( v == buttonNextPage ){
-            Intent Udlej = new Intent(this, TabbedRentOut.class);
+            //Make a CrudEmployee object using a Builder pattern
+
             CrudEmployee employee = new CrudEmployee.EmployeBuilder(name).job(profession).pay(Double.parseDouble(pay)).zipcode(zipcode).dist(distance).status("ikke udlejet").available("Home").owner(GlobalVariables.getFirebaseUser().getUid()).description(description).builder();
 
             //Upload image if standard image is selected or if custom image is selected!
             if(imgData == null){
-                employee.setPic("flexicu"); //TODO ADD STANDARD IMG LINK
+                employee.setPic("flexicu");
                 // Write a message to the database
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference(("Users/"+ getFirebaseUser().getUid()+"/Medarbejdere"));
                 Gson gson = new Gson();
                 String employeeJSON = gson.toJson(employee);
-                System.out.println(employeeJSON);
                 myRef.child(employee.getID()).setValue(employeeJSON);
             }else {
                 uploadImg(employee.getID(), employee);
             }
-
+        //Create a new intent to start the activity TabbedRentOut.
+        //ClearTop will remove all activites on top of TabbedRentOut in the activity stack removing all CreateEmployee activites.
+        //PutExtra is used to change behaviour when you enter the activity from CreateEmployeeFinish
+        Intent Udlej = new Intent(this, TabbedRentOut.class);
             Udlej.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             String temp = "createEmployeeFinish";
@@ -150,7 +150,8 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
     }
 
     public void uploadImg(String ID, CrudEmployee employee) {
-
+        //Uploads a compressed version of the employeeImage to Firebase
+        //If it fails throw an exception, otherwise upload the image of the user and upload the user to the database.
         mStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference databaseRef = mStorageRef.child("Users/"+getFirebaseUser().getUid()+"/Medarbejdere/"+ID+".jpg");
 
@@ -162,7 +163,6 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                 if (!task.isSuccessful()){
-                    System.out.println("Upload Error!");
                     throw task.getException();
                 }
                 return databaseRef.getDownloadUrl();
@@ -171,15 +171,12 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()){
-                    Uri downUri = task.getResult();
-                    System.out.println("onComplete: Url: "+ downUri.toString());
                     employee.setPic(task.getResult().toString());
                     // Write a message to the database
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference(( "Users/"+getFirebaseUser().getUid()+"/Medarbejdere"));
                     Gson gson = new Gson();
                     String employeeJSON = gson.toJson(employee);
-                    System.out.println(employeeJSON);
                     myRef.child(employee.getID()).setValue(employeeJSON);
                 }
             }
@@ -193,15 +190,14 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         finish();
     }
 
-    public void cardView(){
+    public void createEmployeeCardview(){
         View ExpandableCardview = getLayoutInflater().inflate(R.layout.employee_cardview, null, false);
-        //Lav FindViewById på Viewsne som er blevet inflated
+        //Inflate an ExpandableCardview to the layout and make findViewById on them
         TextView textViewPay = ExpandableCardview.findViewById(R.id.textViewLøn);
         TextView textViewZipcode = ExpandableCardview.findViewById(R.id.textViewZipcode);
         TextView textViewDistance = ExpandableCardview.findViewById(R.id.textViewDistance);
         TextView textViewStatus = ExpandableCardview.findViewById(R.id.textViewStatus);
         TextView headderStatus = ExpandableCardview.findViewById(R.id.textViewHeaderStatus);
-        LinearLayout linearLayoutCollapsed = ExpandableCardview.findViewById(R.id.linearLayoutCollapsed);
         LinearLayout linearLayoutExpanded = ExpandableCardview.findViewById(R.id.linearLayoutExpanded);
         ImageView imageButtonArrow = ExpandableCardview.findViewById(R.id.imageButtonExpand);
         TextView textViewName = ExpandableCardview.findViewById(R.id.textViewName);
@@ -217,7 +213,9 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
         ImageView rateImage = ExpandableCardview.findViewById(R.id.imageButton2);
         TextView headerDescription = ExpandableCardview.findViewById(R.id.textViewHeaderDescription);
 
-        //Træk data ud af Json Objektet og put det på textviews i Cardviewet.
+        //Apply data from the CrudEmployee to the TextViews in the cardview
+        //If no image is selected, or the flexiculogo is selected add that
+        //Otherwise load the image with Glide
         textViewPay.setText(pay + " kr/t");
         textViewZipcode.setText((zipcode + ""));
         textViewDistance.setText((distance + " km"));
@@ -244,6 +242,7 @@ public class CreateEmployeeFinish extends AppCompatActivity implements View.OnCl
             headerDescription.setVisibility(View.GONE);
             textViewDescription.setVisibility(View.GONE);
         }
+        //Remove unused Views from the cardview and add the cardview to the page
         rate.setVisibility(View.GONE);
         rateImage.setVisibility(View.GONE);
         headerLejStart.setVisibility(View.GONE);

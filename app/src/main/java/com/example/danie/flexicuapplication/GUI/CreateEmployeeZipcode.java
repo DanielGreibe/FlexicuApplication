@@ -24,6 +24,7 @@ import java.util.List;
 
 public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnClickListener
     {
+    //Create Global Variables
     Button nextPage;
     TextView titel;
     String name;
@@ -33,6 +34,7 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState)
         {
+        //Create Views and add Text to them
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_zipcode);
         editTextZipcode = findViewById(R.id.editTextPostcode);
@@ -41,6 +43,13 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
         titel.setText("Indtast " + name + "'s" + " postnummer");
         nextPage = findViewById(R.id.buttonNextPage);
         nextPage.setOnClickListener(this);
+        HorizontalScrollView scroller = findViewById(R.id.horizontalScrollView2);
+        scroller.post(new Runnable() {
+        @Override
+        public void run() {
+        scroller.scrollTo(500, 0);
+        }
+        });
 
 
         //SETUP PROGRESSBAR
@@ -75,13 +84,7 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
                 .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(this, R.drawable.default_custom))
                 .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(this, R.drawable.trans_focus));
 
-            HorizontalScrollView scroller = findViewById(R.id.horizontalScrollView2);
-            scroller.post(new Runnable() {
-                @Override
-                public void run() {
-                    scroller.scrollTo(500, 0);
-                }
-            });
+
         }
 
     @Override
@@ -89,6 +92,8 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
         {
         if (v == nextPage)
             {
+            //If the zipcode is not 4 digits write an error message otherwise save the zipcode in Global Variables,
+            // make a slide animation and open the activity createEmployeeDecription
             if (editTextZipcode.getText().toString().length() != 4)
                 {
                 Toast.makeText(this, "Postnummeret skal være 4 cifre", Toast.LENGTH_SHORT).show();
@@ -107,6 +112,7 @@ public class CreateEmployeeZipcode extends AppCompatActivity implements View.OnC
         }
         @Override
         public void onBackPressed() {
+    //Adds a slide animation when you press the back button
             super.onBackPressed();
             overridePendingTransition(R.anim.anim_slide_out_right, R.anim.anim_slide_in_right);
             finish();

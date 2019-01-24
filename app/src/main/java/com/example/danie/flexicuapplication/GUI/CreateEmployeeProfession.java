@@ -28,6 +28,7 @@ import java.util.List;
 
 public class CreateEmployeeProfession extends AppCompatActivity implements View.OnClickListener
     {
+    //Declare Global Variables
     Button buttonNextPage;
     TextView textViewTitle;
     Spinner editTextErhverv;
@@ -42,9 +43,12 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_employee_erhverv);
 
+        //Create views, set initial text and add items to spinner
         textViewTitle = findViewById(R.id.textViewTitle);
         editTextErhverv = findViewById(R.id.spinnerJob);
         buttonNextPage = findViewById(R.id.buttonNextPage);
+        name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
+        textViewTitle.setText(" Tilføj erhverv til " + name);
         buttonNextPage.setOnClickListener(this);
         items.add("Tømrer");
         items.add("VVS");
@@ -56,7 +60,6 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         items.add("Smed");
         items.add("Chauffør - under 3,5T");
         items.add("Chauffør - over 3,5T");
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
             editTextErhverv.setAdapter(adapter);
             //SETUP PROGRESSBAR
@@ -91,8 +94,7 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
                     .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(this, R.drawable.default_custom))
                     .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(this, R.drawable.trans_focus));
 
-        name = ((GlobalVariables) this.getApplication()).getTempEmployeeName();
-        textViewTitle.setText(" Tilføj erhverv til " + name);
+
 
         }
 
@@ -101,6 +103,7 @@ public class CreateEmployeeProfession extends AppCompatActivity implements View.
         {
         if (v == buttonNextPage)
             {
+            //If nothing is chosen write an error message, otherwise put it in GlobalVariables and make a slide animation to the new activity createEmployeePay
             if (editTextErhverv.getSelectedItem().toString().equals(""))
                 {
                 Toast.makeText(this, "Feltet må ikke være tomt", Toast.LENGTH_SHORT).show();
